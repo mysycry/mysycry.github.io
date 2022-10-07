@@ -1,0 +1,71 @@
+/* * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Lato', sans-serif;
+} */
+
+/* body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    background: url(https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1) no-repeat center center/ cover;
+} */
+
+.containerrrr {
+    width: auto;
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+    height: 450px;
+}
+
+.headerrr {
+    font-size: 1.2rem;
+
+    /* border: solid 2px #fff; */
+    padding: 5px;
+    /* margin: 20px auto; */
+    border-radius: 5px;
+}
+
+.main-content {
+    /* width: auto;
+    height: 300px; */
+    max-width: 650px;
+	margin: 0 auto;
+	align-content: center;
+	text-align: center;
+	position: relative;
+    background: #fff;
+    border-radius: 15px;
+    padding: 50px 40px;
+    box-shadow: 0 0 10px;
+}
+
+.main-content .text-area {
+    width: auto;
+    font-size: 1.5rem;
+    line-height: 1.5;
+}
+.main-content .person {
+    font-size: 1.6rem;
+    color: red;
+    text-transform: uppercase;
+    margin-top: 20px;
+}
+
+.button-area button {
+    background: #262626;
+    color: #fff;
+    font-size: 1.3rem;
+    padding: 10px 15px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.button-area button:active{
+    background: lightblue;
+}
