@@ -4,22 +4,6 @@
 	scroll-behavior: smooth;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 body {
 	background: #f1fbff;
 }
@@ -146,13 +130,6 @@ img.img-fluid:hover {
 	transform: scale(1.117);
 }
 
-/* .img.img-fluid.p-3 {
-	border-radius: 60px;
-	overflow: hidden;
-} */
-
-
-
 
 /* NEWSLETTER */
 
@@ -190,9 +167,6 @@ img.img-fluid:hover {
 	color: #fff;
 	font-weight:600;
 }
-
-
-
 
 
 
