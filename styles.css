@@ -762,7 +762,7 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
     scroll-behavior: smooth;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    padding: 0.5rem;
+    padding: 0;
     width: 100%;
 }
 
@@ -771,14 +771,14 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
 }
 
 .carousel-card {
-    min-width: calc(100% - 1rem);
-    max-width: calc(100% - 1rem);
-    width: calc(100% - 1rem);
+    min-width: 100%;
+    max-width: 100%;
+    width: 100%;
     scroll-snap-align: center;
     flex-shrink: 0;
     display: flex;
     align-items: stretch;
-    margin: 0 0.5rem;
+    margin: 0;
 }
 
 .carousel-btn {
@@ -809,19 +809,11 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
 }
 
 .carousel-btn.prev {
-    left: 10px;
+    left: 1px;
 }
 
 .carousel-btn.next {
-    right: 10px;
-}
-
-.skills-carousel-wrapper .carousel-btn.prev {
-    left: -1px;
-}
-
-.skills-carousel-wrapper .carousel-btn.next {
-    right: -1px;
+    right: 1px;
 }
 
 .carousel-dots-horizontal {
@@ -870,7 +862,7 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
     scroll-behavior: smooth;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    padding: 0.5rem;
+    padding: 0;
     width: 100%;
 }
 
@@ -1144,11 +1136,29 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
     text-align: center;
     transition: all 0.3s ease;
     border: 2px solid transparent;
+    position: relative;
+}
+
+.badge-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 15px;
+    padding: 2px;
+    background: var(--gradient-1);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.badge-card:hover::before {
+    opacity: 1;
 }
 
 .badge-card:hover {
     transform: translateY(-5px);
-    border-color: var(--primary);
     box-shadow: 0 10px 30px var(--shadow);
 }
 
@@ -1372,12 +1382,30 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
     display: flex;
     flex-direction: column;
     padding: 1.5rem;
+    position: relative;
+}
+
+.repo-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 15px;
+    padding: 2px;
+    background: var(--gradient-1);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.repo-card:hover::before {
+    opacity: 1;
 }
 
 .repo-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 40px var(--shadow);
-    border-color: var(--primary);
 }
 
 .repo-thumbnail {
@@ -1528,12 +1556,30 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
     padding: 1.5rem;
     border-radius: 15px;
     transition: all 0.3s ease;
-    border: 2px solid transparent;
+    border: 1px solid var(--border);
+    position: relative;
+}
+
+.project-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 15px;
+    padding: 2px;
+    background: var(--gradient-1);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.project-card:hover::before {
+    opacity: 1;
 }
 
 .project-card:hover {
     transform: translateY(-5px);
-    border-color: var(--primary);
     box-shadow: 0 10px 30px var(--shadow);
 }
 
@@ -1925,16 +1971,16 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
     .carousel-wrapper {
         padding: 0;
     }
-    
+
     .carousel-track {
         gap: 0.5rem;
-        padding: 0.25rem;
+        padding: 0;
     }
-    
+
     .carousel-card {
-        min-width: calc(100% - 0.5rem);
-        max-width: calc(100% - 0.5rem);
-        margin: 0 0.25rem;
+        min-width: 100%;
+        max-width: 100%;
+        margin: 0;
     }
     
     .carousel-btn {
@@ -1983,9 +2029,9 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
     }
     
     .skills-carousel-card {
-        min-width: calc(100% - 0.5rem);
-        max-width: calc(100% - 0.5rem);
-        margin: 0 0.25rem;
+        min-width: 100%;
+        max-width: 100%;
+        margin: 0;
     }
     
     .skills-grid {
@@ -2034,9 +2080,9 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
     
     /* Extra small screens - carousel adjustments */
     .carousel-card {
-        min-width: calc(100% - 0.25rem);
-        max-width: calc(100% - 0.25rem);
-        margin: 0 0.125rem;
+        min-width: 100%;
+        max-width: 100%;
+        margin: 0;
     }
     
     .experience-card,
