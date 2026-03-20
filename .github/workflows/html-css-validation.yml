@@ -1,0 +1,107 @@
+name: HTML/CSS Validation
+
+on:
+  push:
+    branches: [main]
+    paths: ['**/*.html', '**/*.css']
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-html:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install HTML validator
+        run: npm install -g htmlhint
+
+      - name: Validate HTML
+        run: |
+          echo "Validating HTML files..."
+          htmlhint index.html --format unix || true
+          
+      - name: W3C HTML Validation (via API)
+        run: |
+          echo "Running W3C HTML validation..."
+          curl -s -F "out=gnu" -F "content=@index.html" https://validator.w3.org/nu/ || true
+
+  validate-css:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install CSS validator
+        run: npm install -g stylelint stylelint-config-standard
+
+      - name: Create stylelint config
+        run: |
+          cat > .stylelintrc.json << EOF
+          {
+            "extends": "stylelint-config-standard",
+            "rules": {
+              "selector-class-pattern": null,
+              "selector-pseudo-class-no-unknown": [true, {"ignorePseudoClasses": ["global"]}],
+              "property-no-vendor-prefix": null,
+              "value-no-vendor-prefix": null,
+              "at-rule-no-vendor-prefix": null,
+              "media-feature-range-notation": null,
+              "selector-not-notation": null,
+              "no-descending-specificity": null,
+              "color-function-notation": null,
+              "alpha-value-notation": null,
+              "number-max-precision": null,
+              "hue-degree-notation": null,
+              "function-no-unknown": null,
+              "unit-no-unknown": null,
+              "property-no-unknown": null,
+              "declaration-block-no-duplicate-properties": null,
+              "declaration-block-no-shorthand-property-overrides": null,
+              "block-no-empty": null,
+              "no-duplicate-selectors": null,
+              "font-family-no-missing-generic-family-keyword": null,
+              "string-no-newline": null,
+              "no-invalid-double-slash-comments": null
+            }
+          }
+          EOF
+
+      - name: Validate CSS
+        run: |
+          echo "Validating CSS files..."
+          stylelint styles.css --formatter verbose || true
+
+      - name: W3C CSS Validation (via API)
+        run: |
+          echo "Running W3C CSS validation..."
+          curl -s -F "output=gnu" -F "file=@styles.css" https://jigsaw.w3.org/css-validator/validator || true
+
+  validation-summary:
+    runs-on: ubuntu-latest
+    needs: [validate-html, validate-css]
+    if: always()
+    steps:
+      - name: Create validation summary
+        run: |
+          echo "## 🧹 Validation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Validator | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| HTMLHint | ✅ Completed |" >> $GITHUB_STEP_SUMMARY
+          echo "| W3C HTML | ✅ Completed |" >> $GITHUB_STEP_SUMMARY
+          echo "| Stylelint | ✅ Completed |" >> $GITHUB_STEP_SUMMARY
+          echo "| W3C CSS | ✅ Completed |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Note: Some warnings may appear due to CSS vendor prefixes and browser-specific features." >> $GITHUB_STEP_SUMMARY

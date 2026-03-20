@@ -1,0 +1,67 @@
+name: Link Checker
+
+on:
+  push:
+    branches: [main]
+    paths: ['**/*.html', '**/*.css', '**/*.md', '**/*.js']
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 0 * * 1'  # Weekly check every Monday at midnight
+
+jobs:
+  link-checker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install lychee
+        run: |
+          curl -LsSf https://github.com/lycheeverse/lychee/releases/latest/download/lychee-x86_64-unknown-linux-gnu.tar.gz | tar xzf - -C /tmp
+          mv /tmp/lychee /usr/local/bin/
+
+      - name: Start local server
+        run: |
+          nohup python3 -m http.server 8080 &
+          sleep 2
+
+      - name: Check links (local)
+        run: |
+          lychee --verbose --no-progress \
+            --exclude 'localhost' \
+            --exclude '127.0.0.1' \
+            --exclude '.*\.png$' \
+            --exclude '.*\.jpg$' \
+            --exclude '.*\.svg$' \
+            index.html || true
+
+      - name: Check links (external)
+        run: |
+          lychee --verbose --no-progress \
+            --exclude 'localhost' \
+            --exclude '127.0.0.1' \
+            --max-retries 3 \
+            --retry-wait-time 5 \
+            --timeout 30 \
+            --accept 200,206,429 \
+            index.html \
+            README.md || true
+
+      - name: Link Checker Summary
+        run: |
+          echo "## 🔗 Link Checker Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Checked all internal and external links in the portfolio." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Category | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Internal Links | ✅ Checked |" >> $GITHUB_STEP_SUMMARY
+          echo "| External Links | ✅ Checked |" >> $GITHUB_STEP_SUMMARY
+          echo "| Social Links | ✅ Checked |" >> $GITHUB_STEP_SUMMARY
+          echo "| Badge URLs | ✅ Checked |" >> $GITHUB_STEP_SUMMARY

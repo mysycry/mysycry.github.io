@@ -48,6 +48,55 @@ A modern, interactive portfolio website showcasing my professional experience, c
 - **Font Awesome** - Icon library
 - **Google Fonts** - Inter & Fira Code typography
 
+## 🔄 CI/CD & Automation
+
+This portfolio uses **GitHub Actions** for automated quality checks and maintenance:
+
+| Workflow | Description | Schedule |
+|----------|-------------|----------|
+| 🔍 **Broken Image Checker** | Scans for missing/broken image references | On push + Weekly |
+| 🔗 **Link Checker** | Validates all internal & external links | On push + Weekly |
+| 🧹 **HTML/CSS Validation** | Runs HTMLHint, Stylelint, and W3C validators | On push/PR |
+| 🎴 **Social Media Card** | Auto-generates Open Graph images | On content update |
+
+### Workflow Details
+
+#### Broken Image Checker
+- Checks all local image file references
+- Verifies image paths exist
+- Runs on every push to `main` and weekly via cron
+
+#### Link Checker
+- Uses `lychee` to validate all links
+- Checks external URLs (LinkedIn, GitHub, Credly badges)
+- Verifies internal anchor links
+- Weekly scheduled runs to catch link rot
+
+#### HTML/CSS Validation
+- **HTMLHint** - Static analysis for HTML
+- **Stylelint** - CSS linting with custom config
+- **W3C Validators** - Official HTML & CSS validation
+- Runs on every push and pull request
+
+#### Social Media Card Generator
+- Auto-generates SVG Open Graph images
+- Extracts name and title from `index.html`
+- Commits `og-image.svg` to repository
+- Use in meta tags for social sharing preview
+
+```yaml
+# Add to <head> in index.html:
+<meta property="og:image" content="og-image.svg">
+<meta name="twitter:image" content="og-image.svg">
+```
+
+### Manual Trigger
+
+You can manually run workflows from the **Actions** tab:
+1. Go to `Actions` in your repository
+2. Select the workflow you want to run
+3. Click `Run workflow`
+
 ## 📁 Project Structure
 
 ```
@@ -56,10 +105,19 @@ josiasmichael.github.io/
 ├── styles.css              # All styling and animations
 ├── script.js               # All JavaScript functionality
 ├── README.md               # Project documentation
+├── og-image.svg            # Auto-generated social media card
 ├── prof-pic.jpg            # Profile picture
 ├── Tabada, Michael Josias D. CV.pdf  # CV/Resume
+├── .github/
+│   └── workflows/
+│       ├── broken-image-checker.yml   # Broken image detection
+│       ├── link-checker.yml           # Link validation
+│       ├── html-css-validation.yml    # HTML/CSS linting
+│       └── social-media-card.yml      # OG image generator
 └── images/
-    └── credly.svg          # Credly icon
+    ├── credly.svg          # Credly icon
+    ├── portfolio-preview.png
+    └── prof-pic.jpg
 ```
 
 ## 🛠️ Setup & Usage
@@ -229,4 +287,4 @@ This project is open source and available for personal use. Feel free to fork an
 
 **Made with ❤️ and lots of ☕ by Michael Josias D. Tabada**
 
-*Last Updated: March 2026*
+*Last Updated: March 2026 | CI/CD powered by GitHub Actions*

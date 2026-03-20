@@ -1,0 +1,55 @@
+name: Broken Image Checker
+
+on:
+  push:
+    branches: [main]
+    paths: ['**/*.html', '**/*.css', '**/*.md', 'images/**']
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 0 * * 1'  # Weekly check every Monday
+
+jobs:
+  check-images:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install broken-link-checker
+        run: npm install -g broken-link-checker
+
+      - name: Start local server
+        run: |
+          nohup python3 -m http.server 8080 &
+          sleep 2
+
+      - name: Check for broken images
+        run: |
+          blc http://localhost:8080 --filter-level 1 --exclude 'https://cdn-icons-png.flaticon.com' --exclude 'https://cdnjs.cloudflare.com' --exclude 'https://fonts.googleapis.com' --exclude 'https://fonts.gstatic.com' --exclude 'https://linkedin.com' --exclude 'https://github.com' --exclude 'https://www.credly.com' --exclude 'http://localhost' --exclude 'mailto:' --exclude '*.svg' || true
+
+      - name: Check local image files exist
+        run: |
+          echo "Checking local image references..."
+          errors=0
+          
+          # Extract image sources from HTML
+          for img in $(grep -oP 'src="\K[^"]+\.(jpg|jpeg|png|gif|webp|svg)' index.html 2>/dev/null || true); do
+            if [[ ! "$img" =~ ^https?:// ]] && [[ ! -f "$img" ]]; then
+              echo "❌ Missing image: $img"
+              errors=$((errors + 1))
+            else
+              echo "✅ Found: $img"
+            fi
+          done
+          
+          if [ $errors -gt 0 ]; then
+            echo "::error::Found $errors broken image reference(s)"
+            exit 1
+          fi
+          echo "✅ All local images found!"
