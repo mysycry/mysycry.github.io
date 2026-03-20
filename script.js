@@ -287,11 +287,11 @@ class Carousel {
 // Initialize Carousels when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     // Skills Carousel
-    new Carousel('skillsCarouselWrapper', 'skillsCarousel', null, null, 'skillsDots');
-    
+    new Carousel('skillsCarouselWrapper', 'skillsCarousel', 'skillsPrev', 'skillsNext', 'skillsDots');
+
     // Experience Carousel
     new Carousel('experienceCarouselWrapper', 'experienceCarousel', 'expPrev', 'expNext', 'experienceDots');
-    
+
     // Projects Carousel
     new Carousel('projectsCarouselWrapper', 'projectsCarousel', 'projectsPrev', 'projectsNext', 'projectsDots');
 });

@@ -683,7 +683,23 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
     padding: 1.25rem;
     border-radius: 12px;
     margin-bottom: 1rem;
-    border-left: 4px solid var(--primary);
+    border: 2px solid var(--border);
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.education-item::before,
+.experience-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--gradient-1);
+    border-radius: 12px 0 0 12px;
+    z-index: 1;
 }
 
 .experience-item h4,
@@ -757,6 +773,7 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
 .carousel-card {
     min-width: calc(100% - 1rem);
     max-width: calc(100% - 1rem);
+    width: calc(100% - 1rem);
     scroll-snap-align: center;
     flex-shrink: 0;
     display: flex;
@@ -785,8 +802,8 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
 }
 
 .carousel-btn:hover {
-    background: var(--primary);
-    border-color: var(--primary);
+    background: var(--gradient-1);
+    border-color: transparent;
     color: white;
     transform: translateY(-50%) scale(1.1);
 }
@@ -797,6 +814,14 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
 
 .carousel-btn.next {
     right: 10px;
+}
+
+.skills-carousel-wrapper .carousel-btn.prev {
+    left: -1px;
+}
+
+.skills-carousel-wrapper .carousel-btn.next {
+    right: -1px;
 }
 
 .carousel-dots-horizontal {
@@ -816,13 +841,13 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
 }
 
 .carousel-dot.active {
-    background: var(--primary);
+    background: var(--gradient-1);
     width: 30px;
     border-radius: 5px;
 }
 
 .carousel-dot:hover {
-    background: var(--primary-light);
+    background: var(--gradient-1);
 }
 
 /* Skills Carousel */
@@ -830,6 +855,11 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
     position: relative;
     overflow: hidden;
     width: 100%;
+    margin-top: 1rem;
+}
+
+.skills-carousel-wrapper .carousel-btn {
+    top: 40%;
 }
 
 .skills-carousel-track {
@@ -849,17 +879,27 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
 }
 
 .skills-carousel-card {
-    min-width: calc(100% - 1rem);
-    max-width: calc(100% - 1rem);
-    scroll-snap-align: center;
-    flex-shrink: 0;
-    background: var(--bg-secondary);
-    padding: 1.5rem;
-    border-radius: 15px;
-    border: 2px solid var(--border);
+    flex: 0 0 100%;
     width: 100%;
+    scroll-snap-align: center;
+    background: var(--bg-secondary);
+    padding: 1.25rem;
+    border-radius: 12px;
+    border: 2px solid var(--border);
     box-sizing: border-box;
-    margin: 0 0.5rem;
+    margin: 0;
+    position: relative;
+}
+
+.skills-carousel-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--gradient-1);
+    border-radius: 12px 0 0 12px;
 }
 
 .skills-carousel-card h4 {
@@ -901,7 +941,7 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
 }
 
 .skill-tag:hover {
-    background: var(--primary);
+    background: var(--gradient-1);
     color: white;
     transform: scale(1.05);
 }
@@ -1035,11 +1075,22 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
     overflow: visible;
 }
 
+.project-card-large::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--gradient-1);
+    border-radius: 15px 0 0 15px;
+}
+
 .project-badge {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    background: var(--gradient-2);
+    background: var(--gradient-1);
     color: white;
     padding: 0.35rem 0.85rem;
     border-radius: 20px;
@@ -1800,15 +1851,34 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
 
     .profile-section {
         justify-content: center;
+        flex-direction: column;
+        text-align: center;
     }
 
     .profile-info .name {
         font-size: 1.5rem;
     }
 
+    .profile-info .title {
+        font-size: 0.9rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        align-items: center;
+    }
+
+    .profile-info .title .title-sep {
+        display: none;
+    }
+
     .contact-info {
         flex-direction: column;
         gap: 0.5rem;
+        align-items: center;
+    }
+
+    .contact-info span {
+        justify-content: center;
     }
 
     .social-links {
