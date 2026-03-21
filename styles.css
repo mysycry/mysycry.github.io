@@ -1288,11 +1288,23 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.badge-card:hover .badge-icon,
+.badge-card.spinning .badge-icon {
+    transform: scale(1.15) rotate(360deg);
 }
 
 .badge-icon i {
     font-size: 2.5rem;
     color: white;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.badge-card:hover .badge-icon i,
+.badge-card.spinning .badge-icon i {
+    transform: scale(1.1);
 }
 
 .badge-card h4 {
@@ -1381,11 +1393,12 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    transition: transform 0.3s ease;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.badge-card:hover .badge-img {
-    transform: scale(1.1);
+.badge-card:hover .badge-img,
+.badge-card.spinning .badge-img {
+    transform: scale(1.15) rotate(360deg);
 }
 
 .verify-link {

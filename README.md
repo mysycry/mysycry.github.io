@@ -34,12 +34,6 @@ A modern, accessible, and performant portfolio website showcasing professional e
 - **Canonical URL** - Prevents duplicate content issues
 - **Robots Meta** - Search engine indexing directives
 
-### 📱 PWA Support
-- **Installable** - Add to home screen on mobile devices
-- **Offline Ready** - Works without internet connection
-- **App-like Experience** - Standalone display mode
-- **Theme Color** - Branded browser chrome
-
 ### ✨ Interactive Elements
 - **Tab Navigation** - Summary, Work Experience, Credly, GitHub, Snake Game
 - **Infinite Carousels** - Smooth swipeable cards with looping
@@ -144,7 +138,6 @@ josiasmichael.github.io/
 ├── index.html              # Main HTML file
 ├── styles.css              # All styling and animations
 ├── script.js               # All JavaScript functionality
-├── manifest.json           # PWA manifest
 ├── og-image.svg            # Auto-generated social media card
 ├── README.md               # Project documentation
 ├── prof-pic.jpg            # Profile picture
@@ -350,9 +343,9 @@ This project is open source and available for personal use. Feel free to fork an
 - ✅ Added copy email functionality with toast notifications
 - ✅ Added keyboard navigation for carousels
 - ✅ Added print stylesheet
-- ✅ Added PWA manifest for installability
 - ✅ Fixed carousel infinite looping and swipe smoothness
 - ✅ Updated all GitHub Actions to Node.js 24
+- ✅ Added badge spin animation on hover/touch
 
 ### Version 4.0 - Carousel Improvements
 - Infinite looping for all carousels

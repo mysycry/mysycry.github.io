@@ -18,17 +18,44 @@ function showToast(message, type = 'success') {
     const toast = document.getElementById('toast');
     toast.textContent = message;
     toast.className = `toast show ${type}`;
-    
+
     const icon = document.createElement('i');
     icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-info-circle';
     icon.setAttribute('aria-hidden', 'true');
     toast.insertBefore(icon, toast.firstChild);
-    
+
     setTimeout(() => {
         toast.className = 'toast';
         toast.innerHTML = '';
     }, 3000);
 }
+
+// Badge Card Spin on Touch (Mobile)
+document.addEventListener('DOMContentLoaded', () => {
+    const badgeCards = document.querySelectorAll('.credly-badges-grid .badge-card');
+    
+    badgeCards.forEach(card => {
+        // Touch support for mobile
+        card.addEventListener('touchstart', () => {
+            card.classList.add('spinning');
+        });
+        
+        // Remove spin class after animation completes
+        card.addEventListener('touchend', () => {
+            setTimeout(() => {
+                card.classList.remove('spinning');
+            }, 600);
+        });
+        
+        // Also support click for desktop users who prefer clicking
+        card.addEventListener('click', () => {
+            card.classList.add('spinning');
+            setTimeout(() => {
+                card.classList.remove('spinning');
+            }, 600);
+        });
+    });
+});
 
 // Copy Email Functionality
 document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
@@ -211,7 +238,7 @@ tabBtns.forEach(btn => {
     });
 });
 
-// Horizontal Carousel Class with Infinite Looping
+// Simple Smooth Carousel Class
 class Carousel {
     constructor(wrapperId, trackId, prevBtnId, nextBtnId, dotsId) {
         this.wrapper = document.getElementById(wrapperId);
@@ -222,47 +249,19 @@ class Carousel {
 
         if (!this.wrapper || !this.track) return;
 
-        this.cards = Array.from(this.track.querySelectorAll(':scope > .carousel-card, :scope > .skills-carousel-card'));
+        this.cards = Array.from(this.track.children);
+        this.totalCards = this.cards.length;
         this.currentIndex = 0;
-        this.touchStartX = 0;
-        this.touchEndX = 0;
         this.isAnimating = false;
-        this.cardWidth = 0;
 
         this.init();
     }
 
     init() {
-        this.setupInfiniteScroll();
         this.createDots();
         this.addEventListeners();
         this.updateDots();
-        this.updateButtonVisibility();
-    }
-
-    setupInfiniteScroll() {
-        // Clone first and last cards for infinite looping
-        if (this.cards.length > 1) {
-            const firstCard = this.cards[0].cloneNode(true);
-            firstCard.setAttribute('data-cloned', 'true');
-            firstCard.style.pointerEvents = 'none';
-            
-            const lastCard = this.cards[this.cards.length - 1].cloneNode(true);
-            lastCard.setAttribute('data-cloned', 'true');
-            lastCard.style.pointerEvents = 'none';
-
-            this.track.appendChild(firstCard);
-            this.track.insertBefore(lastCard, this.track.firstChild);
-
-            // Update cards reference
-            this.cards = this.track.querySelectorAll(':scope > .carousel-card:not([data-cloned]), :scope > .skills-carousel-card:not([data-cloned])');
-            
-            // Start at index 1 (after the cloned last card)
-            this.currentIndex = 1;
-            
-            // Set initial scroll position without animation
-            this.track.scrollLeft = this.currentIndex * this.track.clientWidth;
-        }
+        this.updateButtons();
     }
 
     createDots() {
@@ -271,7 +270,8 @@ class Carousel {
         this.dotsContainer.innerHTML = '';
         this.cards.forEach((_, index) => {
             const dot = document.createElement('div');
-            dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
+            dot.className = 'carousel-dot';
+            if (index === 0) dot.classList.add('active');
             dot.addEventListener('click', () => this.goToSlide(index));
             this.dotsContainer.appendChild(dot);
         });
@@ -280,106 +280,53 @@ class Carousel {
 
     updateDots() {
         if (!this.dots) return;
-
-        // Calculate actual index (excluding cloned cards)
-        let actualIndex = this.currentIndex;
-        const totalCards = this.cards.length;
-        
-        if (this.currentIndex === 0) {
-            actualIndex = totalCards - 1; // Last card
-        } else if (this.currentIndex === totalCards + 1) {
-            actualIndex = 0; // First card
-        } else {
-            actualIndex = this.currentIndex - 1;
-        }
-
         this.dots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === actualIndex);
+            dot.classList.toggle('active', index === this.currentIndex);
         });
     }
 
-    goToSlide(index, instant = false) {
-        if (this.isAnimating) return;
+    updateButtons() {
+        if (!this.prevBtn || !this.nextBtn) return;
+        
+        // Fade buttons at edges for visual feedback
+        const atStart = this.currentIndex === 0;
+        const atEnd = this.currentIndex === this.totalCards - 1;
+        
+        this.prevBtn.style.opacity = atStart ? '0.3' : '1';
+        this.nextBtn.style.opacity = atEnd ? '0.3' : '1';
+    }
+
+    goToSlide(index) {
+        if (this.isAnimating || index === this.currentIndex) return;
+        if (index < 0 || index >= this.totalCards) return;
 
         this.isAnimating = true;
-        const targetIndex = index + 1; // Account for cloned first card
+        this.currentIndex = index;
+
         const cardWidth = this.track.clientWidth;
-        
         this.track.scrollTo({
-            left: targetIndex * cardWidth,
-            behavior: instant ? 'auto' : 'smooth'
+            left: index * cardWidth,
+            behavior: 'smooth'
         });
+
+        this.updateDots();
+        this.updateButtons();
 
         setTimeout(() => {
             this.isAnimating = false;
-        }, 500);
-
-        this.updateDots();
-        this.updateButtonVisibility();
-    }
-
-    scrollToCurrent() {
-        if (!this.track) return;
-
-        const cardWidth = this.track.clientWidth;
-        this.track.scrollTo({
-            left: this.currentIndex * cardWidth,
-            behavior: 'smooth'
-        });
-    }
-
-    handleInfiniteLoop() {
-        const totalCards = this.cards.length;
-        const cardWidth = this.track.clientWidth;
-
-        // If at cloned first card (index 0), jump to real last card
-        if (this.currentIndex === 0) {
-            this.track.scrollLeft = totalCards * cardWidth;
-            this.currentIndex = totalCards;
-            this.updateDots();
-            this.updateButtonVisibility();
-        }
-        // If at cloned last card (index totalCards + 1), jump to real first card
-        else if (this.currentIndex === totalCards + 1) {
-            this.track.scrollLeft = cardWidth;
-            this.currentIndex = 1;
-            this.updateDots();
-            this.updateButtonVisibility();
-        }
+        }, 400);
     }
 
     next() {
-        if (this.isAnimating) return;
-        const totalCards = this.cards.length;
-        if (this.currentIndex >= totalCards + 1) {
-            this.currentIndex = 1;
-        } else {
-            this.currentIndex++;
+        if (this.currentIndex < this.totalCards - 1) {
+            this.goToSlide(this.currentIndex + 1);
         }
-        this.scrollToCurrent();
-        this.updateDots();
-        this.updateButtonVisibility();
     }
 
     prev() {
-        if (this.isAnimating) return;
-        const totalCards = this.cards.length;
-        if (this.currentIndex <= 0) {
-            this.currentIndex = totalCards;
-        } else {
-            this.currentIndex--;
+        if (this.currentIndex > 0) {
+            this.goToSlide(this.currentIndex - 1);
         }
-        this.scrollToCurrent();
-        this.updateDots();
-        this.updateButtonVisibility();
-    }
-
-    updateButtonVisibility() {
-        if (!this.prevBtn || !this.nextBtn) return;
-        
-        // Always show buttons for infinite scroll
-        this.prevBtn.style.opacity = '1';
-        this.nextBtn.style.opacity = '1';
     }
 
     addEventListeners() {
@@ -392,91 +339,65 @@ class Carousel {
             this.nextBtn.addEventListener('click', () => this.next());
         }
 
-        // Touch events for swipe with improved mobile experience
-        let touchStartTime = 0;
-        let touchStartY = 0;
+        // Touch swipe
+        let startX = 0;
+        let startY = 0;
 
         this.track.addEventListener('touchstart', (e) => {
-            this.touchStartX = e.touches[0].clientX;
-            touchStartY = e.touches[0].clientY;
-            touchStartTime = Date.now();
-            this.track.style.scrollSnapType = 'none'; // Disable snap during swipe
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
         }, { passive: true });
 
         this.track.addEventListener('touchmove', (e) => {
-            this.touchEndX = e.touches[0].clientX;
-        }, { passive: true });
+            const currentX = e.touches[0].clientX;
+            const currentY = e.touches[0].clientY;
+            const diffX = Math.abs(startX - currentX);
+            const diffY = Math.abs(startY - currentY);
+
+            // Only prevent default on horizontal swipe
+            if (diffX > diffY && diffX > 10) {
+                e.preventDefault();
+            }
+        }, { passive: false });
 
         this.track.addEventListener('touchend', (e) => {
-            if (!this.touchEndX) return;
+            const endX = e.changedTouches[0].clientX;
+            const diffX = startX - endX;
+            const diffY = Math.abs(startY - e.changedTouches[0].clientY);
 
-            const touchEndTime = Date.now();
-            const touchDuration = touchEndTime - touchStartTime;
-            const touchEndY = e.changedTouches[0].clientY;
-            
-            const deltaX = this.touchStartX - this.touchEndX;
-            const deltaY = Math.abs(touchEndY - touchStartY);
-
-            // Only process horizontal swipes
-            if (Math.abs(deltaX) > deltaY && Math.abs(deltaX) > 30) {
-                const totalCards = this.cards.length;
-                const cardWidth = this.track.clientWidth;
-
-                if (deltaX > 0) {
-                    // Swiped left - next
-                    if (this.currentIndex < totalCards + 1) {
-                        this.currentIndex++;
-                        this.scrollToCurrent();
-                    }
+            // Horizontal swipe threshold
+            if (Math.abs(diffX) > 50 && Math.abs(diffX) > diffY) {
+                if (diffX > 0) {
+                    this.next();
                 } else {
-                    // Swiped right - prev
-                    if (this.currentIndex > 0) {
-                        this.currentIndex--;
-                        this.scrollToCurrent();
-                    }
+                    this.prev();
                 }
-                
-                this.updateDots();
-                this.updateButtonVisibility();
             }
-
-            // Re-enable snap after swipe
-            setTimeout(() => {
-                this.track.style.scrollSnapType = 'x mandatory';
-            }, 100);
-
-            this.touchEndX = 0;
         }, { passive: true });
 
-        // Update current index on scroll and handle infinite loop
+        // Scroll sync - update dots as user scrolls
         let scrollTimeout;
         this.track.addEventListener('scroll', () => {
             if (this.isAnimating) return;
 
-            const cardWidth = this.track.clientWidth;
-            const scrollLeft = this.track.scrollLeft;
-            const newIndex = Math.round(scrollLeft / cardWidth);
-
-            if (newIndex !== this.currentIndex && newIndex >= 0 && newIndex <= this.cards.length + 1) {
-                this.currentIndex = newIndex;
-                this.updateDots();
-                this.updateButtonVisibility();
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                const cardWidth = this.track.clientWidth;
+                const newIndex = Math.round(this.track.scrollLeft / cardWidth);
                 
-                // Handle infinite loop after scroll ends
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
-                    this.handleInfiniteLoop();
-                }, 150);
-            }
-        });
-
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            const cardWidth = this.track.clientWidth;
-            this.track.scrollLeft = this.currentIndex * cardWidth;
+                if (newIndex !== this.currentIndex && newIndex >= 0 && newIndex < this.totalCards) {
+                    this.currentIndex = newIndex;
+                    this.updateDots();
+                    this.updateButtons();
+                }
+            }, 100);
         });
 
         // Keyboard navigation
+        this.wrapper.setAttribute('tabindex', '0');
+        this.wrapper.setAttribute('role', 'region');
+        this.wrapper.setAttribute('aria-label', 'Carousel');
+        
         this.wrapper.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowLeft') {
                 e.preventDefault();
@@ -486,11 +407,20 @@ class Carousel {
                 this.next();
             }
         });
-        
-        // Make wrapper focusable for keyboard navigation
-        this.wrapper.setAttribute('tabindex', '0');
-        this.wrapper.setAttribute('role', 'region');
-        this.wrapper.setAttribute('aria-label', 'Carousel navigation');
+
+        // Resize handler
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                const cardWidth = this.track.clientWidth;
+                this.track.style.scrollBehavior = 'auto';
+                this.track.scrollLeft = this.currentIndex * cardWidth;
+                // Force reflow
+                this.track.offsetHeight;
+                this.track.style.scrollBehavior = 'smooth';
+            }, 100);
+        });
     }
 }
 
