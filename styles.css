@@ -49,6 +49,106 @@ body {
     overflow-x: hidden;
 }
 
+/* Skip Link */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--primary);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    z-index: 10000;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 0 0 8px 0;
+    transition: top 0.3s ease;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* Toast Notification */
+.toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--card-bg);
+    color: var(--text-primary);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px var(--shadow-lg);
+    z-index: 10001;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    border: 2px solid var(--border);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.toast.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast.success {
+    border-color: var(--primary);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+}
+
+.toast i {
+    color: var(--primary);
+}
+
+/* Scroll to Top Button */
+.scroll-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--gradient-1);
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 6px 25px rgba(99, 102, 241, 0.5);
+    transition: all 0.3s ease;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+}
+
+.scroll-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.scroll-top:hover {
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 8px 35px rgba(99, 102, 241, 0.6);
+}
+
+/* Focus Visible Styles */
+*:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 2px;
+}
+
 /* Theme Toggle */
 .theme-toggle {
     position: fixed;
@@ -2006,6 +2106,18 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
         min-width: 100%;
     }
 
+    /* Minimum touch target sizes for accessibility */
+    .carousel-btn,
+    .tab-btn,
+    .social-link,
+    .download-btn,
+    .chatbot-btn,
+    .game-btn,
+    .theme-toggle {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
     .game-stats {
         gap: 1.5rem;
     }
@@ -2192,4 +2304,110 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--primary-dark);
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .profile-img-wrapper {
+        animation: none !important;
+    }
+    
+    .carousel-track,
+    .skills-carousel-track {
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .theme-toggle,
+    .chatbot-btn,
+    .chatbot-window,
+    .scroll-top,
+    .skip-link,
+    .toast,
+    .tabs-nav,
+    .download-btn,
+    .carousel-btn,
+    .carousel-dots-horizontal {
+        display: none !important;
+    }
+    
+    .container {
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .header {
+        box-shadow: none;
+        border: 1px solid #ddd;
+        margin: 0;
+        padding: 1rem;
+    }
+    
+    .card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+        margin-bottom: 1rem;
+        page-break-inside: avoid;
+    }
+    
+    .tab-panel {
+        display: block !important;
+        margin-bottom: 2rem;
+        page-break-inside: avoid;
+    }
+    
+    .tab-panel:not(:first-child) {
+        margin-top: 2rem;
+    }
+    
+    a[href]::after {
+        content: " (" attr(href) ")";
+        font-size: 0.8rem;
+        color: #666;
+    }
+    
+    a[href^="mailto:"]::after {
+        content: "";
+    }
+    
+    a[href^="tel:"]::after {
+        content: "";
+    }
+    
+    .profile-img-wrapper {
+        animation: none !important;
+        box-shadow: none !important;
+    }
+    
+    .light-mode-glow,
+    .card::before,
+    .card::after {
+        display: none !important;
+    }
+    
+    h1, h2, h3, h4 {
+        page-break-after: avoid;
+    }
+    
+    img {
+        max-width: 100%;
+        page-break-inside: avoid;
+    }
 }

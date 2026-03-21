@@ -3,17 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Michael Josias D. Tabada</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>Michael Josias D. Tabada - Platform Engineer & Cloud Solutions Architect</title>
+    <meta name="title" content="Michael Josias D. Tabada - Platform Engineer & Cloud Solutions Architect">
+    <meta name="description" content="Platform Engineer & Cloud Solutions Architect specializing in AWS, GCP, Azure, Terraform, and AI. View my certifications, projects, and professional experience.">
+    <meta name="keywords" content="Platform Engineer, Cloud Architect, AWS, GCP, Azure, Terraform, DevOps, AI, Machine Learning, Kubernetes, Docker">
+    <meta name="author" content="Michael Josias D. Tabada">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://josiasmichael.github.io">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://josiasmichael.github.io">
+    <meta property="og:title" content="Michael Josias D. Tabada - Platform Engineer & Cloud Solutions Architect">
+    <meta property="og:description" content="Platform Engineer & Cloud Solutions Architect specializing in AWS, GCP, Azure, Terraform, and AI.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/mysycry/josiasmichael.github.io/main/og-image.svg">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://josiasmichael.github.io">
+    <meta name="twitter:title" content="Michael Josias D. Tabada - Platform Engineer & Cloud Solutions Architect">
+    <meta name="twitter:description" content="Platform Engineer & Cloud Solutions Architect specializing in AWS, GCP, Azure, Terraform, and AI.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/mysycry/josiasmichael.github.io/main/og-image.svg">
+    <meta name="twitter:creator" content="@mysycry">
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/6024/6024820.png">
-    <link rel="stylesheet" href="styles.css?v=4">
+    
+    <!-- PWA / Mobile -->
+    <meta name="theme-color" content="#6366f1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Michael's Portfolio">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/6024/6024820.png">
+    
+    <!-- Preconnect & Preload -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" as="style" href="styles.css?v=5">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles.css?v=5">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Skip Link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Toast Notification -->
+    <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+    
     <!-- Theme Toggle -->
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-        <i class="fas fa-moon"></i>
-        <i class="fas fa-sun"></i>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light theme">
+        <i class="fas fa-moon" aria-hidden="true"></i>
+        <i class="fas fa-sun" aria-hidden="true"></i>
     </button>
 
     <!-- Main Container -->
@@ -23,68 +72,68 @@
             <div class="profile-section">
                 <div class="profile-img-container">
                     <div class="profile-img-wrapper">
-                        <img src="images/prof-pic.jpg" alt="Michael Josias D. Tabada" class="profile-img">
+                        <img src="images/prof-pic.jpg" alt="Michael Josias D. Tabada" class="profile-img" loading="eager" fetchpriority="high">
                     </div>
                 </div>
                 <div class="profile-info">
                     <h1 class="name">Michael Josias D. Tabada</h1>
                     <p class="title"><span>Platform Engineer</span> <span class="title-sep">||</span> <span>Cloud & Solutions Architect</span> <span class="title-sep">||</span> <span>AI</span></p>
                     <div class="contact-info">
-                        <span><i class="fas fa-map-marker-alt"></i> Philippines </span>
+                        <span><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Philippines </span>
                     </div>
                     <div class="social-links">
-                        <a href="https://linkedin.com/in/josiasmichael" target="_blank" class="social-link" aria-label="LinkedIn">
-                            <i class="fab fa-linkedin"></i>
+                        <a href="https://linkedin.com/in/josiasmichael" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn Profile">
+                            <i class="fab fa-linkedin" aria-hidden="true"></i>
                             <span>LinkedIn</span>
                         </a>
-                        <a href="https://github.com/mysycry" target="_blank" class="social-link" aria-label="GitHub">
-                            <i class="fab fa-github"></i>
+                        <a href="https://github.com/mysycry" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub Profile">
+                            <i class="fab fa-github" aria-hidden="true"></i>
                             <span>GitHub</span>
                         </a>
-                        <a href="mailto:navigatormichael@gmail.com" class="social-link" aria-label="Email">
-                            <i class="fas fa-envelope"></i>
+                        <a href="mailto:navigatormichael@gmail.com" class="social-link" aria-label="Email Address">
+                            <i class="fas fa-envelope" aria-hidden="true"></i>
                             <span>Email</span>
                         </a>
                     </div>
                 </div>
             </div>
-            <a href="Tabada, Michael Josias D. CV.pdf" target="_blank" class="download-btn">
-                <i class="fas fa-download"></i>
+            <a href="Tabada, Michael Josias D. CV.pdf" target="_blank" rel="noopener noreferrer" class="download-btn">
+                <i class="fas fa-download" aria-hidden="true"></i>
                 <span>Download CV</span>
             </a>
         </header>
 
         <!-- Navigation Tabs -->
-        <nav class="tabs-nav">
-            <button class="tab-btn active" data-tab="summary">
-                <i class="fas fa-user"></i>
+        <nav class="tabs-nav" role="tablist" aria-label="Portfolio navigation">
+            <button class="tab-btn active" data-tab="summary" role="tab" aria-selected="true" aria-controls="summary" id="tab-summary">
+                <i class="fas fa-user" aria-hidden="true"></i>
                 <span>Summary</span>
             </button>
-            <button class="tab-btn" data-tab="experience">
-                <i class="fas fa-briefcase"></i>
+            <button class="tab-btn" data-tab="experience" role="tab" aria-selected="false" aria-controls="experience" id="tab-experience" tabindex="-1">
+                <i class="fas fa-briefcase" aria-hidden="true"></i>
                 <span>Work Experience</span>
             </button>
-            <button class="tab-btn" data-tab="credly">
-                <i class="fas fa-award"></i>
+            <button class="tab-btn" data-tab="credly" role="tab" aria-selected="false" aria-controls="credly" id="tab-credly" tabindex="-1">
+                <i class="fas fa-award" aria-hidden="true"></i>
                 <span>Credly</span>
             </button>
-            <button class="tab-btn" data-tab="github">
-                <i class="fab fa-github"></i>
+            <button class="tab-btn" data-tab="github" role="tab" aria-selected="false" aria-controls="github" id="tab-github" tabindex="-1">
+                <i class="fab fa-github" aria-hidden="true"></i>
                 <span>GitHub</span>
             </button>
-            <button class="tab-btn" data-tab="game">
-                <i class="fas fa-gamepad"></i>
+            <button class="tab-btn" data-tab="game" role="tab" aria-selected="false" aria-controls="game" id="tab-game" tabindex="-1">
+                <i class="fas fa-gamepad" aria-hidden="true"></i>
                 <span>Snake Game</span>
             </button>
         </nav>
 
         <!-- Tab Content -->
-        <main class="tab-content">
+        <main class="tab-content" id="main-content">
             <!-- Summary Tab -->
-            <section class="tab-panel active" id="summary">
+            <section class="tab-panel active" id="summary" role="tabpanel" aria-labelledby="tab-summary">
                 <div class="card">
                     <div class="light-mode-glow"></div>
-                    <h2><i class="fas fa-user"></i> About Me</h2>
+                    <h2><i class="fas fa-user" aria-hidden="true"></i> About Me</h2>
                     <p class="summary-text">
                         Platform Engineer and Solutions Architect with extensive experience in cloud infrastructure, 
                         DevOps practices, and enterprise system design. Currently pursuing a Master's in Financial 
@@ -149,15 +198,15 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="carousel-btn prev" id="skillsPrev"><i class="fas fa-chevron-left"></i></button>
-                        <button class="carousel-btn next" id="skillsNext"><i class="fas fa-chevron-right"></i></button>
+                        <button class="carousel-btn prev" id="skillsPrev" aria-label="Previous skill"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+                        <button class="carousel-btn next" id="skillsNext" aria-label="Next skill"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
                         <div class="carousel-dots-horizontal" id="skillsDots"></div>
                     </div>
                 </div>
             </section>
 
             <!-- Work Experience Tab -->
-            <section class="tab-panel" id="experience">
+            <section class="tab-panel" id="experience" role="tabpanel" aria-labelledby="tab-experience">
                 <div class="card">
                     <div class="light-mode-glow"></div>
                     <h2><i class="fas fa-briefcase"></i> Work Experience</h2>
@@ -211,8 +260,8 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="carousel-btn prev" id="expPrev"><i class="fas fa-chevron-left"></i></button>
-                        <button class="carousel-btn next" id="expNext"><i class="fas fa-chevron-right"></i></button>
+                        <button class="carousel-btn prev" id="expPrev" aria-label="Previous experience"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+                        <button class="carousel-btn next" id="expNext" aria-label="Next experience"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
                         <div class="carousel-dots-horizontal" id="experienceDots"></div>
                     </div>
                     
@@ -254,22 +303,22 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="carousel-btn prev" id="projectsPrev"><i class="fas fa-chevron-left"></i></button>
-                        <button class="carousel-btn next" id="projectsNext"><i class="fas fa-chevron-right"></i></button>
+                        <button class="carousel-btn prev" id="projectsPrev" aria-label="Previous project"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+                        <button class="carousel-btn next" id="projectsNext" aria-label="Next project"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
                         <div class="carousel-dots-horizontal" id="projectsDots"></div>
                     </div>
                 </div>
             </section>
 
             <!-- Credly Tab -->
-            <section class="tab-panel" id="credly">
+            <section class="tab-panel" id="credly" role="tabpanel" aria-labelledby="tab-credly">
                 <div class="card">
                     <div class="light-mode-glow"></div>
                     <h2><i class="fas fa-award"></i> Credly Badges</h2>
                     <p class="section-desc">Digital badges and certifications verified through Credly</p>
                     
                     <div class="link-card credly-profile">
-                        <i class="credly-icon"> <img src="images/credly.svg" alt="credly-icon" sizes="100p"></i>
+                        <i class="credly-icon"> <img src="images/credly.svg" alt="credly-icon" loading="lazy" width="100" height="100"></i>
                         <div class="link-info">
                             <h3>My Credly Profile</h3>
                             <p class="link-url">https://www.credly.com/users/jmichael/badges</p>
@@ -441,7 +490,7 @@
             </section>
 
             <!-- GitHub Tab -->
-            <section class="tab-panel" id="github">
+            <section class="tab-panel" id="github" role="tabpanel" aria-labelledby="tab-github">
                 <div class="card">
                     <div class="light-mode-glow"></div>
                     <h2><i class="fab fa-github"></i> GitHub Profile</h2>
@@ -604,7 +653,7 @@
             </section>
 
             <!-- Snake Game Tab -->
-            <section class="tab-panel" id="game">
+            <section class="tab-panel" id="game" role="tabpanel" aria-labelledby="tab-game">
                 <div class="card">
                     <div class="light-mode-glow"></div>
                     <h2><i class="fas fa-gamepad"></i> Snake Game</h2>
@@ -643,15 +692,20 @@
         <footer class="footer">
             <div class="footer-marquee">
                 <div class="footer-content">
-                    <p>&copy; 2026 Michael Josias D. Tabada. All rights reserved. ☕⚡</p>
+                    <p>&copy; 2026 Michael Josias D. Tabada. All rights reserved. <span aria-hidden="true">☕⚡</span></p>
                 </div>
             </div>
         </footer>
     </div>
 
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scrollTopBtn" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up" aria-hidden="true"></i>
+    </button>
+
     <!-- Floating Chatbot Button -->
     <button class="chatbot-btn" id="chatbotBtn" aria-label="Open chatbot">
-        <i class="fas fa-robot"></i>
+        <i class="fas fa-robot" aria-hidden="true"></i>
     </button>
 
     <!-- Chatbot Window -->
@@ -659,7 +713,7 @@
         <div class="chatbot-header">
             <h3>Chat Assistant</h3>
             <button class="close-chat" id="closeChat" aria-label="Close chat">
-                <i class="fas fa-times"></i>
+                <i class="fas fa-times" aria-hidden="true"></i>
             </button>
         </div>
         <div class="chatbot-body" id="chatbotBody">

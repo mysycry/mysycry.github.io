@@ -13,6 +13,57 @@ themeToggle.addEventListener('click', () => {
     localStorage.setItem('theme', newTheme);
 });
 
+// Toast Notification Function
+function showToast(message, type = 'success') {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.className = `toast show ${type}`;
+    
+    const icon = document.createElement('i');
+    icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-info-circle';
+    icon.setAttribute('aria-hidden', 'true');
+    toast.insertBefore(icon, toast.firstChild);
+    
+    setTimeout(() => {
+        toast.className = 'toast';
+        toast.innerHTML = '';
+    }, 3000);
+}
+
+// Copy Email Functionality
+document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const email = link.getAttribute('href').replace('mailto:', '');
+        navigator.clipboard.writeText(email).then(() => {
+            showToast(`Email copied: ${email}`, 'success');
+            window.open(link.getAttribute('href'), '_blank');
+        }).catch(() => {
+            window.open(link.getAttribute('href'), '_blank');
+        });
+    });
+});
+
+// Scroll to Top Button
+const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+function toggleScrollTop() {
+    if (window.scrollY > 500) {
+        scrollTopBtn.classList.add('visible');
+    } else {
+        scrollTopBtn.classList.remove('visible');
+    }
+}
+
+window.addEventListener('scroll', toggleScrollTop);
+
+scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
 // Mouse tracking for dark mode glow effect on cards
 const cards = document.querySelectorAll('.card');
 let mouseX = 0;
@@ -135,14 +186,28 @@ const tabPanels = document.querySelectorAll('.tab-panel');
 tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         const tabId = btn.getAttribute('data-tab');
-        
-        // Remove active class from all buttons and panels
-        tabBtns.forEach(b => b.classList.remove('active'));
-        tabPanels.forEach(p => p.classList.remove('active'));
-        
-        // Add active class to clicked button and corresponding panel
+
+        // Remove active class and ARIA attributes from all buttons and panels
+        tabBtns.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+            b.setAttribute('tabindex', '-1');
+        });
+        tabPanels.forEach(p => {
+            p.classList.remove('active');
+            p.setAttribute('hidden', '');
+        });
+
+        // Add active class and ARIA attributes to clicked button and corresponding panel
         btn.classList.add('active');
-        document.getElementById(tabId).classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+        btn.setAttribute('tabindex', '0');
+        const panel = document.getElementById(tabId);
+        panel.classList.add('active');
+        panel.removeAttribute('hidden');
+        
+        // Announce tab change to screen readers
+        panel.setAttribute('aria-live', 'polite');
     });
 });
 
@@ -410,6 +475,22 @@ class Carousel {
             const cardWidth = this.track.clientWidth;
             this.track.scrollLeft = this.currentIndex * cardWidth;
         });
+
+        // Keyboard navigation
+        this.wrapper.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                this.prev();
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                this.next();
+            }
+        });
+        
+        // Make wrapper focusable for keyboard navigation
+        this.wrapper.setAttribute('tabindex', '0');
+        this.wrapper.setAttribute('role', 'region');
+        this.wrapper.setAttribute('aria-label', 'Carousel navigation');
     }
 }
 
