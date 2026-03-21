@@ -146,7 +146,7 @@ tabBtns.forEach(btn => {
     });
 });
 
-// Horizontal Carousel Class
+// Horizontal Carousel Class with Infinite Looping
 class Carousel {
     constructor(wrapperId, trackId, prevBtnId, nextBtnId, dotsId) {
         this.wrapper = document.getElementById(wrapperId);
@@ -154,27 +154,55 @@ class Carousel {
         this.prevBtn = document.getElementById(prevBtnId);
         this.nextBtn = document.getElementById(nextBtnId);
         this.dotsContainer = document.getElementById(dotsId);
-        
+
         if (!this.wrapper || !this.track) return;
-        
-        this.cards = this.track.querySelectorAll(':scope > .carousel-card, :scope > .skills-carousel-card');
+
+        this.cards = Array.from(this.track.querySelectorAll(':scope > .carousel-card, :scope > .skills-carousel-card'));
         this.currentIndex = 0;
         this.touchStartX = 0;
         this.touchEndX = 0;
         this.isAnimating = false;
-        
+        this.cardWidth = 0;
+
         this.init();
     }
-    
+
     init() {
+        this.setupInfiniteScroll();
         this.createDots();
         this.addEventListeners();
         this.updateDots();
+        this.updateButtonVisibility();
     }
-    
+
+    setupInfiniteScroll() {
+        // Clone first and last cards for infinite looping
+        if (this.cards.length > 1) {
+            const firstCard = this.cards[0].cloneNode(true);
+            firstCard.setAttribute('data-cloned', 'true');
+            firstCard.style.pointerEvents = 'none';
+            
+            const lastCard = this.cards[this.cards.length - 1].cloneNode(true);
+            lastCard.setAttribute('data-cloned', 'true');
+            lastCard.style.pointerEvents = 'none';
+
+            this.track.appendChild(firstCard);
+            this.track.insertBefore(lastCard, this.track.firstChild);
+
+            // Update cards reference
+            this.cards = this.track.querySelectorAll(':scope > .carousel-card:not([data-cloned]), :scope > .skills-carousel-card:not([data-cloned])');
+            
+            // Start at index 1 (after the cloned last card)
+            this.currentIndex = 1;
+            
+            // Set initial scroll position without animation
+            this.track.scrollLeft = this.currentIndex * this.track.clientWidth;
+        }
+    }
+
     createDots() {
         if (!this.dotsContainer) return;
-        
+
         this.dotsContainer.innerHTML = '';
         this.cards.forEach((_, index) => {
             const dot = document.createElement('div');
@@ -184,102 +212,203 @@ class Carousel {
         });
         this.dots = this.dotsContainer.querySelectorAll('.carousel-dot');
     }
-    
+
     updateDots() {
         if (!this.dots) return;
+
+        // Calculate actual index (excluding cloned cards)
+        let actualIndex = this.currentIndex;
+        const totalCards = this.cards.length;
         
+        if (this.currentIndex === 0) {
+            actualIndex = totalCards - 1; // Last card
+        } else if (this.currentIndex === totalCards + 1) {
+            actualIndex = 0; // First card
+        } else {
+            actualIndex = this.currentIndex - 1;
+        }
+
         this.dots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === this.currentIndex);
+            dot.classList.toggle('active', index === actualIndex);
         });
     }
-    
-    goToSlide(index) {
+
+    goToSlide(index, instant = false) {
         if (this.isAnimating) return;
+
+        this.isAnimating = true;
+        const targetIndex = index + 1; // Account for cloned first card
+        const cardWidth = this.track.clientWidth;
         
-        this.currentIndex = index;
-        if (this.currentIndex < 0) {
-            this.currentIndex = this.cards.length - 1;
-        } else if (this.currentIndex >= this.cards.length) {
-            this.currentIndex = 0;
-        }
-        
-        this.scrollToCurrent();
+        this.track.scrollTo({
+            left: targetIndex * cardWidth,
+            behavior: instant ? 'auto' : 'smooth'
+        });
+
+        setTimeout(() => {
+            this.isAnimating = false;
+        }, 500);
+
+        this.updateDots();
+        this.updateButtonVisibility();
     }
-    
+
     scrollToCurrent() {
         if (!this.track) return;
-        
-        this.isAnimating = true;
+
         const cardWidth = this.track.clientWidth;
         this.track.scrollTo({
             left: this.currentIndex * cardWidth,
             behavior: 'smooth'
         });
-        
-        setTimeout(() => {
-            this.isAnimating = false;
-        }, 500);
-        
-        this.updateDots();
     }
-    
+
+    handleInfiniteLoop() {
+        const totalCards = this.cards.length;
+        const cardWidth = this.track.clientWidth;
+
+        // If at cloned first card (index 0), jump to real last card
+        if (this.currentIndex === 0) {
+            this.track.scrollLeft = totalCards * cardWidth;
+            this.currentIndex = totalCards;
+            this.updateDots();
+            this.updateButtonVisibility();
+        }
+        // If at cloned last card (index totalCards + 1), jump to real first card
+        else if (this.currentIndex === totalCards + 1) {
+            this.track.scrollLeft = cardWidth;
+            this.currentIndex = 1;
+            this.updateDots();
+            this.updateButtonVisibility();
+        }
+    }
+
     next() {
-        this.goToSlide(this.currentIndex + 1);
+        if (this.isAnimating) return;
+        const totalCards = this.cards.length;
+        if (this.currentIndex >= totalCards + 1) {
+            this.currentIndex = 1;
+        } else {
+            this.currentIndex++;
+        }
+        this.scrollToCurrent();
+        this.updateDots();
+        this.updateButtonVisibility();
     }
-    
+
     prev() {
-        this.goToSlide(this.currentIndex - 1);
+        if (this.isAnimating) return;
+        const totalCards = this.cards.length;
+        if (this.currentIndex <= 0) {
+            this.currentIndex = totalCards;
+        } else {
+            this.currentIndex--;
+        }
+        this.scrollToCurrent();
+        this.updateDots();
+        this.updateButtonVisibility();
     }
-    
+
+    updateButtonVisibility() {
+        if (!this.prevBtn || !this.nextBtn) return;
+        
+        // Always show buttons for infinite scroll
+        this.prevBtn.style.opacity = '1';
+        this.nextBtn.style.opacity = '1';
+    }
+
     addEventListeners() {
         // Button clicks
         if (this.prevBtn) {
             this.prevBtn.addEventListener('click', () => this.prev());
         }
-        
+
         if (this.nextBtn) {
             this.nextBtn.addEventListener('click', () => this.next());
         }
-        
-        // Touch events for swipe
+
+        // Touch events for swipe with improved mobile experience
+        let touchStartTime = 0;
+        let touchStartY = 0;
+
         this.track.addEventListener('touchstart', (e) => {
             this.touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            touchStartTime = Date.now();
+            this.track.style.scrollSnapType = 'none'; // Disable snap during swipe
         }, { passive: true });
-        
+
         this.track.addEventListener('touchmove', (e) => {
             this.touchEndX = e.touches[0].clientX;
         }, { passive: true });
-        
-        this.track.addEventListener('touchend', () => {
+
+        this.track.addEventListener('touchend', (e) => {
             if (!this.touchEndX) return;
+
+            const touchEndTime = Date.now();
+            const touchDuration = touchEndTime - touchStartTime;
+            const touchEndY = e.changedTouches[0].clientY;
             
-            const threshold = 50;
             const deltaX = this.touchStartX - this.touchEndX;
-            
-            if (Math.abs(deltaX) > threshold) {
+            const deltaY = Math.abs(touchEndY - touchStartY);
+
+            // Only process horizontal swipes
+            if (Math.abs(deltaX) > deltaY && Math.abs(deltaX) > 30) {
+                const totalCards = this.cards.length;
+                const cardWidth = this.track.clientWidth;
+
                 if (deltaX > 0) {
                     // Swiped left - next
-                    this.next();
+                    if (this.currentIndex < totalCards + 1) {
+                        this.currentIndex++;
+                        this.scrollToCurrent();
+                    }
                 } else {
                     // Swiped right - prev
-                    this.prev();
+                    if (this.currentIndex > 0) {
+                        this.currentIndex--;
+                        this.scrollToCurrent();
+                    }
                 }
+                
+                this.updateDots();
+                this.updateButtonVisibility();
             }
+
+            // Re-enable snap after swipe
+            setTimeout(() => {
+                this.track.style.scrollSnapType = 'x mandatory';
+            }, 100);
+
             this.touchEndX = 0;
         }, { passive: true });
-        
-        // Update current index on scroll
+
+        // Update current index on scroll and handle infinite loop
+        let scrollTimeout;
         this.track.addEventListener('scroll', () => {
             if (this.isAnimating) return;
-            
+
             const cardWidth = this.track.clientWidth;
             const scrollLeft = this.track.scrollLeft;
             const newIndex = Math.round(scrollLeft / cardWidth);
-            
-            if (newIndex !== this.currentIndex && newIndex >= 0 && newIndex < this.cards.length) {
+
+            if (newIndex !== this.currentIndex && newIndex >= 0 && newIndex <= this.cards.length + 1) {
                 this.currentIndex = newIndex;
                 this.updateDots();
+                this.updateButtonVisibility();
+                
+                // Handle infinite loop after scroll ends
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    this.handleInfiniteLoop();
+                }, 150);
             }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            const cardWidth = this.track.clientWidth;
+            this.track.scrollLeft = this.currentIndex * cardWidth;
         });
     }
 }

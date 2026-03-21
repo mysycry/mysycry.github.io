@@ -764,7 +764,8 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
     -ms-overflow-style: none;
     padding: 0;
     width: 100%;
-    will-change: scroll-position;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
 }
 
 .carousel-track::-webkit-scrollbar {
@@ -867,7 +868,8 @@ body:not([data-theme="dark"]) .card:hover .light-mode-glow {
     -ms-overflow-style: none;
     padding: 0;
     width: 100%;
-    will-change: scroll-position;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
 }
 
 .skills-carousel-track::-webkit-scrollbar {
