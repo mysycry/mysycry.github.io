@@ -1,0 +1,48 @@
+# Cloudflare Pages Deployment
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [socmed]
+  pull_request:
+    branches: [socmed]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: josiasmichael
+          directory: .
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+
+      - name: Create deployment summary
+        run: |
+          echo "## 🚀 Deployed to Cloudflare Pages" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Portfolio successfully deployed to Cloudflare Pages!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**URL:** https://josiasmichael.pages.dev" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Features:**" >> $GITHUB_STEP_SUMMARY
+          echo "- ⚡ Global CDN (275+ data centers)" >> $GITHUB_STEP_SUMMARY
+          echo "- 🔒 Automatic HTTPS" >> $GITHUB_STEP_SUMMARY
+          echo "- 🛡️ DDoS protection" >> $GITHUB_STEP_SUMMARY
+          echo "- 📦 Instant cache invalidation" >> $GITHUB_STEP_SUMMARY

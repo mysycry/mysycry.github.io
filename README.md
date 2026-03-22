@@ -1,325 +1,334 @@
 # Portfolio - Michael Josias D. Tabada
 
-A modern, accessible, and performant portfolio website showcasing professional experience, certifications, and projects as a Platform Engineer & Cloud Solutions Architect.
+A modern **social media-style portfolio** website showcasing professional experience, certifications, and projects as a Platform Engineer & Cloud Solutions Architect.
 
 ![Portfolio Preview](/images/portfolio-preview.png)
 
+---
+
 ## 🌟 Features
 
+### 📱 Social Media Profile Design
+- **Modern Layout** - Instagram/Twitter/LinkedIn-inspired profile design
+- **Cover Photo** - Animated gradient header
+- **Profile Avatar** - Circular with online status indicator
+- **Verified Badge** - Professional verification indicator
+- **Action Buttons** - Contact, Download CV, Share profile
+- **Stats Bar** - Certifications, Projects, Years of Experience
+
 ### 🎨 Design & UX
-- **Modern UI** - Clean, professional design with smooth animations
-- **Dark/Light Mode** - Toggle between themes with persistent preference
-- **Fully Responsive** - Optimized for all screen sizes (desktop, tablet, mobile)
-- **Instagram Story Ring** - Animated profile picture with hover enlargement effect
-- **Print-Friendly** - Optimized print stylesheet for professional hard copies
+- **Dark/Light Mode** - Auto-detects system preference + manual toggle
+- **Fully Responsive** - Optimized for all screen sizes
+- **Smooth Animations** - Fade transitions, hover effects, spin animations
+- **Sticky Navigation** - Tab navigation stays visible while scrolling
 
 ### ♿ Accessibility (WCAG 2.1)
 - **Skip to Content Link** - Keyboard users can bypass navigation
 - **ARIA Labels** - Complete ARIA attributes for screen readers
-- **Keyboard Navigation** - Full keyboard support for carousels and tabs
-- **Focus Indicators** - Clear focus states for all interactive elements
+- **Keyboard Navigation** - Full keyboard support
+- **Focus Indicators** - Clear focus states
 - **Reduced Motion** - Respects user's motion preferences
-- **Semantic HTML** - Proper heading hierarchy and landmark regions
 
 ### 🚀 Performance
-- **Lazy Loading** - Images below the fold load on demand
-- **Preconnect Hints** - Faster font loading with DNS preconnect
-- **Optimized Animations** - GPU-accelerated CSS transforms
-- **No Framework Bloat** - Pure HTML/CSS/JS for minimal bundle size
+- **Lazy Loading** - Images load efficiently
+- **Preconnect Hints** - Faster font loading
+- **Optimized Animations** - GPU-accelerated CSS
+- **No Framework Bloat** - Pure HTML/CSS/JS
 
 ### 🔍 SEO
-- **Meta Tags** - Complete title, description, and keywords
+- **Meta Tags** - Complete title, description, keywords
 - **Open Graph** - Social media preview cards
 - **Twitter Cards** - Twitter-specific meta tags
-- **Canonical URL** - Prevents duplicate content issues
-- **Robots Meta** - Search engine indexing directives
+- **Canonical URL** - Prevents duplicate content
 
 ### ✨ Interactive Elements
-- **Tab Navigation** - Summary, Work Experience, Credly, GitHub, Snake Game
-- **Infinite Carousels** - Smooth swipeable cards with looping
-- **Mini Snake Game** - Playable game with score tracking and speed progression
-- **Floating Chatbot** - Ready for AI integration
-- **Copy Email** - One-click email copying with toast notification
-- **Scroll to Top** - Smooth scroll button appears on scroll
+- **Posts Feed** - Experience displayed as social media posts
+- **About Tab** - Education and skills grid
+- **Badges Tab** - 10+ certifications with spin animation
+- **Repos Tab** - GitHub repositories with stats
+- **Snake Game** - Playable game with score tracking
+- **Chatbot** - Interactive virtual assistant
+- **Share Button** - Native share API + clipboard fallback
+- **Copy Email** - One-click email copying with toast
 
-### 🎭 Visual Effects
+---
 
-#### Dark Mode 🌌
-- **Twinkling Stars** - 30+ animated stars per card with varying sizes
-- **Meteors** - Glowing meteors with purple trails spawning periodically
-- **Mouse Glow** - Purple/pink gradient follows cursor on cards
+## 📊 Tech Stack
 
-#### Light Mode ☀️
-- **Floating Orbs** - Large, soft gradient circles in brand colors
-- **Rising Particles** - Golden particles float upward
-- **Mouse Glow** - Warm golden gradient follows cursor
+- **HTML5** - Semantic structure
+- **CSS3** - Custom properties, animations, responsive design
+- **JavaScript (Vanilla)** - ES6+ features, no frameworks
+- **Font Awesome** - Icons
+- **Google Fonts** - Inter & Fira Code
 
-### 📊 Content Sections
-- **Summary** - About me, education, technical skills carousel
-- **Work Experience** - Career history with swipeable cards
-- **Projects & Training** - Bootcamp projects and certifications
-- **Credly Badges** - 10+ verified digital badges with verification links
-- **GitHub** - 6 featured repositories with stats
-- **Snake Game** - Interactive game with wall-passing mechanic
-
-## 🚀 Technologies Used
-
-- **HTML5** - Semantic structure with ARIA attributes
-- **CSS3** - Custom properties, animations, gradients, print styles
-- **JavaScript (Vanilla)** - No frameworks, pure ES6+ JavaScript
-- **Font Awesome** - Icon library
-- **Google Fonts** - Inter & Fira Code typography
-
-## 📊 Performance Metrics
-
-| Metric | Target | Status |
-|--------|--------|--------|
-| First Contentful Paint | < 1.5s | ✅ |
-| Largest Contentful Paint | < 2.5s | ✅ |
-| Cumulative Layout Shift | < 0.1 | ✅ |
-| Time to Interactive | < 3.5s | ✅ |
-| Accessibility Score | 100 | ✅ |
-| SEO Score | 100 | ✅ |
-| Best Practices | 100 | ✅ |
-
-## 🔄 CI/CD & Automation
-
-This portfolio uses **GitHub Actions** for automated quality checks and maintenance:
-
-| Workflow | Description | Schedule |
-|----------|-------------|----------|
-| 🔍 **Broken Image Checker** | Scans for missing/broken image references | On push + Weekly |
-| 🔗 **Link Checker** | Validates all internal & external links | On push + Weekly |
-| 🧹 **HTML/CSS Validation** | Runs HTMLHint, Stylelint, and W3C validators | On push/PR |
-| 🎴 **Social Media Card** | Auto-generates Open Graph images | On content update |
-
-### Workflow Details
-
-#### Broken Image Checker
-- Checks all local image file references
-- Verifies image paths exist
-- Runs on every push to `main` and weekly via cron
-
-#### Link Checker
-- Uses `lychee` to validate all links
-- Checks external URLs (LinkedIn, GitHub, Credly badges)
-- Verifies internal anchor links
-- Weekly scheduled runs to catch link rot
-
-#### HTML/CSS Validation
-- **HTMLHint** - Static analysis for HTML
-- **Stylelint** - CSS linting with custom config
-- **W3C Validators** - Official HTML & CSS validation
-- Runs on every push and pull request
-
-#### Social Media Card Generator
-- Auto-generates SVG Open Graph images
-- Extracts name and title from `index.html`
-- Commits `og-image.svg` to repository
-- Use in meta tags for social sharing preview
-
-```yaml
-# Add to <head> in index.html:
-<meta property="og:image" content="og-image.svg">
-<meta name="twitter:image" content="og-image.svg">
-```
-
-### Manual Trigger
-
-You can manually run workflows from the **Actions** tab:
-1. Go to `Actions` in your repository
-2. Select the workflow you want to run
-3. Click `Run workflow`
+---
 
 ## 📁 Project Structure
 
 ```
 josiasmichael.github.io/
-├── index.html              # Main HTML file
-├── styles.css              # All styling and animations
+├── index.html              # Main HTML (social media layout)
+├── styles.css              # Social media theme styling
 ├── script.js               # All JavaScript functionality
+├── manifest.json           # PWA manifest (if needed)
 ├── og-image.svg            # Auto-generated social media card
-├── README.md               # Project documentation
+├── README.md               # Documentation
+├── CLOUDFLARE_DEPLOY.md    # Cloudflare deployment guide
+├── wrangler.toml           # Cloudflare Pages config
+├── _routes.json            # Cloudflare routing config
 ├── prof-pic.jpg            # Profile picture
-├── Tabada, Michael Josias D. CV.pdf  # CV/Resume
+├── Tabada, Michael Josias D. CV.pdf
 ├── .github/
 │   └── workflows/
-│       ├── broken-image-checker.yml   # Broken image detection
-│       ├── link-checker.yml           # Link validation
-│       ├── html-css-validation.yml    # HTML/CSS linting
-│       └── social-media-card.yml      # OG image generator
+│       ├── cloudflare-pages-deploy.yml  # Cloudflare deployment
+│       ├── broken-image-checker.yml
+│       ├── link-checker.yml
+│       ├── html-css-validation.yml
+│       └── social-media-card.yml
 └── images/
-    ├── credly.svg          # Credly icon
+    ├── credly.svg
     ├── portfolio-preview.png
     └── prof-pic.jpg
 ```
 
-## 🛠️ Setup & Usage
+---
+
+## 🛠️ Setup
 
 ### Local Development
 
-1. **Clone or download** this repository
-   ```bash
-   git clone https://github.com/mysycry/josiasmichael.github.io.git
-   cd josiasmichael.github.io
+```bash
+git clone https://github.com/mysycry/mysycry.github.io.git
+cd josiasmichael.github.io
+
+# Using Python
+python -m http.server 8000
+
+# Using Node.js
+npx serve
+```
+
+Visit `http://localhost:8000`
+
+### Cloudflare Pages (Recommended)
+
+**Option 1: Direct GitHub Integration**
+
+1. Go to https://dash.cloudflare.com → Workers & Pages → Create Application
+2. Select **Pages** → **Connect to Git**
+3. Choose repository: `mysycry/mysycry.github.io`
+4. Build settings:
+   ```
+   Project name: josiasmichael-portfolio
+   Production branch: main
+   Build command: (leave empty)
+   Build output directory: .
+   ```
+5. Click **Save and Deploy** - Live in seconds!
+
+**Option 2: GitHub Actions**
+
+1. Add repository secrets:
+   ```
+   Settings → Secrets and variables → Actions
+   
+   CLOUDFLARE_API_TOKEN: your_api_token
+   CLOUDFLARE_ACCOUNT_ID: your_account_id
    ```
 
-2. **Open in browser**
-   - Simply open `index.html` in any modern browser
-   - Or use a local server (recommended):
-     ```bash
-     # Using Python
-     python -m http.server 8000
+2. Push to main - Auto-deploys via workflow
 
-     # Using Node.js
-     npx serve
-     ```
+**Custom Domain:**
+- Add in Cloudflare Pages dashboard
+- DNS: CNAME to `josiasmichael.pages.dev`
 
-3. **Access the site**
-   - Navigate to `http://localhost:8000`
+📖 **Full guide:** See [`CLOUDFLARE_DEPLOY.md`](CLOUDFLARE_DEPLOY.md)
 
-### GitHub Pages Deployment
+### GitHub Pages
 
-1. **Push to GitHub**
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git branch -M main
-   git remote add origin https://github.com/mysycry/josiasmichael.github.io.git
-   git push -u origin main
-   ```
+1. Push to GitHub
+2. Settings → Pages → Select `main` branch
+3. Live at `https://mysycry.github.io/`
 
-2. **Enable GitHub Pages**
-   - Go to repository Settings → Pages
-   - Select `main` branch as source
-   - Your site will be live at `https://mysycry.github.io/josiasmichael.github.io/`
+---
 
-## 🎨 Customization Guide
+## 🎨 Customization
 
-### Update Personal Information
+### Update Profile Info
 
 Edit `index.html`:
-- **Name & Title** - Lines 33-34
-- **Contact Info** - Lines 35-43
-- **Social Links** - Lines 44-55
-- **About Me** - Line 89
-- **Education** - Lines 95-99
+- **Name/Bio** - Lines 85-95
+- **Meta/Stats** - Lines 97-115
+- **Social Links** - Lines 123-135
 
-### Update Work Experience
+### Update Experience (Posts)
 
-Edit `index.html` (Experience tab):
-- **Job entries** - Lines 167-250
-- **Projects & Training** - Lines 252-300
+Edit `index.html` Posts tab (lines 145-280):
+```html
+<article class="post">
+    <div class="post-content">
+        <h3 class="post-title">Your Position</h3>
+        <p class="post-company">Company Name</p>
+        <!-- ... -->
+    </div>
+</article>
+```
 
-### Update Credly Badges
+### Update Badges
 
-1. **Get badge URLs**:
-   - Go to `https://www.credly.com/users/jmichael/badges`
-   - Right-click each badge → Copy Image Address
+Edit `index.html` Badges tab (lines 365-480):
+```html
+<div class="badge-card" data-badge="your-badge-id">
+    <div class="badge-image-container">
+        <div class="badge-icon aws">
+            <i class="fab fa-aws"></i>
+        </div>
+    </div>
+    <h4>Badge Name</h4>
+    <p>Issuer</p>
+</div>
+```
 
-2. **Edit `script.js`** (lines 801-814):
-   ```javascript
-   const badgeImageUrls = {
-       'professional-cloud-architect': 'PASTE_URL_HERE',
-       'finops-certified-engineer': 'PASTE_URL_HERE',
-       // ... add all badge URLs
-   };
-   ```
+### Update Repositories
 
-### Update GitHub Repositories
+Edit `index.html` Repos tab (lines 490-570)
 
-Edit `index.html` (GitHub tab):
-- **Profile link** - Line 431
-- **Repository cards** - Lines 445-560
+### Change Colors
 
-### Change Profile Picture
-
-1. Replace `prof-pic.jpg` with your image
-2. Or update the `src` in `index.html` (line 25)
-
-### Change Favicon
-
-1. Replace the URL in `index.html` (line 6):
-   ```html
-   <link rel="icon" type="image/png" href="your-favicon.png">
-   ```
-
-2. Or download your favicon and reference it locally
-
-### Customize Colors
-
-Edit `styles.css` CSS variables (lines 1-33):
+Edit `styles.css` CSS variables (lines 11-30):
 ```css
 :root {
     --primary: #6366f1;      /* Main brand color */
     --secondary: #ec4899;    /* Accent color */
-    --bg-primary: #ffffff;   /* Light mode background */
-    /* ... more variables */
+    --cover-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 ```
 
-### Adjust Effects Intensity
+---
 
-**Dark Mode Stars & Meteors** - `styles.css`:
-- Stars: Lines 373-407 (adjust `opacity` and `radial-gradient` sizes)
-- Meteors: Lines 547-573 (adjust `box-shadow` and `width/height`)
-
-**Light Mode Particles** - `styles.css`:
-- Orbs: Lines 447-461 (adjust `opacity` values)
-- Particles: Lines 468-494 (adjust `radial-gradient` sizes)
-- Rising particles: Lines 595-617 (adjust `box-shadow`)
-
-**Spawn Rates** - `script.js`:
-- Dark mode meteors: Line 114 (`setInterval`)
-- Light mode particles: Line 117 (`setInterval`)
-- Initial batches: Lines 120-128
-
-## 🎮 Snake Game Controls
+## 🎮 Snake Game
 
 | Action | Desktop | Mobile |
 |--------|---------|--------|
-| Move Up | ↑ / W | Swipe Up |
-| Move Down | ↓ / S | Swipe Down |
-| Move Left | ← / A | Swipe Left |
-| Move Right | → / D | Swipe Right |
-| Start Game | Space / Enter | Tap Start Button |
+| Move | Arrow Keys / WASD | Swipe |
+| Start | Space / Enter | Tap Start |
 
 **Features:**
-- Starts slow, speeds up as you eat
-- Pass through walls (wrap-around)
+- Starts slow, speeds up
+- Pass through walls
 - High score saved locally
-- Speed multiplier display
 
-## ♿ Accessibility Features
+---
 
-### Keyboard Navigation
-- **Tab** - Navigate between interactive elements
-- **Enter/Space** - Activate buttons
-- **Arrow Keys** - Navigate carousels and tabs
-- **Escape** - Close chatbot
+## 🤖 Chatbot Commands
 
-### Screen Reader Support
-- All interactive elements have descriptive labels
-- Tab changes are announced
-- Carousel navigation is announced
-- Skip link allows bypassing navigation
+The chatbot responds to:
+- `hello`, `hi` - Greeting
+- `contact`, `email` - Contact info
+- `job`, `work`, `hire` - Opportunities
+- `skill`, `technology` - Skills list
+- `certif`, `badge` - Certifications
+- `experience` - Work history
+- `education` - Education info
+- `github`, `repo` - Projects
+- `game`, `snake` - Game info
 
-### Motion Sensitivity
-- Respects `prefers-reduced-motion` system setting
-- Animations are disabled when reduced motion is enabled
+---
 
-## 📊 Browser Support
+## 📱 Responsive Breakpoints
+
+| Device | Width | Features |
+|--------|-------|----------|
+| Desktop | > 768px | Full layout, 5-column badges |
+| Tablet | 480-768px | Adjusted spacing, 3-column badges |
+| Mobile | < 480px | Single column, stacked layout |
+
+---
+
+## 🔄 CI/CD Workflows
+
+| Workflow | Description | Schedule |
+|----------|-------------|----------|
+| 🔍 **Broken Image Checker** | Scans for broken images | Push + Weekly |
+| 🔗 **Link Checker** | Validates all links | Push + Weekly |
+| 🧹 **HTML/CSS Validation** | Linting + W3C validation | Push/PR |
+| 🎴 **Social Media Card** | Auto-generates OG image | On content update |
+
+---
+
+## 📈 Changelog
+
+### Version 6.2 - AWS MCP AI Assistant Project
+- ✅ Added AI Assistant with MCP Integration project
+- ✅ AWS Bedrock AgentCore Runtime deployment
+- ✅ Model Context Protocol implementation
+- ✅ Multiple MCP servers (calculator, calendar, weather)
+- ✅ Full-stack: Python, FastAPI, React
+- ✅ Updated projects count to 36+
+
+### Version 6.1 - Cloudflare Pages Deployment
+- ✅ Added `wrangler.toml` configuration
+- ✅ GitHub Actions workflow for auto-deploy
+- ✅ Security and cache headers
+- ✅ Deployment guide (`CLOUDFLARE_DEPLOY.md`)
+- ✅ `_routes.json` for routing
+- ✅ Updated README with deployment instructions
+
+### Version 6.0 - Social Media Redesign ⭐
+- ✅ ARIA attributes throughout
+- ✅ Skip-to-content link
+- ✅ Keyboard navigation
+- ✅ Focus indicators
+- ✅ Reduced motion support
+- ✅ Print stylesheet
+- ✅ Copy email with toast
+
+### Version 4.0 - Carousel Improvements
+- ✅ Smooth infinite scrolling
+- ✅ Touch swipe support
+- ✅ Keyboard arrow navigation
+
+### Version 3.0 - Visual Effects
+- ✅ Dark mode with stars/meteors
+- ✅ Light mode with particles
+- ✅ Mouse-tracking glow
+
+### Version 2.0 - Core Features
+- ✅ Tab navigation
+- ✅ Snake game
+- ✅ Chatbot
+
+### Version 1.0 - Initial Release
+- ✅ Basic portfolio structure
+
+---
+
+## 🌐 Browser Support
 
 - ✅ Chrome (latest)
 - ✅ Firefox (latest)
 - ✅ Safari (latest)
 - ✅ Edge (latest)
-- ✅ Mobile browsers (iOS Safari, Chrome Mobile)
+- ✅ Mobile browsers
+
+---
+
+## 🚀 Deploy to Cloudflare Pages
+
+**Quick Deploy:**
+1. Go to https://dash.cloudflare.com → Workers & Pages
+2. Create Application → Pages → Connect to Git
+3. Select this repository → Click **Save and Deploy**
+
+**Live in seconds!** See [`CLOUDFLARE_DEPLOY.md`](CLOUDFLARE_DEPLOY.md) for full guide.
+
+---
 
 ## 📝 License
 
-This project is open source and available for personal use. Feel free to fork and customize for your own portfolio!
+Open source. Feel free to fork and customize!
+
+---
 
 ## 🤝 Contact
 
@@ -330,46 +339,6 @@ This project is open source and available for personal use. Feel free to fork an
 
 ---
 
-## 📈 Changelog
+**Made with ❤️ and ☕ by Michael Josias D. Tabada**
 
-### Version 5.0 - Major Accessibility & Performance Update
-- ✅ Added comprehensive meta tags (SEO, Open Graph, Twitter Cards)
-- ✅ Implemented skip-to-content link for keyboard users
-- ✅ Added ARIA attributes to all interactive elements
-- ✅ Implemented lazy loading for images
-- ✅ Added preconnect hints for faster font loading
-- ✅ Added `prefers-reduced-motion` support
-- ✅ Added scroll-to-top button
-- ✅ Added copy email functionality with toast notifications
-- ✅ Added keyboard navigation for carousels
-- ✅ Added print stylesheet
-- ✅ Fixed carousel infinite looping and swipe smoothness
-- ✅ Updated all GitHub Actions to Node.js 24
-- ✅ Added badge spin animation on hover/touch
-
-### Version 4.0 - Carousel Improvements
-- Infinite looping for all carousels
-- Smooth swipe gestures on mobile
-- Keyboard arrow key navigation
-- Improved touch response
-
-### Version 3.0 - Visual Effects
-- Dark mode with stars and meteors
-- Light mode with floating particles
-- Mouse-tracking glow effects
-
-### Version 2.0 - Core Features
-- Tab navigation
-- Snake game
-- Chatbot integration
-
-### Version 1.0 - Initial Release
-- Basic portfolio structure
-- Responsive design
-- Dark/light theme toggle
-
----
-
-**Made with ❤️ and lots of ☕ by Michael Josias D. Tabada**
-
-*Last Updated: March 2026 | CI/CD powered by GitHub Actions | Accessibility: WCAG 2.1 AA*
+*Last Updated: March 2026 | Version 6.2 | Deployed on Cloudflare Pages*
