@@ -66,7 +66,7 @@ A modern **social media-style portfolio** website showcasing professional experi
 ## 📁 Project Structure
 
 ```
-josiasmichael.github.io/
+mysycry.github.io/
 ├── index.html              # Main HTML (social media layout)
 ├── styles.css              # Social media theme styling
 ├── script.js               # All JavaScript functionality
@@ -99,7 +99,7 @@ josiasmichael.github.io/
 
 ```bash
 git clone https://github.com/mysycry/mysycry.github.io.git
-cd josiasmichael.github.io
+cd mysycry.github.io
 
 # Using Python
 python -m http.server 8000
@@ -119,7 +119,7 @@ Visit `http://localhost:8000`
 3. Choose repository: `mysycry/mysycry.github.io`
 4. Build settings:
    ```
-   Project name: josiasmichael-portfolio
+   Project name: portfolio
    Production branch: main
    Build command: (leave empty)
    Build output directory: .
@@ -140,7 +140,7 @@ Visit `http://localhost:8000`
 
 **Custom Domain:**
 - Add in Cloudflare Pages dashboard
-- DNS: CNAME to `josiasmichael.pages.dev`
+- DNS: CNAME to `portfolio.josiasmichael.workers.dev`
 
 📖 **Full guide:** See [`CLOUDFLARE_DEPLOY.md`](CLOUDFLARE_DEPLOY.md)
 

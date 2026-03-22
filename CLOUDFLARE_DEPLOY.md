@@ -14,13 +14,13 @@
    - Click **Connect to Git**
 
 3. **Select Repository**
-   - Choose `mysycry/josiasmichael.github.io`
+   - Choose `mysycry/mysycry.github.io`
    - Click **Begin Setup**
 
 4. **Configure Build Settings**
    ```
-   Project name: josiasmichael-portfolio
-   Production branch: main
+   Project name: portfolio
+   Production branch: legacy
    Build command: (leave empty)
    Build output directory: .
    ```
@@ -31,7 +31,7 @@
 
 6. **Custom Domain (Optional)**
    - Go to **Custom Domains** in Pages dashboard
-   - Add your domain: `josiasmichael.github.io`
+   - Add your domain: `mysycry.github.io`
    - Follow DNS configuration steps
 
 ---
@@ -103,20 +103,20 @@ Automated deployment workflow:
 
 ### Using GitHub Pages Domain
 
-If you want to keep `josiasmichael.github.io`:
+If you want to keep `mysycry.github.io`:
 
 1. **Cloudflare DNS Setup**
    ```
    Type: CNAME
-   Name: @ (or josiasmichael)
-   Target: josiasmichael-portfolio.pages.dev
+   Name: @ (or mysycry)
+   Target: portfolio.josiasmichael.pages.dev
    Proxy: Enabled (orange cloud)
    ```
 
 2. **Add to Cloudflare Pages**
    - Go to your Pages project
    - **Custom Domains** → **Add Custom Domain**
-   - Enter: `josiasmichael.github.io`
+   - Enter: `mysycry.github.io`
    - Click **Add Domain**
 
 3. **Update GitHub Pages** (optional)
@@ -166,7 +166,7 @@ Deploy to Cloudflare Pages
     ↓
 Global CDN propagation (~5s)
     ↓
-Live at josiasmichael-portfolio.pages.dev
+Live at portfolio.josiasmichael.pages.dev
 ```
 
 ---
