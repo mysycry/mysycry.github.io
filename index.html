@@ -5,652 +5,813 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Primary Meta Tags -->
-    <title>Michael Josias D. Tabada - Platform Engineer & Cloud Solutions Architect</title>
+    <title>Michael Josias D. Tabada | Platform Engineer</title>
     <meta name="title" content="Michael Josias D. Tabada - Platform Engineer & Cloud Solutions Architect">
-    <meta name="description" content="Platform Engineer & Cloud Solutions Architect specializing in AWS, GCP, Azure, Terraform, and AI. View my certifications, projects, and professional experience.">
-    <meta name="keywords" content="Platform Engineer, Cloud Architect, AWS, GCP, Azure, Terraform, DevOps, AI, Machine Learning, Kubernetes, Docker">
+    <meta name="description" content="Platform Engineer & Cloud Solutions Architect specializing in AWS, GCP, Azure, Terraform, and AI.">
+    <meta name="keywords" content="Platform Engineer, Cloud Architect, AWS, GCP, Azure, Terraform, DevOps, AI">
     <meta name="author" content="Michael Josias D. Tabada">
-    <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://josiasmichael.github.io">
     
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
+    <!-- Open Graph -->
+    <meta property="og:type" content="profile">
     <meta property="og:url" content="https://josiasmichael.github.io">
-    <meta property="og:title" content="Michael Josias D. Tabada - Platform Engineer & Cloud Solutions Architect">
-    <meta property="og:description" content="Platform Engineer & Cloud Solutions Architect specializing in AWS, GCP, Azure, Terraform, and AI.">
+    <meta property="og:title" content="Michael Josias D. Tabada | Platform Engineer">
+    <meta property="og:description" content="Platform Engineer & Cloud Solutions Architect">
     <meta property="og:image" content="https://raw.githubusercontent.com/mysycry/josiasmichael.github.io/main/og-image.svg">
-    <meta property="og:locale" content="en_US">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://josiasmichael.github.io">
-    <meta name="twitter:title" content="Michael Josias D. Tabada - Platform Engineer & Cloud Solutions Architect">
-    <meta name="twitter:description" content="Platform Engineer & Cloud Solutions Architect specializing in AWS, GCP, Azure, Terraform, and AI.">
+    <meta name="twitter:title" content="Michael Josias D. Tabada | Platform Engineer">
     <meta name="twitter:image" content="https://raw.githubusercontent.com/mysycry/josiasmichael.github.io/main/og-image.svg">
-    <meta name="twitter:creator" content="@mysycry">
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/6024/6024820.png">
-
-    <!-- Preconnect & Preload -->
+    
+    <!-- Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preload" as="style" href="styles.css?v=5">
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap">
+    <link rel="preload" as="style" href="styles.css?v=6">
     
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="styles.css?v=5">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=6">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- Skip Link -->
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     
     <!-- Toast Notification -->
     <div class="toast" id="toast" role="alert" aria-live="polite"></div>
     
     <!-- Theme Toggle -->
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light theme">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
         <i class="fas fa-moon" aria-hidden="true"></i>
         <i class="fas fa-sun" aria-hidden="true"></i>
     </button>
 
-    <!-- Main Container -->
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="profile-section">
-                <div class="profile-img-container">
-                    <div class="profile-img-wrapper">
-                        <img src="images/prof-pic.jpg" alt="Michael Josias D. Tabada" class="profile-img" loading="eager" fetchpriority="high">
-                    </div>
-                </div>
-                <div class="profile-info">
-                    <h1 class="name">Michael Josias D. Tabada</h1>
-                    <p class="title"><span>Platform Engineer</span> <span class="title-sep">||</span> <span>Cloud & Solutions Architect</span> <span class="title-sep">||</span> <span>AI</span></p>
-                    <div class="contact-info">
-                        <span><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Philippines </span>
-                    </div>
-                    <div class="social-links">
-                        <a href="https://linkedin.com/in/josiasmichael" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn Profile">
-                            <i class="fab fa-linkedin" aria-hidden="true"></i>
-                            <span>LinkedIn</span>
-                        </a>
-                        <a href="https://github.com/mysycry" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub Profile">
-                            <i class="fab fa-github" aria-hidden="true"></i>
-                            <span>GitHub</span>
-                        </a>
-                        <a href="mailto:navigatormichael@gmail.com" class="social-link" aria-label="Email Address">
-                            <i class="fas fa-envelope" aria-hidden="true"></i>
-                            <span>Email</span>
-                        </a>
-                    </div>
+    <!-- Main App Container -->
+    <div class="app-container">
+        <!-- Cover Photo -->
+        <div class="cover-photo">
+            <div class="cover-photo-bg" id="coverPhotoBg"></div>
+            <div class="cover-gradient"></div>
+        </div>
+
+        <!-- Profile Header -->
+        <header class="profile-header">
+            <div class="profile-avatar-container">
+                <div class="profile-avatar">
+                    <img src="images/prof-pic.jpg" alt="Michael Josias D. Tabada" loading="eager" fetchpriority="high">
+                    <span class="online-status" title="Available for opportunities"></span>
                 </div>
             </div>
-            <a href="Tabada, Michael Josias D. CV.pdf" target="_blank" rel="noopener noreferrer" class="download-btn">
-                <i class="fas fa-download" aria-hidden="true"></i>
-                <span>Download CV</span>
-            </a>
+
+            <div class="profile-info">
+                <h1 class="profile-name">
+                    Michael Josias D. Tabada
+                    <button class="verify-badge-inline" aria-label="Verified Profile" title="Verified">
+                        <i class="fas fa-check-circle"></i>
+                    </button>
+                    <span class="username">@josiasmichael</span>
+                </h1>
+                <p class="profile-bio">
+                    Platform Engineer & Cloud Solutions Architect ☁️ | AWS • GCP • Azure | AI Enthusiast 🤖
+                </p>
+                
+                <div class="profile-meta">
+                    <span class="meta-item">
+                        <i class="fas fa-map-marker-alt"></i> Philippines
+                    </span>
+                    <span class="meta-item">
+                        <i class="fas fa-link"></i> 
+                        <a href="https://mysycry.github.io" target="_blank">mysycry.github.io</a>
+                    </span>
+                    <span class="meta-item">
+                        <i class="fas fa-calendar"></i> Joined 2022
+                    </span>
+                </div>
+                
+                <div class="profile-stats">
+                    <button class="stat-btn">
+                        <span class="stat-number">10+</span>
+                        <span class="stat-label">Certifications</span>
+                    </button>
+                    <button class="stat-btn">
+                        <span class="stat-number">36+</span>
+                        <span class="stat-label">Projects</span>
+                    </button>
+                    <button class="stat-btn">
+                        <span class="stat-number">5+</span>
+                        <span class="stat-label">Years Exp.</span>
+                    </button>
+                </div>
+                
+                <div class="profile-actions">
+                    <a href="mailto:navigatormichael@gmail.com" class="btn btn-primary">
+                        <i class="fas fa-envelope"></i> <span>Contact</span>
+                    </a>
+                    <a href="https://linkedin.com/in/josiasmichael" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                        <i class="fab fa-linkedin"></i> <span>LinkedIn</span>
+                    </a>
+                    <a href="Tabada, Michael Josias D. CV.pdf" target="_blank" class="btn btn-secondary">
+                        <i class="fas fa-download"></i> <span>CV</span>
+                    </a>
+                    <button class="btn btn-icon" aria-label="Share Profile" id="shareProfile">
+                        <i class="fas fa-share-alt"></i>
+                    </button>
+                </div>
+            </div>
         </header>
 
         <!-- Navigation Tabs -->
-        <nav class="tabs-nav" role="tablist" aria-label="Portfolio navigation">
-            <button class="tab-btn active" data-tab="summary" role="tab" aria-selected="true" aria-controls="summary" id="tab-summary">
-                <i class="fas fa-user" aria-hidden="true"></i>
-                <span>Summary</span>
+        <nav class="profile-nav" role="tablist">
+            <button class="nav-tab active" data-tab="posts" role="tab" aria-selected="true">
+                <i class="fas fa-newspaper"></i>
+                <span>Posts</span>
             </button>
-            <button class="tab-btn" data-tab="experience" role="tab" aria-selected="false" aria-controls="experience" id="tab-experience" tabindex="-1">
-                <i class="fas fa-briefcase" aria-hidden="true"></i>
-                <span>Work Experience</span>
+            <button class="nav-tab" data-tab="about" role="tab" aria-selected="false">
+                <i class="fas fa-user"></i>
+                <span>About</span>
             </button>
-            <button class="tab-btn" data-tab="credly" role="tab" aria-selected="false" aria-controls="credly" id="tab-credly" tabindex="-1">
-                <i class="fas fa-award" aria-hidden="true"></i>
-                <span>Credly</span>
+            <button class="nav-tab" data-tab="badges" role="tab" aria-selected="false">
+                <i class="fas fa-award"></i>
+                <span>Badges</span>
             </button>
-            <button class="tab-btn" data-tab="github" role="tab" aria-selected="false" aria-controls="github" id="tab-github" tabindex="-1">
-                <i class="fab fa-github" aria-hidden="true"></i>
-                <span>GitHub</span>
+            <button class="nav-tab" data-tab="repos" role="tab" aria-selected="false">
+                <i class="fab fa-github"></i>
+                <span>Repos</span>
             </button>
-            <button class="tab-btn" data-tab="game" role="tab" aria-selected="false" aria-controls="game" id="tab-game" tabindex="-1">
-                <i class="fas fa-gamepad" aria-hidden="true"></i>
-                <span>Snake Game</span>
+            <button class="nav-tab" data-tab="game" role="tab" aria-selected="false">
+                <i class="fas fa-gamepad"></i>
+                <span>Game</span>
             </button>
         </nav>
 
-        <!-- Tab Content -->
-        <main class="tab-content" id="main-content">
-            <!-- Summary Tab -->
-            <section class="tab-panel active" id="summary" role="tabpanel" aria-labelledby="tab-summary">
-                <div class="card">
-                    <div class="light-mode-glow"></div>
-                    <h2><i class="fas fa-user" aria-hidden="true"></i> About Me</h2>
-                    <p class="summary-text">
-                        Platform Engineer and Solutions Architect with extensive experience in cloud infrastructure, 
-                        DevOps practices, and enterprise system design. Currently pursuing a Master's in Financial 
-                        Engineering while leading platform engineering initiatives. Passionate about building scalable, 
-                        reliable, and cost-efficient cloud solutions using modern infrastructure-as-code practices.
-                    </p>
-                    
-                    <h3><i class="fas fa-graduation-cap"></i> Education</h3>
-                    <div class="education-item">
-                        <h4>Master of Science in Financial Engineering</h4>
-                        <p class="school">WorldQuant University | Oct 2025 - Present</p>
-                        <p class="coursework">Relevant Coursework: Financial Markets, Financial Data & Econometrics</p>
+        <!-- Main Content -->
+        <main class="profile-content" id="main-content">
+            
+            <!-- Posts Tab (Experience as Posts) -->
+            <section class="tab-panel active" id="posts" role="tabpanel">
+                <div class="posts-feed">
+                    <!-- Current Position Pinned Post -->
+                    <article class="post pinned">
+                        <div class="post-header">
+                            <div class="post-badge">
+                                <i class="fas fa-thumbtack"></i> Pinned
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            <h3 class="post-title">
+                                <i class="fas fa-briefcase"></i> Platform Engineer
+                            </h3>
+                            <p class="post-company">
+                                <i class="fas fa-building"></i> Revcard IT Solutions Inc. (Remote)
+                            </p>
+                            <p class="post-date">
+                                <i class="fas fa-clock"></i> Feb 2025 - Present
+                            </p>
+                            <div class="post-body">
+                                <ul>
+                                    <li>Architect AWS infrastructure (ECS, ALB, RDS, S3, Lambda, IAM) using Terraform</li>
+                                    <li>Build CI/CD pipelines in Bitbucket for tag-based deployments</li>
+                                    <li>Drive platform reliability through Datadog observability (APM/logs/metrics)</li>
+                                </ul>
+                            </div>
+                            <div class="post-tags">
+                                <span class="tag">AWS</span>
+                                <span class="tag">Terraform</span>
+                                <span class="tag">DevOps</span>
+                                <span class="tag">Datadog</span>
+                            </div>
+                        </div>
+                        <div class="post-actions">
+                            <button class="action-btn like-btn">
+                                <i class="far fa-heart"></i>
+                                <span>Like</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-comment"></i>
+                                <span>Comment</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-share-square"></i>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Experience Post 2 -->
+                    <article class="post">
+                        <div class="post-content">
+                            <h3 class="post-title">
+                                <i class="fas fa-briefcase"></i> Solutions Architect
+                            </h3>
+                            <p class="post-company">
+                                <i class="fas fa-building"></i> Ruralnet Inc, Cebu City, PH
+                            </p>
+                            <p class="post-date">
+                                <i class="fas fa-clock"></i> May 2024 - Feb 2025
+                            </p>
+                            <div class="post-body">
+                                <ul>
+                                    <li>Designed scalable solution architectures aligned with business requirements</li>
+                                    <li>Led technology evaluation and stack selection</li>
+                                    <li>Produced architecture documentation and implementation roadmaps</li>
+                                </ul>
+                            </div>
+                            <div class="post-tags">
+                                <span class="tag">Architecture</span>
+                                <span class="tag">Cloud</span>
+                                <span class="tag">Design</span>
+                            </div>
+                        </div>
+                        <div class="post-actions">
+                            <button class="action-btn like-btn">
+                                <i class="far fa-heart"></i>
+                                <span>Like</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-comment"></i>
+                                <span>Comment</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-share-square"></i>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Experience Post 3 -->
+                    <article class="post">
+                        <div class="post-content">
+                            <h3 class="post-title">
+                                <i class="fas fa-briefcase"></i> Solutions Engineer
+                            </h3>
+                            <p class="post-company">
+                                <i class="fas fa-building"></i> Lexmark Inc, Cebu City, PH
+                            </p>
+                            <p class="post-date">
+                                <i class="fas fa-clock"></i> Nov 2022 - May 2024
+                            </p>
+                            <div class="post-body">
+                                <ul>
+                                    <li>Delivered advanced technical support for enterprise printing solutions</li>
+                                    <li>Troubleshoot complex issues involving SNMP, SMTP, SSL/TLS</li>
+                                    <li>Collaborated with cross-functional engineering teams</li>
+                                </ul>
+                            </div>
+                            <div class="post-tags">
+                                <span class="tag">Support</span>
+                                <span class="tag">Enterprise</span>
+                                <span class="tag">Networking</span>
+                            </div>
+                        </div>
+                        <div class="post-actions">
+                            <button class="action-btn like-btn">
+                                <i class="far fa-heart"></i>
+                                <span>Like</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-comment"></i>
+                                <span>Comment</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-share-square"></i>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Projects Section -->
+                    <div class="section-divider">
+                        <h2><i class="fas fa-rocket"></i> Projects & Training</h2>
                     </div>
-                    
-                    <h3><i class="fas fa-tools"></i> Technical Skills</h3>
-                    <div class="skills-carousel-wrapper" id="skillsCarouselWrapper">
-                        <div class="skills-carousel-track" id="skillsCarousel">
-                            <div class="skills-carousel-card">
+
+                    <!-- Project Post 0 - AWS MCP AI Assistant (NEW) -->
+                    <article class="post project-post pinned">
+                        <div class="post-content">
+                            <div class="project-badge">AWS Workshop</div>
+                            <h3 class="post-title">
+                                <i class="fas fa-robot"></i> AI Assistant with MCP Integration
+                            </h3>
+                            <p class="post-company">
+                                <i class="fab fa-aws"></i> AWS Bedrock AgentCore Runtime
+                            </p>
+                            <div class="post-body">
+                                <ul>
+                                    <li>Engineered a full-stack AI assistant using Model Context Protocol (MCP) to connect language models with external tools</li>
+                                    <li>Built and deployed multiple MCP servers (calculator, calendar, weather, custom tools) enabling real-time task execution via natural language</li>
+                                    <li>Deployed services to AWS Bedrock AgentCore Runtime, implementing secure authentication and scalable infrastructure</li>
+                                    <li>Designed RESTful APIs with validation, logging, and error handling for reliability and maintainability</li>
+                                    <li>Enabled AI-driven scheduling, forecasting, and automation workflows through modular, extensible architecture</li>
+                                </ul>
+                            </div>
+                            <div class="post-tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">FastAPI</span>
+                                <span class="tag">React</span>
+                                <span class="tag">AWS Bedrock</span>
+                                <span class="tag">MCP</span>
+                                <span class="tag">IAM</span>
+                            </div>
+                        </div>
+                        <div class="post-actions">
+                            <button class="action-btn like-btn">
+                                <i class="far fa-heart"></i>
+                                <span>Like</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-comment"></i>
+                                <span>Comment</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-share-square"></i>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Project Post 1 -->
+                    <article class="post project-post">
+                        <div class="post-content">
+                            <div class="project-badge">AI Engineer</div>
+                            <h3 class="post-title">AI First Bootcamp 2024</h3>
+                            <div class="post-body">
+                                <ul>
+                                    <li>Built serverless AI applications using AWS Lambda & LLM APIs</li>
+                                    <li>Developed AI agents with vector databases for semantic search</li>
+                                    <li>Delivered production-ready capstone projects</li>
+                                </ul>
+                            </div>
+                            <div class="post-tags">
+                                <span class="tag">AI</span>
+                                <span class="tag">Serverless</span>
+                                <span class="tag">AWS Lambda</span>
+                            </div>
+                        </div>
+                        <div class="post-actions">
+                            <button class="action-btn like-btn">
+                                <i class="far fa-heart"></i>
+                                <span>Like</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-comment"></i>
+                                <span>Comment</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-share-square"></i>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Project Post 2 -->
+                    <article class="post project-post">
+                        <div class="post-content">
+                            <div class="project-badge">Terraform Engineer</div>
+                            <h3 class="post-title">ExamPro Terraform Bootcamp 2023</h3>
+                            <div class="post-body">
+                                <ul>
+                                    <li>Automated AWS infrastructure with Terraform & reusable modules</li>
+                                    <li>Implemented IAM, VPC design, and environment isolation</li>
+                                </ul>
+                            </div>
+                            <div class="post-tags">
+                                <span class="tag">Terraform</span>
+                                <span class="tag">IaC</span>
+                                <span class="tag">AWS</span>
+                            </div>
+                        </div>
+                        <div class="post-actions">
+                            <button class="action-btn like-btn">
+                                <i class="far fa-heart"></i>
+                                <span>Like</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-comment"></i>
+                                <span>Comment</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-share-square"></i>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Project Post 3 -->
+                    <article class="post project-post">
+                        <div class="post-content">
+                            <div class="project-badge">Cloud Engineer</div>
+                            <h3 class="post-title">ExamPro AWS Bootcamp 2023</h3>
+                            <div class="post-body">
+                                <ul>
+                                    <li>Designed cloud-native microservices using ECS, Lambda, RDS, DynamoDB</li>
+                                    <li>Built CI/CD pipelines for automated testing and deployment</li>
+                                    <li>Applied high-availability and scalability principles</li>
+                                </ul>
+                            </div>
+                            <div class="post-tags">
+                                <span class="tag">AWS</span>
+                                <span class="tag">Cloud</span>
+                                <span class="tag">DevOps</span>
+                            </div>
+                        </div>
+                        <div class="post-actions">
+                            <button class="action-btn like-btn">
+                                <i class="far fa-heart"></i>
+                                <span>Like</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-comment"></i>
+                                <span>Comment</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-share-square"></i>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- About Tab -->
+            <section class="tab-panel" id="about" role="tabpanel">
+                <div class="about-grid">
+                    <!-- About Card -->
+                    <div class="about-card">
+                        <h3><i class="fas fa-user"></i> About Me</h3>
+                        <p>
+                            Platform Engineer and Solutions Architect with extensive experience in cloud infrastructure,
+                            DevOps practices, and enterprise system design. Currently pursuing a Master's in Financial
+                            Engineering while leading platform engineering initiatives. Passionate about building scalable,
+                            reliable, and cost-efficient cloud solutions using modern infrastructure-as-code practices.
+                        </p>
+                    </div>
+
+                    <!-- Education Card -->
+                    <div class="about-card">
+                        <h3><i class="fas fa-graduation-cap"></i> Education</h3>
+                        <div class="education-item">
+                            <h4>Master of Science in Financial Engineering</h4>
+                            <p class="school">WorldQuant University</p>
+                            <p class="period">Oct 2025 - Present</p>
+                            <p class="coursework">Financial Markets, Financial Data & Econometrics</p>
+                        </div>
+                    </div>
+
+                    <!-- Skills Card -->
+                    <div class="about-card skills-card">
+                        <h3><i class="fas fa-tools"></i> Technical Skills</h3>
+                        <div class="skills-grid">
+                            <div class="skill-category">
                                 <h4><i class="fas fa-cloud"></i> Cloud Platforms</h4>
-                                <div class="skills-grid">
-                                    <span class="skill-tag">Amazon Web Services (AWS)</span>
-                                    <span class="skill-tag">Microsoft Azure</span>
-                                    <span class="skill-tag">Google Cloud Platform (GCP)</span>
-                                    <span class="skill-tag">Oracle Cloud (OCI)</span>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">AWS</span>
+                                    <span class="skill-tag">GCP</span>
+                                    <span class="skill-tag">Azure</span>
+                                    <span class="skill-tag">OCI</span>
                                 </div>
                             </div>
-                            <div class="skills-carousel-card">
-                                <h4><i class="fas fa-box"></i> Containerization & Compute</h4>
-                                <div class="skills-grid">
-                                    <span class="skill-tag">Amazon ECS</span>
-                                    <span class="skill-tag">AWS Lambda</span>
+                            <div class="skill-category">
+                                <h4><i class="fas fa-box"></i> Container & Compute</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">ECS</span>
+                                    <span class="skill-tag">Lambda</span>
                                     <span class="skill-tag">EC2</span>
                                     <span class="skill-tag">Docker</span>
-                                    <span class="skill-tag">Serverless Framework</span>
+                                    <span class="skill-tag">Serverless</span>
                                 </div>
                             </div>
-                            <div class="skills-carousel-card">
+                            <div class="skill-category">
                                 <h4><i class="fas fa-infinity"></i> CI/CD & DevOps</h4>
-                                <div class="skills-grid">
-                                    <span class="skill-tag">Bitbucket Pipelines</span>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Bitbucket</span>
                                     <span class="skill-tag">GitHub Actions</span>
                                     <span class="skill-tag">Terraform</span>
-                                    <span class="skill-tag">Git Workflows</span>
+                                    <span class="skill-tag">Git</span>
                                 </div>
                             </div>
-                            <div class="skills-carousel-card">
-                                <h4><i class="fas fa-chart-line"></i> Observability & Monitoring</h4>
-                                <div class="skills-grid">
-                                    <span class="skill-tag">Datadog (APM, logs, metrics)</span>
+                            <div class="skill-category">
+                                <h4><i class="fas fa-chart-line"></i> Observability</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Datadog</span>
+                                    <span class="skill-tag">APM</span>
+                                    <span class="skill-tag">Logs</span>
+                                    <span class="skill-tag">Metrics</span>
                                 </div>
                             </div>
-                            <div class="skills-carousel-card">
+                            <div class="skill-category">
                                 <h4><i class="fas fa-shield"></i> Networking & Security</h4>
-                                <div class="skills-grid">
+                                <div class="skill-tags">
                                     <span class="skill-tag">IAM</span>
                                     <span class="skill-tag">VPC</span>
                                     <span class="skill-tag">SSL/TLS</span>
                                     <span class="skill-tag">SNMP</span>
                                     <span class="skill-tag">SMTP</span>
-                                    <span class="skill-tag">OWASP Principles</span>
-                                    <span class="skill-tag">Linux Administration</span>
+                                    <span class="skill-tag">Linux</span>
                                 </div>
                             </div>
                         </div>
-                        <button class="carousel-btn prev" id="skillsPrev" aria-label="Previous skill"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
-                        <button class="carousel-btn next" id="skillsNext" aria-label="Next skill"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
-                        <div class="carousel-dots-horizontal" id="skillsDots"></div>
                     </div>
                 </div>
             </section>
 
-            <!-- Work Experience Tab -->
-            <section class="tab-panel" id="experience" role="tabpanel" aria-labelledby="tab-experience">
-                <div class="card">
-                    <div class="light-mode-glow"></div>
-                    <h2><i class="fas fa-briefcase"></i> Work Experience</h2>
-                    
-                    <div class="carousel-wrapper" id="experienceCarouselWrapper">
-                        <div class="carousel-track" id="experienceCarousel">
-                            <div class="carousel-card">
-                                <div class="experience-card">
-                                    <div class="card-header">
-                                        <h4>Platform Engineer</h4>
-                                        <span class="card-period">Feb 2025 - Present</span>
-                                    </div>
-                                    <p class="company"><i class="fas fa-building"></i> Revcard IT Solutions Inc. (Remote)</p>
-                                    <ul class="experience-details">
-                                        <li>Architect and automate AWS infrastructure (ECS, ALB, RDS, S3, Lambda, IAM) using Terraform across multi-account environments with secure remote state and modular design.</li>
-                                        <li>Build and maintain CI/CD pipelines in Bitbucket, enabling tag-based deployments to EC2/ECS via AWS Systems Manager (SSM) and PowerShell automation.</li>
-                                        <li>Drive platform reliability and governance through Datadog observability (APM/logs), branch protection + JIRA integration, and cost-controlled AWS best practices.</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            
-                            <div class="carousel-card">
-                                <div class="experience-card">
-                                    <div class="card-header">
-                                        <h4>Solutions Architect</h4>
-                                        <span class="card-period">May 2024 - Feb 2025</span>
-                                    </div>
-                                    <p class="company"><i class="fas fa-building"></i> Ruralnet Inc, Cebu City, PH</p>
-                                    <ul class="experience-details">
-                                        <li>Designed and validated scalable solution architectures and technical prototypes aligned with business and infrastructure requirements.</li>
-                                        <li>Led technology evaluation and stack selection, guiding engineering teams on implementation best practices.</li>
-                                        <li>Produced architecture documentation, diagrams, and implementation roadmaps for cloud and enterprise systems.</li>
-                                        <li>Researched emerging technologies and recommended improvements to enhance system performance, reliability, and cost efficiency.</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            
-                            <div class="carousel-card">
-                                <div class="experience-card">
-                                    <div class="card-header">
-                                        <h4>Solutions Engineer</h4>
-                                        <span class="card-period">Nov 2022 - May 2024</span>
-                                    </div>
-                                    <p class="company"><i class="fas fa-building"></i> Lexmark Inc, Cebu City, PH</p>
-                                    <ul class="experience-details">
-                                        <li>Delivered advanced technical support for enterprise printing and hybrid cloud solutions across global customers.</li>
-                                        <li>Troubleshoot complex issues involving SNMP, SMTP, SSL/TLS, network ports, SQL Server, and Firebird databases.</li>
-                                        <li>Supported IT administrators and cloud engineers with deep-dive diagnostics, log analysis, and system integration guidance.</li>
-                                        <li>Collaborated with cross-functional engineering teams to resolve escalated production issues and improve service reliability.</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="carousel-btn prev" id="expPrev" aria-label="Previous experience"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
-                        <button class="carousel-btn next" id="expNext" aria-label="Next experience"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
-                        <div class="carousel-dots-horizontal" id="experienceDots"></div>
-                    </div>
-                    
-                    <h3 style="margin-top: 2rem;"><i class="fas fa-rocket"></i> Projects & Training</h3>
-                    
-                    <div class="carousel-wrapper" id="projectsCarouselWrapper">
-                        <div class="carousel-track" id="projectsCarousel">
-                            <div class="carousel-card">
-                                <div class="project-card-large">
-                                    <div class="project-badge">AI Engineer</div>
-                                    <h4>AI First Bootcamp 2024</h4>
-                                    <ul class="experience-details">
-                                        <li>Built and deployed serverless AI applications using AWS Lambda, API Gateway, and LLM APIs.</li>
-                                        <li>Developed AI agents with vector databases for semantic search and retrieval-augmented workflows.</li>
-                                        <li>Delivered production-ready capstone projects with scalable cloud architecture patterns.</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            
-                            <div class="carousel-card">
-                                <div class="project-card-large">
-                                    <div class="project-badge">Terraform Engineer</div>
-                                    <h4>ExamPro Terraform Bootcamp 2023</h4>
-                                    <ul class="experience-details">
-                                        <li>Automated AWS infrastructure provisioning using Terraform, reusable modules, and remote state management.</li>
-                                        <li>Implemented infrastructure best practices including IAM, VPC design, and environment isolation.</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            
-                            <div class="carousel-card">
-                                <div class="project-card-large">
-                                    <div class="project-badge">Cloud Engineer</div>
-                                    <h4>ExamPro AWS Bootcamp 2023</h4>
-                                    <ul class="experience-details">
-                                        <li>Designed cloud-native microservices using ECS, Lambda, RDS, DynamoDB, and CI/CD pipelines.</li>
-                                        <li>Applied high-availability and scalability principles across distributed AWS workloads.</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="carousel-btn prev" id="projectsPrev" aria-label="Previous project"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
-                        <button class="carousel-btn next" id="projectsNext" aria-label="Next project"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
-                        <div class="carousel-dots-horizontal" id="projectsDots"></div>
-                    </div>
+            <!-- Badges Tab -->
+            <section class="tab-panel" id="badges" role="tabpanel">
+                <div class="badges-header">
+                    <a href="https://www.credly.com/users/jmichael/badges" target="_blank" rel="noopener noreferrer" class="credly-link">
+                        <i class="fas fa-external-link-alt"></i>
+                        <span>View All on Credly</span>
+                    </a>
                 </div>
-            </section>
-
-            <!-- Credly Tab -->
-            <section class="tab-panel" id="credly" role="tabpanel" aria-labelledby="tab-credly">
-                <div class="card">
-                    <div class="light-mode-glow"></div>
-                    <h2><i class="fas fa-award"></i> Credly Badges</h2>
-                    <p class="section-desc">Digital badges and certifications verified through Credly</p>
-                    
-                    <div class="link-card credly-profile">
-                        <i class="credly-icon"> <img src="images/credly.svg" alt="credly-icon" loading="lazy" width="100" height="100"></i>
-                        <div class="link-info">
-                            <h3>My Credly Profile</h3>
-                            <p class="link-url">https://www.credly.com/users/jmichael/badges</p>
+                <div class="badges-grid credly-badges-grid">
+                    <div class="badge-card" data-badge="professional-cloud-architect">
+                        <div class="badge-image-container">
+                            <div class="badge-icon gcp">
+                                <i class="fab fa-google"></i>
+                            </div>
                         </div>
-                        <a href="https://www.credly.com/users/jmichael/badges" target="_blank" class="link-btn">
-                            View All Badges <i class="fas fa-arrow-right"></i>
+                        <h4>Professional Cloud Architect</h4>
+                        <p>Google Cloud</p>
+                        <a href="https://www.credly.com/badges/5c94915f-62db-4b4e-be04-e7d6e9f191a6" target="_blank" rel="noopener noreferrer" class="verify-link">
+                            <i class="fas fa-external-link-alt"></i> Verify
                         </a>
                     </div>
-                    
-                    <h3 style="margin-top: 2rem;"><i class="fas fa-medal"></i> My Badges</h3>
-                    <div class="badges-grid credly-badges-grid">
-                        <div class="badge-card" data-badge="professional-cloud-architect">
-                            <div class="badge-image-container">
-                                <div class="badge-icon gcp">
-                                    <i class="fab fa-google"></i>
-                                </div>
-                            </div>
-                            <h4>Professional Cloud Architect</h4>
-                            <p>Google Cloud</p>
-                            <a href="https://www.credly.com/badges/5c94915f-62db-4b4e-be04-e7d6e9f191a6" target="_blank" class="verify-link">
-                                <i class="fas fa-external-link-alt"></i> Verify on Credly
-                            </a>
-                        </div>
-                        
-                        <div class="badge-card" data-badge="finops-certified-engineer">
-                            <div class="badge-image-container">
-                                <div class="badge-icon finops">
-                                    <i class="fas fa-chart-line"></i>
-                                </div>
-                            </div>
-                            <h4>FinOps Certified Engineer</h4>
-                            <p>FinOps Foundation</p>
-                            <a href="https://www.credly.com/badges/f59c1388-743e-4719-892a-0efeca903e42" target="_blank" class="verify-link">
-                                <i class="fas fa-external-link-alt"></i> Verify on Credly
-                            </a>
-                        </div>
-                        
-                        <div class="badge-card" data-badge="foundations-financial-engineering">
-                            <div class="badge-image-container">
-                                <div class="badge-icon wqu">
-                                    <i class="fas fa-university"></i>
-                                </div>
-                            </div>
-                            <h4>Foundations of Financial Engineering</h4>
-                            <p>WorldQuant University</p>
-                            <a href="https://www.credly.com/badges/231589ef-66f1-4fa3-83c5-09652bf359e3" target="_blank" class="verify-link">
-                                <i class="fas fa-external-link-alt"></i> Verify on Credly
-                            </a>
-                        </div>
-                        
-                        <div class="badge-card" data-badge="associate-cloud-engineer">
-                            <div class="badge-image-container">
-                                <div class="badge-icon gcp">
-                                    <i class="fab fa-google"></i>
-                                </div>
-                            </div>
-                            <h4>Associate Cloud Engineer</h4>
-                            <p>Google Cloud</p>
-                            <a href="https://www.credly.com/badges/23fef539-3c03-4518-9d4a-4ee855ff580c" target="_blank" class="verify-link">
-                                <i class="fas fa-external-link-alt"></i> Verify on Credly
-                            </a>
-                        </div>
-                        
-                        <div class="badge-card" data-badge="github-advanced-security">
-                            <div class="badge-image-container">
-                                <div class="badge-icon github">
-                                    <i class="fab fa-github"></i>
-                                </div>
-                            </div>
-                            <h4>GitHub Advanced Security</h4>
-                            <p>GitHub</p>
-                            <a href="https://www.credly.com/badges/e6b93725-abc6-4f57-9f72-9a98d5b60be3" target="_blank" class="verify-link">
-                                <i class="fas fa-external-link-alt"></i> Verify on Credly
-                            </a>
-                        </div>
-                        
-                        <div class="badge-card" data-badge="github-foundations">
-                            <div class="badge-image-container">
-                                <div class="badge-icon github">
-                                    <i class="fab fa-github"></i>
-                                </div>
-                            </div>
-                            <h4>GitHub Foundations</h4>
-                            <p>GitHub</p>
-                            <a href="https://www.credly.com/badges/7c2f908f-ab93-4d0e-b636-03d06b02c1e6" target="_blank" class="verify-link">
-                                <i class="fas fa-external-link-alt"></i> Verify on Credly
-                            </a>
-                        </div>
-                        
-                        <div class="badge-card" data-badge="aws-sysops-administrator">
-                            <div class="badge-image-container">
-                                <div class="badge-icon aws">
-                                    <i class="fab fa-aws"></i>
-                                </div>
-                            </div>
-                            <h4>AWS Certified SysOps Administrator – Associate</h4>
-                            <p>Amazon Web Services</p>
-                            <a href="https://www.credly.com/badges/81bf8dd2-86a2-43d3-aafc-c6218381e23d" target="_blank" class="verify-link">
-                                <i class="fas fa-external-link-alt"></i> Verify on Credly
-                            </a>
-                        </div>
-                        
-                        <div class="badge-card" data-badge="aws-solutions-architect">
-                            <div class="badge-image-container">
-                                <div class="badge-icon aws">
-                                    <i class="fab fa-aws"></i>
-                                </div>
-                            </div>
-                            <h4>AWS Certified Solutions Architect – Associate</h4>
-                            <p>Amazon Web Services</p>
-                            <a href="https://www.credly.com/badges/a9effe2e-5f62-45a2-b88e-8c18fc5279d5" target="_blank" class="verify-link">
-                                <i class="fas fa-external-link-alt"></i> Verify on Credly
-                            </a>
-                        </div>
-                        
-                        <div class="badge-card" data-badge="apm-learning-path">
-                            <div class="badge-image-container">
-                                <div class="badge-icon datadog">
-                                    <i class="fas fa-chart-bar"></i>
-                                </div>
-                            </div>
-                            <h4>Application Performance Monitoring Learning Path</h4>
-                            <p>Datadog</p>
-                            <a href="https://www.credly.com/badges/d8e915bc-708e-4f51-a540-402c4ae73833" target="_blank" class="verify-link">
-                                <i class="fas fa-external-link-alt"></i> Verify on Credly
-                            </a>
-                        </div>
-                        
-                        <div class="badge-card" data-badge="sre-learning-path">
-                            <div class="badge-image-container">
-                                <div class="badge-icon sre">
-                                    <i class="fas fa-server"></i>
-                                </div>
-                            </div>
-                            <h4>Site Reliability Engineer Learning Path</h4>
-                            <p>Google Cloud</p>
-                            <a href="https://www.credly.com/badges/b77f14ce-66f8-410d-8d27-ad7242e7f4f3" target="_blank" class="verify-link">
-                                <i class="fas fa-external-link-alt"></i> Verify on Credly
-                            </a>
-                        </div>
 
-                        <div class="badge-card" data-badge="oci-certified-devops-professional">
-                            <div class="badge-image-container">
-                                <div class="badge-icon oci-devops">
-                                    <i class="fas fa-server"></i>
-                                </div>
+                    <div class="badge-card" data-badge="finops-certified-engineer">
+                        <div class="badge-image-container">
+                            <div class="badge-icon finops">
+                                <i class="fas fa-chart-line"></i>
                             </div>
-                            <h4>OCI 2025 Certified DevOps Professional</h4>
-                            <p>Oracle Cloud</p>
-                            <a href="https://catalog-education.oracle.com/ords/certview/sharebadge?id=8BBB2E32AD894DE40A87B4F40CB40C17960E05D434CF24BEBA66F669B0EB8310" target="_blank" class="verify-link">
-                                <i class="fas fa-external-link-alt"></i> Verify on Oracle
-                            </a>
                         </div>
+                        <h4>FinOps Certified Engineer</h4>
+                        <p>FinOps Foundation</p>
+                        <a href="https://www.credly.com/badges/f59c1388-743e-4719-892a-0efeca903e42" target="_blank" rel="noopener noreferrer" class="verify-link">
+                            <i class="fas fa-external-link-alt"></i> Verify
+                        </a>
+                    </div>
 
-                        <div class="badge-card" data-badge="oci-certified-multicloud-professional">
-                            <div class="badge-image-container">
-                                <div class="badge-icon oci-multicloud">
-                                    <i class="fas fa-server"></i>
-                                </div>
+                    <div class="badge-card" data-badge="foundations-financial-engineering">
+                        <div class="badge-image-container">
+                            <div class="badge-icon wqu">
+                                <i class="fas fa-university"></i>
                             </div>
-                            <h4>OCI 2025 Certified Multicloud Architect Professional</h4>
-                            <p>Oracle Cloud</p>
-                            <a href="https://catalog-education.oracle.com/ords/certview/sharebadge?id=B66A57F625672C5CE1572D98B80253E504DC1AD7C08C62DD7072B421A3D36AAF" target="_blank" class="verify-link">
-                                <i class="fas fa-external-link-alt"></i> Verify on Oracle
-                            </a>
                         </div>
+                        <h4>Foundations of Financial Engineering</h4>
+                        <p>WorldQuant University</p>
+                        <a href="https://www.credly.com/badges/231589ef-66f1-4fa3-83c5-09652bf359e3" target="_blank" rel="noopener noreferrer" class="verify-link">
+                            <i class="fas fa-external-link-alt"></i> Verify
+                        </a>
+                    </div>
+
+                    <div class="badge-card" data-badge="associate-cloud-engineer">
+                        <div class="badge-image-container">
+                            <div class="badge-icon gcp">
+                                <i class="fab fa-google"></i>
+                            </div>
+                        </div>
+                        <h4>Associate Cloud Engineer</h4>
+                        <p>Google Cloud</p>
+                        <a href="https://www.credly.com/badges/23fef539-3c03-4518-9d4a-4ee855ff580c" target="_blank" rel="noopener noreferrer" class="verify-link">
+                            <i class="fas fa-external-link-alt"></i> Verify
+                        </a>
+                    </div>
+
+                    <div class="badge-card" data-badge="github-advanced-security">
+                        <div class="badge-image-container">
+                            <div class="badge-icon github">
+                                <i class="fab fa-github"></i>
+                            </div>
+                        </div>
+                        <h4>GitHub Advanced Security</h4>
+                        <p>GitHub</p>
+                        <a href="https://www.credly.com/badges/e6b93725-abc6-4f57-9f72-9a98d5b60be3" target="_blank" rel="noopener noreferrer" class="verify-link">
+                            <i class="fas fa-external-link-alt"></i> Verify
+                        </a>
+                    </div>
+
+                    <div class="badge-card" data-badge="github-foundations">
+                        <div class="badge-image-container">
+                            <div class="badge-icon github">
+                                <i class="fab fa-github"></i>
+                            </div>
+                        </div>
+                        <h4>GitHub Foundations</h4>
+                        <p>GitHub</p>
+                        <a href="https://www.credly.com/badges/7c2f908f-ab93-4d0e-b636-03d06b02c1e6" target="_blank" rel="noopener noreferrer" class="verify-link">
+                            <i class="fas fa-external-link-alt"></i> Verify
+                        </a>
+                    </div>
+
+                    <div class="badge-card" data-badge="aws-sysops-administrator">
+                        <div class="badge-image-container">
+                            <div class="badge-icon aws">
+                                <i class="fab fa-aws"></i>
+                            </div>
+                        </div>
+                        <h4>AWS Certified SysOps Administrator</h4>
+                        <p>Amazon Web Services</p>
+                        <a href="https://www.credly.com/badges/81bf8dd2-86a2-43d3-aafc-c6218381e23d" target="_blank" rel="noopener noreferrer" class="verify-link">
+                            <i class="fas fa-external-link-alt"></i> Verify
+                        </a>
+                    </div>
+
+                    <div class="badge-card" data-badge="aws-solutions-architect">
+                        <div class="badge-image-container">
+                            <div class="badge-icon aws">
+                                <i class="fab fa-aws"></i>
+                            </div>
+                        </div>
+                        <h4>AWS Certified Solutions Architect</h4>
+                        <p>Amazon Web Services</p>
+                        <a href="https://www.credly.com/badges/a9effe2e-5f62-45a2-b88e-8c18fc5279d5" target="_blank" rel="noopener noreferrer" class="verify-link">
+                            <i class="fas fa-external-link-alt"></i> Verify
+                        </a>
+                    </div>
+
+                    <div class="badge-card" data-badge="apm-learning-path">
+                        <div class="badge-image-container">
+                            <div class="badge-icon datadog">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                        </div>
+                        <h4>APM Learning Path</h4>
+                        <p>Datadog</p>
+                        <a href="https://www.credly.com/badges/d8e915bc-708e-4f51-a540-402c4ae73833" target="_blank" rel="noopener noreferrer" class="verify-link">
+                            <i class="fas fa-external-link-alt"></i> Verify
+                        </a>
+                    </div>
+
+                    <div class="badge-card" data-badge="sre-learning-path">
+                        <div class="badge-image-container">
+                            <div class="badge-icon sre">
+                                <i class="fas fa-server"></i>
+                            </div>
+                        </div>
+                        <h4>Site Reliability Engineer Learning Path</h4>
+                        <p>Google Cloud</p>
+                        <a href="https://www.credly.com/badges/b77f14ce-66f8-410d-8d27-ad7242e7f4f3" target="_blank" rel="noopener noreferrer" class="verify-link">
+                            <i class="fas fa-external-link-alt"></i> Verify
+                        </a>
+                    </div>
+
+                    <div class="badge-card" data-badge="oci-certified-devops-professional">
+                        <div class="badge-image-container">
+                            <div class="badge-icon oci-devops">
+                                <i class="fas fa-server"></i>
+                            </div>
+                        </div>
+                        <h4>OCI 2025 Certified DevOps Professional</h4>
+                        <p>Oracle Cloud</p>
+                        <a href="https://catalog-education.oracle.com/ords/certview/sharebadge?id=8BBB2E32AD894DE40A87B4F40CB40C17960E05D434CF24BEBA66F669B0EB8310" target="_blank" rel="noopener noreferrer" class="verify-link">
+                            <i class="fas fa-external-link-alt"></i> Verify
+                        </a>
+                    </div>
+
+                    <div class="badge-card" data-badge="oci-certified-multicloud-professional">
+                        <div class="badge-image-container">
+                            <div class="badge-icon oci-multicloud">
+                                <i class="fas fa-server"></i>
+                            </div>
+                        </div>
+                        <h4>OCI 2025 Certified Multicloud Architect</h4>
+                        <p>Oracle Cloud</p>
+                        <a href="https://catalog-education.oracle.com/ords/certview/sharebadge?id=B66A57F625672C5CE1572D98B80253E504DC1AD7C08C62DD7072B421A3D36AAF" target="_blank" rel="noopener noreferrer" class="verify-link">
+                            <i class="fas fa-external-link-alt"></i> Verify
+                        </a>
                     </div>
                 </div>
             </section>
 
-            <!-- GitHub Tab -->
-            <section class="tab-panel" id="github" role="tabpanel" aria-labelledby="tab-github">
-                <div class="card">
-                    <div class="light-mode-glow"></div>
-                    <h2><i class="fab fa-github"></i> GitHub Profile</h2>
-                    <p class="section-desc">Explore my code repositories, contributions, and open source projects</p>
-                    
-                    <div class="link-card">
+            <!-- Repos Tab -->
+            <section class="tab-panel" id="repos" role="tabpanel">
+                <div class="repos-header">
+                    <a href="https://github.com/mysycry" target="_blank" rel="noopener noreferrer" class="github-profile-link">
                         <i class="fab fa-github"></i>
-                        <div class="link-info">
-                            <h3>mysycry</h3>
-                            <p class="link-url">https://github.com/mysycry</p>
+                        <span>@mysycry</span>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+                <div class="repos-grid">
+                    <div class="repo-card">
+                        <div class="repo-header">
+                            <h4>SKILLS-SECURE-REPOSITORY-SUPPLY-CHAIN</h4>
+                            <a href="https://github.com/mysycry/SKILLS-SECURE-REPOSITORY-SUPPLY-CHAIN" target="_blank" rel="noopener noreferrer" class="repo-link-btn">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
                         </div>
-                        <a href="https://github.com/mysycry" target="_blank" class="link-btn">
-                            Visit Profile <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                    
-                    <h3 style="margin-top: 2rem;"><i class="fas fa-folder-open"></i> Featured Repositories</h3>
-                    <div class="repos-grid">
-                        <div class="repo-card">
-                            <div class="repo-thumbnail security">
-                                <i class="fas fa-shield-halved"></i>
-                            </div>
-                            <div class="repo-content">
-                                <div class="repo-header">
-                                    <h4>SKILLS-SECURE-REPOSITORY-SUPPLY-CHAIN</h4>
-                                    <a href="https://github.com/mysycry/SKILLS-SECURE-REPOSITORY-SUPPLY-CHAIN" target="_blank" class="repo-link">
-                                        <i class="fas fa-external-link-alt"></i>
-                                    </a>
-                                </div>
-                                <p class="repo-desc">Exercise: Secure your Repository Supply Chain. Learn to implement security best practices for repository dependencies and supply chain protection.</p>
-                                <div class="repo-meta">
-                                    <span class="repo-lang"><i class="fas fa-code"></i> C#</span>
-                                    <span class="repo-license"><i class="fas fa-scale-balanced"></i> MIT</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="repo-card">
-                            <div class="repo-thumbnail cicd">
-                                <i class="fas fa-infinity"></i>
-                            </div>
-                            <div class="repo-content">
-                                <div class="repo-header">
-                                    <h4>THREE-TIER-GITHUB-ACTIONS-PROJECT</h4>
-                                    <a href="https://github.com/mysycry/THREE-TIER-GITHUB-ACTIONS-PROJECT" target="_blank" class="repo-link">
-                                        <i class="fas fa-external-link-alt"></i>
-                                    </a>
-                                </div>
-                                <p class="repo-desc">Three-tier application deployment using GitHub Actions. Implements CI/CD pipelines for automated testing and deployment workflows.</p>
-                                <div class="repo-meta">
-                                    <span class="repo-lang"><i class="fas fa-code"></i> JavaScript</span>
-                                    <span class="repo-license"><i class="fas fa-scale-balanced"></i> MIT</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="repo-card">
-                            <div class="repo-thumbnail devops">
-                                <i class="fas fa-rocket"></i>
-                            </div>
-                            <div class="repo-content">
-                                <div class="repo-header">
-                                    <h4>30DAYS-DEVOPS-CHALLENGE</h4>
-                                    <a href="https://github.com/mysycry/30DAYS-DEVOPS-CHALLENGE" target="_blank" class="repo-link">
-                                        <i class="fas fa-external-link-alt"></i>
-                                    </a>
-                                </div>
-                                <p class="repo-desc">30 Days DevOps Challenge - Daily tasks and exercises covering DevOps fundamentals, tools, and best practices.</p>
-                                <div class="repo-meta">
-                                    <span class="repo-lang"><i class="fas fa-code"></i> Shell</span>
-                                    <span class="repo-license"><i class="fas fa-lock"></i> Public</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="repo-card">
-                            <div class="repo-thumbnail ai">
-                                <i class="fas fa-brain"></i>
-                            </div>
-                            <div class="repo-content">
-                                <div class="repo-header">
-                                    <h4>AI_FIRST_ACTIVITIES</h4>
-                                    <a href="https://github.com/mysycry/AI_FIRST_ACTIVITIES" target="_blank" class="repo-link">
-                                        <i class="fas fa-external-link-alt"></i>
-                                    </a>
-                                </div>
-                                <p class="repo-desc">AI First Bootcamp activities and projects. Includes machine learning experiments, AI agent development, and data science notebooks.</p>
-                                <div class="repo-meta">
-                                    <span class="repo-lang"><i class="fas fa-code"></i> Jupyter</span>
-                                    <span class="repo-license"><i class="fas fa-lock"></i> Public</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="repo-card">
-                            <div class="repo-thumbnail iac">
-                                <i class="fas fa-cloud"></i>
-                            </div>
-                            <div class="repo-content">
-                                <div class="repo-header">
-                                    <h4>GITOPS-MINICAMP-2024-TF</h4>
-                                    <a href="https://github.com/mysycry/GITOPS-MINICAMP-2024-TF" target="_blank" class="repo-link">
-                                        <i class="fas fa-external-link-alt"></i>
-                                    </a>
-                                </div>
-                                <p class="repo-desc">GitOps Minicamp project using Terraform. Infrastructure as Code implementation with GitOps principles and automated deployments.</p>
-                                <div class="repo-meta">
-                                    <span class="repo-lang"><i class="fas fa-code"></i> HCL (Terraform)</span>
-                                    <span class="repo-license"><i class="fas fa-lock"></i> Public</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="repo-card">
-                            <div class="repo-thumbnail serverless">
-                                <i class="fas fa-bolt"></i>
-                            </div>
-                            <div class="repo-content">
-                                <div class="repo-header">
-                                    <h4>WILDRYDES-X</h4>
-                                    <a href="https://github.com/mysycry/WILDRYDES-X" target="_blank" class="repo-link">
-                                        <i class="fas fa-external-link-alt"></i>
-                                    </a>
-                                </div>
-                                <p class="repo-desc">Serverless web application for unicorn ride requests. Built with AWS Lambda, API Gateway, and DynamoDB demonstrating serverless architecture patterns.</p>
-                                <div class="repo-meta">
-                                    <span class="repo-lang"><i class="fas fa-code"></i> HTML</span>
-                                    <span class="repo-license"><i class="fas fa-lock"></i> Public</span>
-                                </div>
-                            </div>
+                        <p class="repo-desc">Exercise: Secure your Repository Supply Chain. Learn to implement security best practices.</p>
+                        <div class="repo-meta">
+                            <span class="repo-lang"><i class="fas fa-code"></i> C#</span>
+                            <span class="repo-license"><i class="fas fa-scale-balanced"></i> MIT</span>
                         </div>
                     </div>
-                    
-                    <div class="github-stats">
-                        <h3 style="margin-top: 2rem;"><i class="fas fa-chart-bar"></i> Repository Stats</h3>
-                        <div class="stats-grid">
-                            <div class="stat-card">
-                                <i class="fas fa-folder"></i>
-                                <span class="stat-number">35</span>
-                                <span class="stat-label">Total Repos</span>
-                            </div>
-                            <div class="stat-card">
-                                <i class="fab fa-js"></i>
-                                <span class="stat-number">6+</span>
-                                <span class="stat-label">Languages</span>
-                            </div>
-                            <div class="stat-card">
-                                <i class="fas fa-code-branch"></i>
-                                <span class="stat-number">Public</span>
-                                <span class="stat-label">Visibility</span>
-                            </div>
-                            <div class="stat-card">
-                                <i class="fas fa-clock"></i>
-                                <span class="stat-number">Active</span>
-                                <span class="stat-label">Status</span>
-                            </div>
+
+                    <div class="repo-card">
+                        <div class="repo-header">
+                            <h4>THREE-TIER-GITHUB-ACTIONS-PROJECT</h4>
+                            <a href="https://github.com/mysycry/THREE-TIER-GITHUB-ACTIONS-PROJECT" target="_blank" rel="noopener noreferrer" class="repo-link-btn">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                        <p class="repo-desc">Three-tier application deployment using GitHub Actions. CI/CD pipelines for automated testing.</p>
+                        <div class="repo-meta">
+                            <span class="repo-lang"><i class="fas fa-code"></i> JavaScript</span>
+                            <span class="repo-license"><i class="fas fa-scale-balanced"></i> MIT</span>
+                        </div>
+                    </div>
+
+                    <div class="repo-card">
+                        <div class="repo-header">
+                            <h4>30DAYS-DEVOPS-CHALLENGE</h4>
+                            <a href="https://github.com/mysycry/30DAYS-DEVOPS-CHALLENGE" target="_blank" rel="noopener noreferrer" class="repo-link-btn">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                        <p class="repo-desc">30 Days DevOps Challenge - Daily tasks covering DevOps fundamentals and best practices.</p>
+                        <div class="repo-meta">
+                            <span class="repo-lang"><i class="fas fa-code"></i> Shell</span>
+                            <span class="repo-license"><i class="fas fa-lock"></i> Public</span>
+                        </div>
+                    </div>
+
+                    <div class="repo-card">
+                        <div class="repo-header">
+                            <h4>AI_FIRST_ACTIVITIES</h4>
+                            <a href="https://github.com/mysycry/AI_FIRST_ACTIVITIES" target="_blank" rel="noopener noreferrer" class="repo-link-btn">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                        <p class="repo-desc">AI First Bootcamp activities. ML experiments, AI agents, and data science notebooks.</p>
+                        <div class="repo-meta">
+                            <span class="repo-lang"><i class="fas fa-code"></i> Jupyter</span>
+                            <span class="repo-license"><i class="fas fa-lock"></i> Public</span>
+                        </div>
+                    </div>
+
+                    <div class="repo-card">
+                        <div class="repo-header">
+                            <h4>GITOPS-MINICAMP-2024-TF</h4>
+                            <a href="https://github.com/mysycry/GITOPS-MINICAMP-2024-TF" target="_blank" rel="noopener noreferrer" class="repo-link-btn">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                        <p class="repo-desc">GitOps Minicamp project using Terraform. Infrastructure as Code with automated deployments.</p>
+                        <div class="repo-meta">
+                            <span class="repo-lang"><i class="fas fa-code"></i> HCL</span>
+                            <span class="repo-license"><i class="fas fa-lock"></i> Public</span>
+                        </div>
+                    </div>
+
+                    <div class="repo-card">
+                        <div class="repo-header">
+                            <h4>WILDRYDES-X</h4>
+                            <a href="https://github.com/mysycry/WILDRYDES-X" target="_blank" rel="noopener noreferrer" class="repo-link-btn">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                        <p class="repo-desc">Serverless web application for unicorn rides. AWS Lambda, API Gateway, and DynamoDB.</p>
+                        <div class="repo-meta">
+                            <span class="repo-lang"><i class="fas fa-code"></i> HTML</span>
+                            <span class="repo-license"><i class="fas fa-lock"></i> Public</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="github-stats">
+                    <h3><i class="fas fa-chart-bar"></i> Stats</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <i class="fas fa-folder"></i>
+                            <span class="stat-number">35+</span>
+                            <span class="stat-label">Repos</span>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fab fa-js"></i>
+                            <span class="stat-number">6+</span>
+                            <span class="stat-label">Languages</span>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-code-branch"></i>
+                            <span class="stat-number">Public</span>
+                            <span class="stat-label">Visibility</span>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-clock"></i>
+                            <span class="stat-number">Active</span>
+                            <span class="stat-label">Status</span>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Snake Game Tab -->
-            <section class="tab-panel" id="game" role="tabpanel" aria-labelledby="tab-game">
-                <div class="card">
-                    <div class="light-mode-glow"></div>
+            <!-- Game Tab -->
+            <section class="tab-panel" id="game" role="tabpanel">
+                <div class="game-section">
                     <h2><i class="fas fa-gamepad"></i> Snake Game</h2>
-                    <p class="section-desc">Classic snake game! Eat food to grow longer. The snake gets faster as you score more points. Pass through walls to appear on the opposite side!</p>
-                    
+                    <p class="game-desc">Classic snake game! Eat food to grow. Pass through walls!</p>
+
                     <div class="game-container">
                         <div class="game-stats">
                             <div class="stat">
@@ -666,14 +827,14 @@
                                 <span class="stat-value" id="speed">1x</span>
                             </div>
                         </div>
-                        
+
                         <canvas class="game-canvas" id="gameCanvas" width="400" height="400"></canvas>
-                        
+
                         <div class="game-controls">
                             <button class="game-btn" id="startGame">
                                 <i class="fas fa-play"></i> Start Game
                             </button>
-                            <p class="game-hint">Use Arrow Keys or WASD to move • Pass through walls</p>
+                            <p class="game-hint">Use Arrow Keys or WASD • Pass through walls</p>
                         </div>
                     </div>
                 </div>
@@ -681,7 +842,7 @@
         </main>
 
         <!-- Footer -->
-        <footer class="footer">
+        <footer class="profile-footer">
             <div class="footer-marquee">
                 <div class="footer-content">
                     <p>&copy; 2026 Michael Josias D. Tabada. All rights reserved. <span aria-hidden="true">☕⚡</span></p>
@@ -690,27 +851,34 @@
         </footer>
     </div>
 
-    <!-- Scroll to Top Button -->
+    <!-- Scroll to Top -->
     <button class="scroll-top" id="scrollTopBtn" aria-label="Scroll to top">
         <i class="fas fa-arrow-up" aria-hidden="true"></i>
     </button>
 
-    <!-- Floating Chatbot Button -->
-    <button class="chatbot-btn" id="chatbotBtn" aria-label="Open chatbot">
+    <!-- Chatbot Button -->
+    <button class="chatbot-btn" id="chatbotBtn" aria-label="Open chat">
         <i class="fas fa-robot" aria-hidden="true"></i>
+        <span class="chatbot-badge">1</span>
     </button>
 
     <!-- Chatbot Window -->
     <div class="chatbot-window" id="chatbotWindow">
         <div class="chatbot-header">
-            <h3>Chat Assistant</h3>
+            <div class="chatbot-title">
+                <i class="fas fa-robot"></i>
+                <div>
+                    <h3>Chat Assistant</h3>
+                    <span class="online-indicator">Online</span>
+                </div>
+            </div>
             <button class="close-chat" id="closeChat" aria-label="Close chat">
-                <i class="fas fa-times" aria-hidden="true"></i>
+                <i class="fas fa-times"></i>
             </button>
         </div>
         <div class="chatbot-body" id="chatbotBody">
             <div class="chat-message bot">
-                <p>Hello! I'm Michael's virtual assistant. How can I help you today?</p>
+                <p>Hi! I'm Michael's virtual assistant. How can I help you today? 👋</p>
             </div>
         </div>
         <div class="chatbot-input">
@@ -719,6 +887,6 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=6"></script>
 </body>
 </html>

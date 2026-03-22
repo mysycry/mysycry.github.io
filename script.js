@@ -1,10 +1,15 @@
-// Theme Toggle
+// ===================================
+// SOCIAL MEDIA PROFILE - JavaScript
+// ===================================
+
+// Theme Toggle with Auto-Detect
 const themeToggle = document.getElementById('themeToggle');
 const html = document.documentElement;
 
-// Check for saved theme preference
-const savedTheme = localStorage.getItem('theme') || 'light';
-html.setAttribute('data-theme', savedTheme);
+// Check for saved theme or auto-detect system preference
+const savedTheme = localStorage.getItem('theme');
+const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+html.setAttribute('data-theme', savedTheme || systemTheme);
 
 themeToggle.addEventListener('click', () => {
     const currentTheme = html.getAttribute('data-theme');
@@ -13,49 +18,47 @@ themeToggle.addEventListener('click', () => {
     localStorage.setItem('theme', newTheme);
 });
 
+// Parallax Effect for Cover Photo
+const coverPhotoBg = document.getElementById('coverPhotoBg');
+
+if (coverPhotoBg) {
+    let ticking = false;
+    
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                const scrolled = window.scrollY;
+                const parallaxSpeed = 0.5;
+                const offset = scrolled * parallaxSpeed;
+                
+                if (coverPhotoBg) {
+                    coverPhotoBg.style.transform = `translateY(${offset}px)`;
+                }
+                
+                ticking = false;
+            });
+            
+            ticking = true;
+        }
+    }, { passive: true });
+}
+
 // Toast Notification Function
 function showToast(message, type = 'success') {
     const toast = document.getElementById('toast');
     toast.textContent = message;
     toast.className = `toast show ${type}`;
-
+    
     const icon = document.createElement('i');
     icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-info-circle';
     icon.setAttribute('aria-hidden', 'true');
     toast.insertBefore(icon, toast.firstChild);
-
+    
     setTimeout(() => {
         toast.className = 'toast';
         toast.innerHTML = '';
     }, 3000);
 }
-
-// Badge Card Spin on Touch (Mobile)
-document.addEventListener('DOMContentLoaded', () => {
-    const badgeCards = document.querySelectorAll('.credly-badges-grid .badge-card');
-    
-    badgeCards.forEach(card => {
-        // Touch support for mobile
-        card.addEventListener('touchstart', () => {
-            card.classList.add('spinning');
-        });
-        
-        // Remove spin class after animation completes
-        card.addEventListener('touchend', () => {
-            setTimeout(() => {
-                card.classList.remove('spinning');
-            }, 600);
-        });
-        
-        // Also support click for desktop users who prefer clicking
-        card.addEventListener('click', () => {
-            card.classList.add('spinning');
-            setTimeout(() => {
-                card.classList.remove('spinning');
-            }, 600);
-        });
-    });
-});
 
 // Copy Email Functionality
 document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
@@ -91,352 +94,125 @@ scrollTopBtn.addEventListener('click', () => {
     });
 });
 
-// Mouse tracking for dark mode glow effect on cards
-const cards = document.querySelectorAll('.card');
-let mouseX = 0;
-let mouseY = 0;
-
-document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    
-    // Update each card's mouse position
-    cards.forEach(card => {
-        const rect = card.getBoundingClientRect();
-        const cardMouseX = mouseX - rect.left;
-        const cardMouseY = mouseY - rect.top;
-        
-        // Only update if mouse is over or near the card
-        if (cardMouseX >= -100 && cardMouseX <= rect.width + 100 &&
-            cardMouseY >= -100 && cardMouseY <= rect.height + 100) {
-            card.style.setProperty('--card-mouse-x', `${cardMouseX}px`);
-            card.style.setProperty('--card-mouse-y', `${cardMouseY}px`);
-        }
-    });
-});
-
-// Meteor spawning for dark mode - inside cards
-function createCardMeteor() {
-    if (html.getAttribute('data-theme') !== 'dark') return;
-    
-    const cards = document.querySelectorAll('.card');
-    if (cards.length === 0) return;
-    
-    // Pick a random card
-    const randomCard = cards[Math.floor(Math.random() * cards.length)];
-    
-    // Create meteor inside the card
-    const meteor = document.createElement('div');
-    meteor.className = 'card-meteor';
-    
-    // Random starting position within card
-    const startX = Math.random() * 100; // percentage
-    const startY = -10; // start above card
-    
-    meteor.style.left = `${startX}%`;
-    meteor.style.top = `${startY}%`;
-    
-    // Random animation duration between 2-4 seconds
-    const duration = 2 + Math.random() * 2;
-    meteor.style.animationDuration = `${duration}s`;
-    
-    // Random scale for variety
-    const scale = 0.5 + Math.random() * 0.5;
-    meteor.style.transform = `rotate(-45deg) scale(${scale})`;
-    
-    randomCard.appendChild(meteor);
-    
-    // Remove meteor after animation
-    setTimeout(() => {
-        meteor.remove();
-    }, duration * 1000);
-}
-
-// Light mode - floating golden particles
-function createLightParticle() {
-    if (html.getAttribute('data-theme') === 'dark') return;
-    
-    const cards = document.querySelectorAll('.card');
-    if (cards.length === 0) return;
-    
-    // Pick a random card
-    const randomCard = cards[Math.floor(Math.random() * cards.length)];
-    
-    // Create floating particle
-    const particle = document.createElement('div');
-    particle.className = 'light-particle';
-    
-    // Random starting position
-    const startX = Math.random() * 100;
-    const startY = 100 + Math.random() * 20;
-    
-    particle.style.left = `${startX}%`;
-    particle.style.top = `${startY}%`;
-    
-    // Random size
-    const size = 3 + Math.random() * 4;
-    particle.style.width = `${size}px`;
-    particle.style.height = `${size}px`;
-    
-    // Random animation duration
-    const duration = 3 + Math.random() * 3;
-    particle.style.animationDuration = `${duration}s`;
-    
-    randomCard.appendChild(particle);
-    
-    // Remove particle after animation
-    setTimeout(() => {
-        particle.remove();
-    }, duration * 1000);
-}
-
-// Spawn meteors periodically (every 2-3 seconds) for dark mode
-setInterval(createCardMeteor, 2500);
-
-// Spawn particles for light mode (every 1.5-2 seconds)
-setInterval(createLightParticle, 1800);
-
-// Create initial batch of meteors
-for (let i = 0; i < 8; i++) {
-    setTimeout(createCardMeteor, i * 400);
-}
-
-// Create initial batch of light particles
-for (let i = 0; i < 10; i++) {
-    setTimeout(createLightParticle, i * 300);
-}
-
 // Tab Navigation
-const tabBtns = document.querySelectorAll('.tab-btn');
+const tabBtns = document.querySelectorAll('.nav-tab');
 const tabPanels = document.querySelectorAll('.tab-panel');
 
 tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         const tabId = btn.getAttribute('data-tab');
 
-        // Remove active class and ARIA attributes from all buttons and panels
+        // Update all tabs
         tabBtns.forEach(b => {
             b.classList.remove('active');
             b.setAttribute('aria-selected', 'false');
-            b.setAttribute('tabindex', '-1');
         });
         tabPanels.forEach(p => {
             p.classList.remove('active');
             p.setAttribute('hidden', '');
         });
 
-        // Add active class and ARIA attributes to clicked button and corresponding panel
+        // Activate selected tab
         btn.classList.add('active');
         btn.setAttribute('aria-selected', 'true');
-        btn.setAttribute('tabindex', '0');
         const panel = document.getElementById(tabId);
         panel.classList.add('active');
         panel.removeAttribute('hidden');
         
-        // Announce tab change to screen readers
-        panel.setAttribute('aria-live', 'polite');
+        // Scroll to top of content on tab change
+        document.querySelector('.profile-content').scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+        });
     });
 });
 
-// Simple Smooth Carousel Class
-class Carousel {
-    constructor(wrapperId, trackId, prevBtnId, nextBtnId, dotsId) {
-        this.wrapper = document.getElementById(wrapperId);
-        this.track = document.getElementById(trackId);
-        this.prevBtn = document.getElementById(prevBtnId);
-        this.nextBtn = document.getElementById(nextBtnId);
-        this.dotsContainer = document.getElementById(dotsId);
+// Share Profile Functionality
+document.getElementById('shareProfile')?.addEventListener('click', async () => {
+    const shareData = {
+        title: 'Michael Josias D. Tabada - Platform Engineer',
+        text: 'Check out my portfolio!',
+        url: window.location.href
+    };
 
-        if (!this.wrapper || !this.track) return;
-
-        this.cards = Array.from(this.track.children);
-        this.totalCards = this.cards.length;
-        this.currentIndex = 0;
-        this.isAnimating = false;
-
-        this.init();
+    if (navigator.share) {
+        try {
+            await navigator.share(shareData);
+        } catch (err) {
+            console.log('Share canceled');
+        }
+    } else {
+        navigator.clipboard.writeText(window.location.href);
+        showToast('Link copied to clipboard!', 'success');
     }
+});
 
-    init() {
-        this.createDots();
-        this.addEventListeners();
-        this.updateDots();
-        this.updateButtons();
-    }
-
-    createDots() {
-        if (!this.dotsContainer) return;
-
-        this.dotsContainer.innerHTML = '';
-        this.cards.forEach((_, index) => {
-            const dot = document.createElement('div');
-            dot.className = 'carousel-dot';
-            if (index === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => this.goToSlide(index));
-            this.dotsContainer.appendChild(dot);
-        });
-        this.dots = this.dotsContainer.querySelectorAll('.carousel-dot');
-    }
-
-    updateDots() {
-        if (!this.dots) return;
-        this.dots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === this.currentIndex);
-        });
-    }
-
-    updateButtons() {
-        if (!this.prevBtn || !this.nextBtn) return;
+// Heart Evaporation Animation on Like
+document.querySelectorAll('.like-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        const icon = this.querySelector('i');
+        const text = this.querySelector('span');
         
-        // Fade buttons at edges for visual feedback
-        const atStart = this.currentIndex === 0;
-        const atEnd = this.currentIndex === this.totalCards - 1;
+        // Toggle liked state
+        this.classList.toggle('liked');
         
-        this.prevBtn.style.opacity = atStart ? '0.3' : '1';
-        this.nextBtn.style.opacity = atEnd ? '0.3' : '1';
-    }
+        if (this.classList.contains('liked')) {
+            icon.classList.remove('far');
+            icon.classList.add('fas');
+            text.textContent = 'Liked';
+            
+            // Create multiple heart particles
+            createHeartParticles(this);
+        } else {
+            icon.classList.remove('fas');
+            icon.classList.add('far');
+            text.textContent = 'Like';
+        }
+    });
+});
 
-    goToSlide(index) {
-        if (this.isAnimating || index === this.currentIndex) return;
-        if (index < 0 || index >= this.totalCards) return;
-
-        this.isAnimating = true;
-        this.currentIndex = index;
-
-        const cardWidth = this.track.clientWidth;
-        this.track.scrollTo({
-            left: index * cardWidth,
-            behavior: 'smooth'
-        });
-
-        this.updateDots();
-        this.updateButtons();
-
+function createHeartParticles(button) {
+    const rect = button.getBoundingClientRect();
+    const particleCount = 12; // More hearts for livestream effect
+    
+    for (let i = 0; i < particleCount; i++) {
         setTimeout(() => {
-            this.isAnimating = false;
-        }, 400);
-    }
-
-    next() {
-        if (this.currentIndex < this.totalCards - 1) {
-            this.goToSlide(this.currentIndex + 1);
-        }
-    }
-
-    prev() {
-        if (this.currentIndex > 0) {
-            this.goToSlide(this.currentIndex - 1);
-        }
-    }
-
-    addEventListeners() {
-        // Button clicks
-        if (this.prevBtn) {
-            this.prevBtn.addEventListener('click', () => this.prev());
-        }
-
-        if (this.nextBtn) {
-            this.nextBtn.addEventListener('click', () => this.next());
-        }
-
-        // Touch swipe
-        let startX = 0;
-        let startY = 0;
-
-        this.track.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-            startY = e.touches[0].clientY;
-        }, { passive: true });
-
-        this.track.addEventListener('touchmove', (e) => {
-            const currentX = e.touches[0].clientX;
-            const currentY = e.touches[0].clientY;
-            const diffX = Math.abs(startX - currentX);
-            const diffY = Math.abs(startY - currentY);
-
-            // Only prevent default on horizontal swipe
-            if (diffX > diffY && diffX > 10) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-
-        this.track.addEventListener('touchend', (e) => {
-            const endX = e.changedTouches[0].clientX;
-            const diffX = startX - endX;
-            const diffY = Math.abs(startY - e.changedTouches[0].clientY);
-
-            // Horizontal swipe threshold
-            if (Math.abs(diffX) > 50 && Math.abs(diffX) > diffY) {
-                if (diffX > 0) {
-                    this.next();
-                } else {
-                    this.prev();
-                }
-            }
-        }, { passive: true });
-
-        // Scroll sync - update dots as user scrolls
-        let scrollTimeout;
-        this.track.addEventListener('scroll', () => {
-            if (this.isAnimating) return;
-
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                const cardWidth = this.track.clientWidth;
-                const newIndex = Math.round(this.track.scrollLeft / cardWidth);
-                
-                if (newIndex !== this.currentIndex && newIndex >= 0 && newIndex < this.totalCards) {
-                    this.currentIndex = newIndex;
-                    this.updateDots();
-                    this.updateButtons();
-                }
-            }, 100);
-        });
-
-        // Keyboard navigation
-        this.wrapper.setAttribute('tabindex', '0');
-        this.wrapper.setAttribute('role', 'region');
-        this.wrapper.setAttribute('aria-label', 'Carousel');
-        
-        this.wrapper.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') {
-                e.preventDefault();
-                this.prev();
-            } else if (e.key === 'ArrowRight') {
-                e.preventDefault();
-                this.next();
-            }
-        });
-
-        // Resize handler
-        let resizeTimeout;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                const cardWidth = this.track.clientWidth;
-                this.track.style.scrollBehavior = 'auto';
-                this.track.scrollLeft = this.currentIndex * cardWidth;
-                // Force reflow
-                this.track.offsetHeight;
-                this.track.style.scrollBehavior = 'smooth';
-            }, 100);
-        });
+            const heart = document.createElement('div');
+            heart.className = 'heart-particle';
+            heart.innerHTML = '<i class="fas fa-heart"></i>';
+            
+            // Random horizontal spread across button width
+            const randomX = rect.left + Math.random() * rect.width;
+            heart.style.left = `${randomX}px`;
+            heart.style.top = `${rect.top - 20}px`;
+            
+            // Random size variation for depth effect
+            const randomScale = 0.8 + Math.random() * 0.6; // 0.8 to 1.4
+            heart.style.fontSize = `${1.5 * randomScale}rem`;
+            
+            // Random horizontal drift
+            const drift = (Math.random() - 0.5) * 60; // -30 to 30px
+            heart.style.setProperty('--drift', `${drift}px`);
+            
+            // Random animation duration for varied speed
+            const duration = 1.2 + Math.random() * 0.6; // 1.2 to 1.8s
+            heart.style.animationDuration = `${duration}s`;
+            
+            // Random delay for staggered spawn
+            const delay = Math.random() * 0.3;
+            heart.style.animationDelay = `${delay}s`;
+            
+            document.body.appendChild(heart);
+            
+            // Remove heart after animation completes
+            setTimeout(() => {
+                heart.remove();
+            }, (duration + delay) * 1000);
+        }, i * 30); // Spawn every 30ms for continuous stream effect
     }
 }
 
-// Initialize Carousels when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    // Skills Carousel
-    new Carousel('skillsCarouselWrapper', 'skillsCarousel', 'skillsPrev', 'skillsNext', 'skillsDots');
-
-    // Experience Carousel
-    new Carousel('experienceCarouselWrapper', 'experienceCarousel', 'expPrev', 'expNext', 'experienceDots');
-
-    // Projects Carousel
-    new Carousel('projectsCarouselWrapper', 'projectsCarousel', 'projectsPrev', 'projectsNext', 'projectsDots');
-});
-
-// Snake Game - Enhanced Version
+// Snake Game
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const startBtn = document.getElementById('startGame');
@@ -455,13 +231,11 @@ let score = 0;
 let highScore = localStorage.getItem('snakeHighScore') || 0;
 let gameLoop;
 let gameRunning = false;
-let baseSpeed = 150; // Starting speed (slower)
+let baseSpeed = 150;
 let currentSpeed = baseSpeed;
-let snakeLength = 1;
 
 highScoreEl.textContent = highScore;
 
-// Get colors from CSS variables
 function getColors() {
     const style = getComputedStyle(document.documentElement);
     return {
@@ -475,13 +249,10 @@ function getColors() {
 }
 
 function initGame() {
-    snake = [
-        { x: Math.floor(tileCount / 2), y: Math.floor(tileCount / 2) }
-    ];
+    snake = [{ x: Math.floor(tileCount / 2), y: Math.floor(tileCount / 2) }];
     direction = { x: 0, y: 0 };
-    nextDirection = { x: 1, y: 0 }; // Start moving right
+    nextDirection = { x: 1, y: 0 };
     score = 0;
-    snakeLength = 1;
     currentSpeed = baseSpeed;
     scoreEl.textContent = score;
     speedEl.textContent = '1x';
@@ -499,12 +270,10 @@ function placeFood() {
 
 function draw() {
     const colors = getColors();
-    
-    // Clear canvas
+
     ctx.fillStyle = colors.bg;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // Draw grid
+
     ctx.strokeStyle = colors.grid;
     ctx.lineWidth = 0.5;
     for (let i = 0; i <= tileCount; i++) {
@@ -512,14 +281,12 @@ function draw() {
         ctx.moveTo(i * gridSize, 0);
         ctx.lineTo(i * gridSize, canvas.height);
         ctx.stroke();
-        
         ctx.beginPath();
         ctx.moveTo(0, i * gridSize);
         ctx.lineTo(canvas.width, i * gridSize);
         ctx.stroke();
     }
-    
-    // Draw food with glow effect
+
     ctx.fillStyle = colors.food;
     ctx.shadowColor = colors.food;
     ctx.shadowBlur = 15;
@@ -533,12 +300,9 @@ function draw() {
     );
     ctx.fill();
     ctx.shadowBlur = 0;
-    
-    // Draw snake
+
     snake.forEach((segment, index) => {
         const isHead = index === 0;
-        
-        // Gradient effect for snake body
         const gradient = ctx.createRadialGradient(
             segment.x * gridSize + gridSize / 2,
             segment.y * gridSize + gridSize / 2,
@@ -547,12 +311,11 @@ function draw() {
             segment.y * gridSize + gridSize / 2,
             gridSize / 2
         );
-        
+
         if (isHead) {
             gradient.addColorStop(0, colors.snakeHead);
             gradient.addColorStop(1, colors.snake);
         } else {
-            // Body gets slightly darker towards the tail
             const darkness = index / snake.length;
             const r = Math.max(50, 99 - darkness * 30);
             const g = Math.max(50, 102 - darkness * 30);
@@ -560,53 +323,46 @@ function draw() {
             gradient.addColorStop(0, `rgb(${r}, ${g}, ${b})`);
             gradient.addColorStop(1, `rgb(${Math.max(30, r - 30)}, ${Math.max(30, g - 30)}, ${Math.max(80, b - 50)})`);
         }
-        
+
         ctx.fillStyle = gradient;
-        
         const x = segment.x * gridSize;
         const y = segment.y * gridSize;
-        
-        // Rounded rectangle for snake segments
         const radius = isHead ? 8 : 6;
         ctx.beginPath();
         ctx.roundRect(x + 1, y + 1, gridSize - 2, gridSize - 2, radius);
         ctx.fill();
-        
-        // Add border to segments
         ctx.strokeStyle = colors.snakeBorder;
         ctx.lineWidth = 1;
         ctx.stroke();
-        
-        // Draw eyes on head
+
         if (isHead) {
             ctx.fillStyle = 'white';
             const eyeSize = 4;
             const eyeOffset = 5;
-            
+
             if (direction.x !== 0 || direction.y !== 0) {
-                if (direction.x === 1) { // Right
+                if (direction.x === 1) {
                     ctx.beginPath();
                     ctx.arc(x + gridSize - eyeOffset, y + eyeOffset, eyeSize / 2, 0, Math.PI * 2);
                     ctx.arc(x + gridSize - eyeOffset, y + gridSize - eyeOffset, eyeSize / 2, 0, Math.PI * 2);
                     ctx.fill();
-                } else if (direction.x === -1) { // Left
+                } else if (direction.x === -1) {
                     ctx.beginPath();
                     ctx.arc(x + eyeOffset, y + eyeOffset, eyeSize / 2, 0, Math.PI * 2);
                     ctx.arc(x + eyeOffset, y + gridSize - eyeOffset, eyeSize / 2, 0, Math.PI * 2);
                     ctx.fill();
-                } else if (direction.y === -1) { // Up
+                } else if (direction.y === -1) {
                     ctx.beginPath();
                     ctx.arc(x + eyeOffset, y + eyeOffset, eyeSize / 2, 0, Math.PI * 2);
                     ctx.arc(x + gridSize - eyeOffset, y + eyeOffset, eyeSize / 2, 0, Math.PI * 2);
                     ctx.fill();
-                } else { // Down
+                } else {
                     ctx.beginPath();
                     ctx.arc(x + eyeOffset, y + gridSize - eyeOffset, eyeSize / 2, 0, Math.PI * 2);
                     ctx.arc(x + gridSize - eyeOffset, y + gridSize - eyeOffset, eyeSize / 2, 0, Math.PI * 2);
                     ctx.fill();
                 }
             } else {
-                // Default eyes (not moving)
                 ctx.beginPath();
                 ctx.arc(x + gridSize - eyeOffset, y + eyeOffset, eyeSize / 2, 0, Math.PI * 2);
                 ctx.arc(x + gridSize - eyeOffset, y + gridSize - eyeOffset, eyeSize / 2, 0, Math.PI * 2);
@@ -618,56 +374,43 @@ function draw() {
 
 function update() {
     direction = { ...nextDirection };
-    
-    if (direction.x === 0 && direction.y === 0) {
-        return; // Don't update if not moving
-    }
-    
+
+    if (direction.x === 0 && direction.y === 0) return;
+
     const head = {
         x: snake[0].x + direction.x,
         y: snake[0].y + direction.y
     };
+
+    // Wall wrapping
+    if (head.x < 0) head.x = tileCount - 1;
+    else if (head.x >= tileCount) head.x = 0;
     
-    // Wall wrapping - pass through walls
-    if (head.x < 0) {
-        head.x = tileCount - 1;
-    } else if (head.x >= tileCount) {
-        head.x = 0;
-    }
-    
-    if (head.y < 0) {
-        head.y = tileCount - 1;
-    } else if (head.y >= tileCount) {
-        head.y = 0;
-    }
-    
-    // Check self collision
+    if (head.y < 0) head.y = tileCount - 1;
+    else if (head.y >= tileCount) head.y = 0;
+
+    // Self collision
     if (snake.some(segment => segment.x === head.x && segment.y === head.y)) {
         gameOver();
         return;
     }
-    
+
     snake.unshift(head);
-    
-    // Check food collision
+
+    // Food collision
     if (head.x === food.x && head.y === food.y) {
         score += 10;
-        snakeLength = snake.length;
         scoreEl.textContent = score;
         placeFood();
-        
-        // Increase speed as snake grows (every 50 points)
+
         const speedIncrease = Math.floor(score / 50);
         const newSpeed = Math.max(50, baseSpeed - (speedIncrease * 10));
-        
+
         if (newSpeed !== currentSpeed) {
             currentSpeed = newSpeed;
             clearInterval(gameLoop);
             gameLoop = setInterval(gameStep, currentSpeed);
-            
-            // Update speed display
-            const speedMultiplier = (baseSpeed / currentSpeed).toFixed(1);
-            speedEl.textContent = speedMultiplier + 'x';
+            speedEl.textContent = (baseSpeed / currentSpeed).toFixed(1) + 'x';
         }
     } else {
         snake.pop();
@@ -682,42 +425,37 @@ function gameStep() {
 function gameOver() {
     gameRunning = false;
     clearInterval(gameLoop);
-    
+
     if (score > highScore) {
         highScore = score;
         highScoreEl.textContent = highScore;
         localStorage.setItem('snakeHighScore', highScore);
     }
-    
-    // Draw game over overlay
+
     ctx.fillStyle = 'rgba(0, 0, 0, 0.75)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
+
     ctx.fillStyle = 'white';
     ctx.font = 'bold 36px Inter, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('Game Over!', canvas.width / 2, canvas.height / 2 - 30);
-    
+
     ctx.font = '24px Inter, sans-serif';
     ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 10);
-    
-    ctx.font = '18px Inter, sans-serif';
-    ctx.fillStyle = '#94a3b8';
-    ctx.fillText(`Snake Length: ${snakeLength}`, canvas.width / 2, canvas.height / 2 + 40);
-    
+
     startBtn.disabled = false;
     startBtn.innerHTML = '<i class="fas fa-redo"></i> Play Again';
 }
 
 function startGame() {
     if (gameRunning) return;
-    
+
     initGame();
     gameRunning = true;
     currentSpeed = baseSpeed;
     startBtn.disabled = true;
     startBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Playing...';
-    
+
     gameLoop = setInterval(gameStep, currentSpeed);
 }
 
@@ -731,44 +469,36 @@ document.addEventListener('keydown', (e) => {
         }
         return;
     }
-    
+
     switch (e.key) {
         case 'ArrowUp':
         case 'w':
         case 'W':
-            if (direction.y !== 1) {
-                nextDirection = { x: 0, y: -1 };
-            }
+            if (direction.y !== 1) nextDirection = { x: 0, y: -1 };
             e.preventDefault();
             break;
         case 'ArrowDown':
         case 's':
         case 'S':
-            if (direction.y !== -1) {
-                nextDirection = { x: 0, y: 1 };
-            }
+            if (direction.y !== -1) nextDirection = { x: 0, y: 1 };
             e.preventDefault();
             break;
         case 'ArrowLeft':
         case 'a':
         case 'A':
-            if (direction.x !== 1) {
-                nextDirection = { x: -1, y: 0 };
-            }
+            if (direction.x !== 1) nextDirection = { x: -1, y: 0 };
             e.preventDefault();
             break;
         case 'ArrowRight':
         case 'd':
         case 'D':
-            if (direction.x !== -1) {
-                nextDirection = { x: 1, y: 0 };
-            }
+            if (direction.x !== -1) nextDirection = { x: 1, y: 0 };
             e.preventDefault();
             break;
     }
 });
 
-// Touch controls for mobile
+// Touch controls for game
 let touchStartX = 0;
 let touchStartY = 0;
 
@@ -786,20 +516,18 @@ canvas.addEventListener('touchmove', (e) => {
 canvas.addEventListener('touchend', (e) => {
     e.preventDefault();
     if (!gameRunning) return;
-    
+
     const touch = e.changedTouches[0];
     const deltaX = touch.clientX - touchStartX;
     const deltaY = touch.clientY - touchStartY;
-    
+
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
-        // Horizontal swipe
         if (deltaX > 0 && direction.x !== -1) {
             nextDirection = { x: 1, y: 0 };
         } else if (deltaX < 0 && direction.x !== 1) {
             nextDirection = { x: -1, y: 0 };
         }
     } else {
-        // Vertical swipe
         if (deltaY > 0 && direction.y !== -1) {
             nextDirection = { x: 0, y: 1 };
         } else if (deltaY < 0 && direction.y !== 1) {
@@ -820,11 +548,12 @@ const chatInput = document.getElementById('chatInput');
 const sendChat = document.getElementById('sendChat');
 const chatbotBody = document.getElementById('chatbotBody');
 
-// Toggle chatbot window
 chatbotBtn.addEventListener('click', () => {
     chatbotWindow.classList.toggle('active');
     if (chatbotWindow.classList.contains('active')) {
         chatInput.focus();
+        // Remove notification badge
+        chatbotBtn.querySelector('.chatbot-badge')?.remove();
     }
 });
 
@@ -832,53 +561,49 @@ closeChat.addEventListener('click', () => {
     chatbotWindow.classList.remove('active');
 });
 
-// Send message function
 function sendMessage() {
     const message = chatInput.value.trim();
     if (!message) return;
-    
-    // Add user message
+
     const userMsg = document.createElement('div');
     userMsg.className = 'chat-message user';
     userMsg.textContent = message;
     chatbotBody.appendChild(userMsg);
-    
+
     chatInput.value = '';
     chatbotBody.scrollTop = chatbotBody.scrollHeight;
-    
-    // Simulate bot response (replace with actual AI integration)
+
     setTimeout(() => {
         const botMsg = document.createElement('div');
         botMsg.className = 'chat-message bot';
-        
-        // Simple keyword-based responses
+
         const lowerMsg = message.toLowerCase();
         let response = "Thanks for your message! I'll get back to you soon.";
-        
+
         if (lowerMsg.includes('hello') || lowerMsg.includes('hi')) {
-            response = "Hello! How can I help you today?";
+            response = "Hello! How can I help you today? 👋";
         } else if (lowerMsg.includes('contact') || lowerMsg.includes('email')) {
-            response = "You can reach Michael at josiasmichael@gmail.com";
+            response = "You can reach Michael at navigatormichael@gmail.com";
         } else if (lowerMsg.includes('job') || lowerMsg.includes('work') || lowerMsg.includes('hire')) {
             response = "Michael is open to new opportunities! Feel free to reach out via email or LinkedIn.";
         } else if (lowerMsg.includes('skill') || lowerMsg.includes('technology') || lowerMsg.includes('tech')) {
-            response = "Michael has expertise in AWS, Azure, GCP, Terraform, Docker, Kubernetes, and more. Check the Summary tab for the full list!";
+            response = "Michael has expertise in AWS, Azure, GCP, Terraform, Docker, Kubernetes, and more. Check the About tab!";
         } else if (lowerMsg.includes('certif') || lowerMsg.includes('credential') || lowerMsg.includes('badge')) {
-            response = "Michael holds multiple certifications including AWS Solutions Architect, GCP Professional Cloud Architect, GitHub Advanced Security, and FinOps Certified Engineer. Check the Credly tab!";
+            response = "Michael holds 10+ certifications including AWS Solutions Architect, GCP Professional Cloud Architect, and FinOps Engineer. Check the Badges tab!";
         } else if (lowerMsg.includes('experience') || lowerMsg.includes('work history')) {
-            response = "Michael has experience as a Platform Engineer at Revcard, Solutions Architect at Ruralnet, and Solutions Engineer at Lexmark. Check the Work Experience tab for details!";
+            response = "Michael has experience as a Platform Engineer at Revcard, Solutions Architect at Ruralnet, and Solutions Engineer at Lexmark. Check the Posts tab!";
         } else if (lowerMsg.includes('education') || lowerMsg.includes('school') || lowerMsg.includes('university')) {
-            response = "Michael is currently pursuing a Master's in Financial Engineering at WorldQuant University.";
+            response = "Michael is pursuing a Master's in Financial Engineering at WorldQuant University.";
         } else if (lowerMsg.includes('location') || lowerMsg.includes('where')) {
-            response = "Michael is based in Cebu City, Philippines.";
+            response = "Michael is based in the Philippines.";
         } else if (lowerMsg.includes('cv') || lowerMsg.includes('resume')) {
-            response = "You can download Michael's CV using the Download CV button at the top of the page!";
+            response = "You can download Michael's CV using the CV button at the top!";
         } else if (lowerMsg.includes('github') || lowerMsg.includes('repo') || lowerMsg.includes('project')) {
-            response = "Check out Michael's GitHub at github.com/mysycry! Featured projects include: Secure Repository Supply Chain, Three-Tier GitHub Actions, 30 Days DevOps Challenge, AI First Activities, GitOps with Terraform, and WildRydes serverless app.";
+            response = "Check out the Repos tab! Featured projects include Secure Repository Supply Chain, Three-Tier GitHub Actions, 30 Days DevOps Challenge, and more!";
         } else if (lowerMsg.includes('game') || lowerMsg.includes('snake')) {
-            response = "There's a Snake game in the Snake Game tab! It starts slow and gets faster as you eat more. You can pass through walls too!";
+            response = "There's a Snake game in the Game tab! It starts slow and gets faster as you eat more. You can pass through walls! 🐍";
         }
-        
+
         botMsg.textContent = response;
         chatbotBody.appendChild(botMsg);
         chatbotBody.scrollTop = chatbotBody.scrollHeight;
@@ -888,55 +613,28 @@ function sendMessage() {
 sendChat.addEventListener('click', sendMessage);
 
 chatInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        sendMessage();
-    }
+    if (e.key === 'Enter') sendMessage();
 });
 
 // Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
+        const href = this.getAttribute('href');
+        if (href !== '#') {
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
         }
     });
 });
 
-// Add animation on scroll
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, observerOptions);
-
-// Observe cards for animation
-document.querySelectorAll('.card').forEach(card => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(20px)';
-    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    observer.observe(card);
-});
-
-// Console message for developers
+// Console message
 console.log('%c👋 Hello Developer!', 'font-size: 20px; font-weight: bold; color: #6366f1;');
 console.log('%cWelcome to Michael Josias D. Tabada\'s portfolio!', 'font-size: 14px; color: #64748b;');
-console.log('%cFeel free to explore the code and reach out if you have any questions.', 'font-size: 12px; color: #94a3b8;');
 
-// Badge Images - To add actual Credly badge images:
-// 1. Go to https://www.credly.com/users/jmichael/badges
-// 2. Right-click on each badge image and select "Copy Image Address"
-// 3. Add the URL to the corresponding badge below
-
+// Badge Images
 const badgeImageUrls = {
     'professional-cloud-architect': 'https://images.credly.com/size/680x680/images/71c579e0-51fd-4247-b493-d2fa8167157a/image.png',
     'finops-certified-engineer': 'https://images.credly.com/images/90c78afd-e885-4525-8f5e-e5834d8cb13d/image.png',
@@ -952,30 +650,59 @@ const badgeImageUrls = {
     'oci-certified-multicloud-professional': 'https://brm-workforce.oracle.com/pdf/certview/images/OCI2025MCAOCP.png'
 };
 
-// Function to load badge images
 function loadBadgeImages() {
     const badgeCards = document.querySelectorAll('.credly-badges-grid .badge-card');
-    
+
     badgeCards.forEach(card => {
         const badgeId = card.getAttribute('data-badge');
         const imgUrl = badgeImageUrls[badgeId];
         const imgContainer = card.querySelector('.badge-image-container');
-        
+
         if (imgUrl && imgContainer) {
             const img = document.createElement('img');
             img.src = imgUrl;
             img.alt = card.querySelector('h4').textContent;
             img.className = 'badge-img';
-            
-            // Replace the icon with the actual image
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.objectFit = 'contain';
+
             imgContainer.innerHTML = '';
             imgContainer.appendChild(img);
         }
     });
+    
+    // Attach spin event listeners AFTER images are loaded
+    attachBadgeSpinListeners();
 }
 
-// Run after page loads
+// Attach spin event listeners to badge cards
+function attachBadgeSpinListeners() {
+    const badgeCards = document.querySelectorAll('.credly-badges-grid .badge-card');
+    
+    badgeCards.forEach(card => {
+        // Touch support for mobile
+        card.addEventListener('touchstart', () => {
+            card.classList.add('spinning');
+        });
+        
+        card.addEventListener('touchend', () => {
+            setTimeout(() => {
+                card.classList.remove('spinning');
+            }, 600);
+        });
+        
+        // Click support for desktop
+        card.addEventListener('click', () => {
+            card.classList.add('spinning');
+            setTimeout(() => {
+                card.classList.remove('spinning');
+            }, 600);
+        });
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     loadBadgeImages();
-    console.log('%c💡 Tip: Add your actual Credly badge image URLs in script.js', 'font-size: 11px; color: #94a3b8;');
+    attachBadgeSpinListeners();
 });
