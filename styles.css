@@ -1249,6 +1249,7 @@ body {
     padding: 1.5rem;
     border: 1px solid var(--border);
     display: inline-block;
+    max-width: 100%;
 }
 
 .game-stats {
@@ -1279,6 +1280,16 @@ body {
     border-radius: 12px;
     border: 2px solid var(--border);
     background: var(--bg-secondary);
+}
+
+.doom-frame {
+    display: block;
+    width: min(800px, 100%);
+    aspect-ratio: 4 / 3;
+    height: auto;
+    border: 0;
+    border-radius: 8px;
+    background: #000000;
 }
 
 .game-controls {
@@ -1763,6 +1774,10 @@ body {
     .game-canvas {
         width: 100%;
         height: auto;
+    }
+
+    .doom-frame {
+        width: 100%;
     }
     
     .chatbot-window {

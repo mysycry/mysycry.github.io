@@ -2,14 +2,36 @@ name: HTML/CSS Validation
 
 on:
   push:
-    branches: [main]
-    paths: ['**/*.html', '**/*.css']
+    branches:
+      - main
+      - socmed
+    paths:
+      - "**/*.html"
+      - "**/*.css"
+      - ".github/workflows/html-css-validation.yml"
   pull_request:
-    branches: [main]
+    branches:
+      - main
+      - socmed
+    paths:
+      - "**/*.html"
+      - "**/*.css"
+      - ".github/workflows/html-css-validation.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: html-css-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
-  validate-html:
+  validate:
+    name: Validate HTML and CSS
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -17,91 +39,64 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: "22"
 
-      - name: Install HTML validator
-        run: npm install -g htmlhint
+      - name: Install validators
+        run: npm install --global htmlhint stylelint stylelint-config-standard
 
-      - name: Validate HTML
+      - name: Create Stylelint config
         run: |
-          echo "Validating HTML files..."
-          htmlhint index.html --format unix || true
-          
-      - name: W3C HTML Validation (via API)
-        run: |
-          echo "Running W3C HTML validation..."
-          curl -s -F "out=gnu" -F "content=@index.html" https://validator.w3.org/nu/ || true
-
-  validate-css:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-
-      - name: Install CSS validator
-        run: npm install -g stylelint stylelint-config-standard
-
-      - name: Create stylelint config
-        run: |
-          cat > .stylelintrc.json << EOF
+          cat > .stylelintrc.json <<'EOF'
           {
             "extends": "stylelint-config-standard",
             "rules": {
-              "selector-class-pattern": null,
-              "selector-pseudo-class-no-unknown": [true, {"ignorePseudoClasses": ["global"]}],
-              "property-no-vendor-prefix": null,
-              "value-no-vendor-prefix": null,
-              "at-rule-no-vendor-prefix": null,
-              "media-feature-range-notation": null,
-              "selector-not-notation": null,
-              "no-descending-specificity": null,
-              "color-function-notation": null,
               "alpha-value-notation": null,
-              "number-max-precision": null,
-              "hue-degree-notation": null,
-              "function-no-unknown": null,
-              "unit-no-unknown": null,
-              "property-no-unknown": null,
+              "at-rule-no-vendor-prefix": null,
+              "block-no-empty": null,
+              "color-function-notation": null,
               "declaration-block-no-duplicate-properties": null,
               "declaration-block-no-shorthand-property-overrides": null,
-              "block-no-empty": null,
-              "no-duplicate-selectors": null,
               "font-family-no-missing-generic-family-keyword": null,
+              "function-no-unknown": null,
+              "hue-degree-notation": null,
+              "media-feature-range-notation": null,
+              "no-descending-specificity": null,
+              "no-duplicate-selectors": null,
+              "no-invalid-double-slash-comments": null,
+              "number-max-precision": null,
+              "property-no-unknown": null,
+              "property-no-vendor-prefix": null,
+              "selector-class-pattern": null,
+              "selector-not-notation": null,
+              "selector-pseudo-class-no-unknown": [true, {"ignorePseudoClasses": ["global"]}],
               "string-no-newline": null,
-              "no-invalid-double-slash-comments": null
+              "unit-no-unknown": null,
+              "value-no-vendor-prefix": null
             }
           }
           EOF
 
+      - name: Validate HTML
+        run: htmlhint "index.html" --format unix
+
       - name: Validate CSS
-        run: |
-          echo "Validating CSS files..."
-          stylelint styles.css --formatter verbose || true
+        run: stylelint "styles.css" --formatter verbose
 
-      - name: W3C CSS Validation (via API)
-        run: |
-          echo "Running W3C CSS validation..."
-          curl -s -F "output=gnu" -F "file=@styles.css" https://jigsaw.w3.org/css-validator/validator || true
+      - name: W3C HTML validation
+        continue-on-error: true
+        run: curl --fail --silent --show-error -F "out=gnu" -F "content=@index.html" https://validator.w3.org/nu/
 
-  validation-summary:
-    runs-on: ubuntu-latest
-    needs: [validate-html, validate-css]
-    if: always()
-    steps:
+      - name: W3C CSS validation
+        continue-on-error: true
+        run: curl --fail --silent --show-error -F "output=gnu" -F "file=@styles.css" https://jigsaw.w3.org/css-validator/validator
+
       - name: Create validation summary
+        if: always()
         run: |
-          echo "## 🧹 Validation Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Validator | Status |" >> $GITHUB_STEP_SUMMARY
-          echo "|-----------|--------|" >> $GITHUB_STEP_SUMMARY
-          echo "| HTMLHint | ✅ Completed |" >> $GITHUB_STEP_SUMMARY
-          echo "| W3C HTML | ✅ Completed |" >> $GITHUB_STEP_SUMMARY
-          echo "| Stylelint | ✅ Completed |" >> $GITHUB_STEP_SUMMARY
-          echo "| W3C CSS | ✅ Completed |" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Note: Some warnings may appear due to CSS vendor prefixes and browser-specific features." >> $GITHUB_STEP_SUMMARY
+          {
+            echo "## HTML/CSS Validation"
+            echo ""
+            echo "- HTMLHint: completed"
+            echo "- Stylelint: completed"
+            echo "- W3C validators: informational, because public validator APIs can be intermittent"
+          } >> "$GITHUB_STEP_SUMMARY"

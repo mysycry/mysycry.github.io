@@ -17,12 +17,12 @@
     <meta property="og:url" content="https://josiasmichael.github.io">
     <meta property="og:title" content="Michael Josias D. Tabada | Platform Engineer">
     <meta property="og:description" content="Platform Engineer & Cloud Solutions Architect">
-    <meta property="og:image" content="https://raw.githubusercontent.com/mysycry/josiasmichael.github.io/main/og-image.svg">
+    <meta property="og:image" content="https://josiasmichael.github.io/images/portfolio-preview.png">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Michael Josias D. Tabada | Platform Engineer">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/mysycry/josiasmichael.github.io/main/og-image.svg">
+    <meta name="twitter:image" content="https://josiasmichael.github.io/images/portfolio-preview.png">
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/6024/6024820.png">
@@ -85,7 +85,7 @@
                     </span>
                     <span class="meta-item">
                         <i class="fas fa-link"></i> 
-                        <a href="https://mysycry.github.io" target="_blank">mysycry.github.io</a>
+                        <a href="https://mysycry.github.io" target="_blank" rel="noopener noreferrer">mysycry.github.io</a>
                     </span>
                     <span class="meta-item">
                         <i class="fas fa-calendar"></i> Joined 2022
@@ -145,6 +145,10 @@
             <button class="nav-tab" data-tab="game" role="tab" aria-selected="false">
                 <i class="fas fa-gamepad"></i>
                 <span>Game</span>
+            </button>
+            <button class="nav-tab" data-tab="doom" role="tab" aria-selected="false">
+                <i class="fas fa-ghost"></i>
+                <span>Doom</span>
             </button>
         </nav>
 
@@ -436,7 +440,7 @@
             </section>
 
             <!-- About Tab -->
-            <section class="tab-panel" id="about" role="tabpanel">
+            <section class="tab-panel" id="about" role="tabpanel" hidden>
                 <div class="about-grid">
                     <!-- About Card -->
                     <div class="about-card">
@@ -518,7 +522,7 @@
             </section>
 
             <!-- Badges Tab -->
-            <section class="tab-panel" id="badges" role="tabpanel">
+            <section class="tab-panel" id="badges" role="tabpanel" hidden>
                 <div class="badges-header">
                     <a href="https://www.credly.com/users/jmichael/badges" target="_blank" rel="noopener noreferrer" class="credly-link">
                         <i class="fas fa-external-link-alt"></i>
@@ -685,7 +689,7 @@
             </section>
 
             <!-- Repos Tab -->
-            <section class="tab-panel" id="repos" role="tabpanel">
+            <section class="tab-panel" id="repos" role="tabpanel" hidden>
                 <div class="repos-header">
                     <a href="https://github.com/mysycry" target="_blank" rel="noopener noreferrer" class="github-profile-link">
                         <i class="fab fa-github"></i>
@@ -807,7 +811,7 @@
             </section>
 
             <!-- Game Tab -->
-            <section class="tab-panel" id="game" role="tabpanel">
+            <section class="tab-panel" id="game" role="tabpanel" hidden>
                 <div class="game-section">
                     <h2><i class="fas fa-gamepad"></i> Snake Game</h2>
                     <p class="game-desc">Classic snake game! Eat food to grow. Pass through walls!</p>
@@ -836,6 +840,26 @@
                             </button>
                             <p class="game-hint">Use Arrow Keys or WASD • Pass through walls</p>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Doom Tab -->
+            <section class="tab-panel" id="doom" role="tabpanel" hidden>
+                <div class="game-section">
+                    <h2><i class="fas fa-ghost"></i> DOOM</h2>
+                    <p class="game-desc">Classic DOOM game embedded from js-dos.com!</p>
+
+                    <div class="game-container">
+                        <iframe
+                            class="doom-frame"
+                            src="https://js-dos.com/games/doom.exe.html"
+                            title="Playable classic DOOM embed"
+                            loading="lazy"
+                            allow="fullscreen; gamepad"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                        <p class="game-hint">WASD to move • Ctrl to shoot • Space to open doors</p>
                     </div>
                 </div>
             </section>
