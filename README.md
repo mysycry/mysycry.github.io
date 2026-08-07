@@ -191,7 +191,8 @@ Edit `index.html` Badges tab (lines 365-480):
 
 ### Update Repositories
 
-Edit `index.html` Repos tab (lines 490-570)
+Edit `index.html` Repos tab (lines 739-860) — currently mirrors the 4 repos pinned
+on [github.com/mysycry](https://github.com/mysycry).
 
 ### Change Colors
 
@@ -220,9 +221,15 @@ Edit `styles.css` CSS variables (lines 11-30):
 
 ---
 
-## 🤖 Chatbot Commands
+## 🤖 AI Chatbot
 
-The chatbot responds to:
+The chatbot is powered by **Cloudflare Workers AI** (a serverless LLM) through a
+Pages Function at `functions/api/chat.js` — the API key stays server-side.
+
+- **Live (deployed):** answers any question with an LLM, aware of Michael's
+  background, skills, certifications, and projects.
+- **Offline fallback:** if the AI endpoint is unreachable (e.g. running locally
+  with `python -m http.server`), it falls back to keyword matching for:
 - `hello`, `hi` - Greeting
 - `contact`, `email` - Contact info
 - `job`, `work`, `hire` - Opportunities
@@ -231,7 +238,10 @@ The chatbot responds to:
 - `experience` - Work history
 - `education` - Education info
 - `github`, `repo` - Projects
-- `game`, `snake` - Game info
+- `game`, `snake`, `doom` - Game info
+
+To enable the AI, set `CF_AI_ACCOUNT_ID` and `CF_AI_API_TOKEN` in the Cloudflare
+Pages project settings (see `CLOUDFLARE_DEPLOY.md`).
 
 ---
 

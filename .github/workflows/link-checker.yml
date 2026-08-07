@@ -49,7 +49,6 @@ jobs:
             --retry-wait-time 5 \
             --timeout 30 \
             --accept 200,204,206,403,429 \
-            --exclude 'https://js-dos.com/games/doom.exe.html' \
             --exclude 'mailto:' \
             index.html README.md CLOUDFLARE_DEPLOY.md
 
