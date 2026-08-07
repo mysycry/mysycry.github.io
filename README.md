@@ -45,9 +45,9 @@ A modern **social media-style portfolio** website showcasing professional experi
 - **Posts Feed** - Experience displayed as social media posts
 - **About Tab** - Education and skills grid
 - **Badges Tab** - 10+ certifications with spin animation
-- **Repos Tab** - GitHub repositories with stats
-- **Snake Game** - Playable game with score tracking
-- **Chatbot** - Interactive virtual assistant
+- **Repos Tab** - Mirrors the 4 pinned GitHub repos with live stats
+- **Game Room** - Snake + DOOM (self-hosted WASM) + Mario (coming soon)
+- **Chatbot** - LLM-powered interactive assistant (Cloudflare Workers AI)
 - **Share Button** - Native share API + clipboard fallback
 - **Copy Email** - One-click email copying with toast
 
@@ -60,6 +60,8 @@ A modern **social media-style portfolio** website showcasing professional experi
 - **JavaScript (Vanilla)** - ES6+ features, no frameworks
 - **Font Awesome** - Icons
 - **Google Fonts** - Inter & Fira Code
+- **Cloudflare Pages** - Hosting, CDN, Pages Functions
+- **Cloudflare Workers AI** - Serverless LLM for the chatbot
 
 ---
 
@@ -70,25 +72,36 @@ josiasmichael.github.io/
 ├── index.html              # Main HTML (social media layout)
 ├── styles.css              # Social media theme styling
 ├── script.js               # All JavaScript functionality
-├── manifest.json           # PWA manifest (if needed)
-├── og-image.svg            # Auto-generated social media card
 ├── README.md               # Documentation
+├── GH-README.md            # GitHub Actions study guide
 ├── CLOUDFLARE_DEPLOY.md    # Cloudflare deployment guide
 ├── wrangler.toml           # Cloudflare Pages config
 ├── _routes.json            # Cloudflare routing config
-├── prof-pic.jpg            # Profile picture
-├── Tabada, Michael Josias D. CV.pdf
+├── Tabada, Michael Josias D. CV.pdf   # Downloadable CV
 ├── .github/
 │   └── workflows/
-│       ├── cloudflare-pages-deploy.yml  # Cloudflare deployment
-│       ├── broken-image-checker.yml
-│       ├── link-checker.yml
-│       ├── html-css-validation.yml
-│       └── social-media-card.yml
+│       ├── cloudflare-pages-deploy.yml  # Auto-deploy to Pages
+│       ├── broken-image-checker.yml     # Broken image scan
+│       ├── link-checker.yml             # Link validation
+│       ├── html-css-validation.yml      # Linting + validation
+│       └── social-media-card.yml        # OG image generation
+├── doom/                   # Self-hosted DOOM (WASM)
+│   ├── doom.html
+│   ├── index.js
+│   ├── index.wasm
+│   └── index.data
+├── functions/
+│   └── api/
+│       └── chat.js         # LLM chatbot (Cloudflare Workers AI)
 └── images/
     ├── credly.svg
+    ├── doom-icon.jpg
+    ├── mario-question-mark.webp
     ├── portfolio-preview.png
-    └── prof-pic.jpg
+    ├── prof-pic.jpg
+    ├── question-block.svg
+    ├── snake-icon.webp
+    └── supermario-icon.webp
 ```
 
 ---
@@ -157,13 +170,12 @@ Visit `http://localhost:8000`
 ### Update Profile Info
 
 Edit `index.html`:
-- **Name/Bio** - Lines 85-95
-- **Meta/Stats** - Lines 97-115
-- **Social Links** - Lines 123-135
+- **Name/Bio/Meta** - Lines 62-93 (profile header)
+- **Stats/Actions** - Lines 95-123 (profile-stats + profile-actions)
 
 ### Update Experience (Posts)
 
-Edit `index.html` Posts tab (lines 145-280):
+Edit `index.html` Posts tab (lines 155-480):
 ```html
 <article class="post">
     <div class="post-content">
@@ -176,7 +188,7 @@ Edit `index.html` Posts tab (lines 145-280):
 
 ### Update Badges
 
-Edit `index.html` Badges tab (lines 365-480):
+Edit `index.html` Badges tab (lines 573-739):
 ```html
 <div class="badge-card" data-badge="your-badge-id">
     <div class="badge-image-container">
@@ -191,7 +203,7 @@ Edit `index.html` Badges tab (lines 365-480):
 
 ### Update Repositories
 
-Edit `index.html` Repos tab (lines 739-860) — currently mirrors the 4 repos pinned
+Edit `index.html` Repos tab (lines 740-836) — currently mirrors the 4 repos pinned
 on [github.com/mysycry](https://github.com/mysycry).
 
 ### Change Colors
@@ -229,16 +241,9 @@ Pages Function at `functions/api/chat.js` — the API key stays server-side.
 - **Live (deployed):** answers any question with an LLM, aware of Michael's
   background, skills, certifications, and projects.
 - **Offline fallback:** if the AI endpoint is unreachable (e.g. running locally
-  with `python -m http.server`), it falls back to keyword matching for:
-- `hello`, `hi` - Greeting
-- `contact`, `email` - Contact info
-- `job`, `work`, `hire` - Opportunities
-- `skill`, `technology` - Skills list
-- `certif`, `badge` - Certifications
-- `experience` - Work history
-- `education` - Education info
-- `github`, `repo` - Projects
-- `game`, `snake`, `doom` - Game info
+  with `python -m http.server`), it falls back to keyword matching (greetings,
+  contact, jobs, skills, certifications, experience, education, repos, games,
+  plus "who are you" / "are you AI" style identity questions).
 
 To enable the AI, set `CF_AI_ACCOUNT_ID` and `CF_AI_API_TOKEN` in the Cloudflare
 Pages project settings (see `CLOUDFLARE_DEPLOY.md`).
@@ -259,6 +264,7 @@ Pages project settings (see `CLOUDFLARE_DEPLOY.md`).
 
 | Workflow | Description | Schedule |
 |----------|-------------|----------|
+| 🚀 **Cloudflare Pages Deploy** | Auto-deploys the site to Pages | Push to main |
 | 🔍 **Broken Image Checker** | Scans for broken images | Push + Weekly |
 | 🔗 **Link Checker** | Validates all links | Push + Weekly |
 | 🧹 **HTML/CSS Validation** | Linting + W3C validation | Push/PR |
@@ -267,6 +273,14 @@ Pages project settings (see `CLOUDFLARE_DEPLOY.md`).
 ---
 
 ## 📈 Changelog
+
+### Version 7.0 - LLM Chatbot & Site Overhaul
+- ✅ LLM-powered chatbot via Cloudflare Workers AI (Pages Function, serverless)
+- ✅ Repos tab mirrors the 4 pinned GitHub repos with real stats (36 repos / 112 stars)
+- ✅ Game Room: self-hosted DOOM (WASM) + Mario coming-soon "?" block
+- ✅ Responsive fixes: 2x2 stats grid on phones, game carousel, floating button overlap
+- ✅ GitHub Actions workflow fixes + study guide (`GH-README.md`)
+- ✅ Chat input no longer swallows WASD keys while typing
 
 ### Version 6.2 - AWS MCP AI Assistant Project
 - ✅ Added AI Assistant with MCP Integration project
@@ -351,4 +365,4 @@ Open source. Feel free to fork and customize!
 
 **Made with ❤️ and ☕ by Michael Josias D. Tabada**
 
-*Last Updated: March 2026 | Version 6.2 | Deployed on Cloudflare Pages*
+*Last Updated: August 2026 | Version 7.0 | Deployed on Cloudflare Pages/Github Pages*
