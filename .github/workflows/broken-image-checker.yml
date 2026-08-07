@@ -2,54 +2,79 @@ name: Broken Image Checker
 
 on:
   push:
-    branches: [main]
-    paths: ['**/*.html', '**/*.css', '**/*.md', 'images/**']
+    branches:
+      - main
+      - socmed
+    paths:
+      - "**/*.html"
+      - "**/*.css"
+      - "**/*.md"
+      - "images/**"
+      - ".github/workflows/broken-image-checker.yml"
   pull_request:
-    branches: [main]
+    branches:
+      - main
+      - socmed
   schedule:
-    - cron: '0 0 * * 1'  # Weekly check every Monday
+    - cron: "0 0 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: broken-image-checker-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   check-images:
+    name: Check image references
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-
-      - name: Install broken-link-checker
-        run: npm install -g broken-link-checker
-
-      - name: Start local server
-        run: |
-          nohup python3 -m http.server 8080 &
-          sleep 2
-
-      - name: Check for broken images
-        run: |
-          blc http://localhost:8080 --filter-level 1 --exclude 'https://cdn-icons-png.flaticon.com' --exclude 'https://cdnjs.cloudflare.com' --exclude 'https://fonts.googleapis.com' --exclude 'https://fonts.gstatic.com' --exclude 'https://linkedin.com' --exclude 'https://github.com' --exclude 'https://www.credly.com' --exclude 'http://localhost' --exclude 'mailto:' --exclude '*.svg' || true
-
       - name: Check local image files exist
+        shell: bash
         run: |
-          echo "Checking local image references..."
-          errors=0
-          
-          # Extract image sources from HTML
-          for img in $(grep -oP 'src="\K[^"]+\.(jpg|jpeg|png|gif|webp|svg)' index.html 2>/dev/null || true); do
-            if [[ ! "$img" =~ ^https?:// ]] && [[ ! -f "$img" ]]; then
-              echo "❌ Missing image: $img"
-              errors=$((errors + 1))
-            else
-              echo "✅ Found: $img"
+          set -euo pipefail
+
+          missing=0
+          while IFS= read -r image; do
+            image="${image%%\?*}"
+            image="${image#/}"
+
+            if [[ "$image" =~ ^https?:// ]]; then
+              continue
             fi
-          done
-          
-          if [ $errors -gt 0 ]; then
-            echo "::error::Found $errors broken image reference(s)"
+
+            if [[ ! -f "$image" ]]; then
+              echo "::error::Missing image reference: $image"
+              missing=$((missing + 1))
+            else
+              echo "Found image: $image"
+            fi
+          done < <(
+            grep -RhoP '(src|href|content)="\K[^"]+\.(jpg|jpeg|png|gif|webp|svg)(\?[^"]*)?' index.html README.md styles.css 2>/dev/null
+            grep -RhoP '!\[[^]]*\]\(\K[^)]+\.(jpg|jpeg|png|gif|webp|svg)(\?[^)]*)?' README.md 2>/dev/null
+          ) | sort -u
+
+          if [[ "$missing" -gt 0 ]]; then
             exit 1
           fi
-          echo "✅ All local images found!"
+
+      - name: Check remote image URLs
+        run: |
+          curl --fail --location --silent --show-error --head --retry 3 --retry-delay 5 \
+            "https://cdn-icons-png.flaticon.com/512/6024/6024820.png" >/dev/null
+
+      - name: Create image-check summary
+        if: always()
+        run: |
+          {
+            echo "## Broken Image Checker"
+            echo ""
+            echo "Checked local image references and critical remote image URLs."
+          } >> "$GITHUB_STEP_SUMMARY"

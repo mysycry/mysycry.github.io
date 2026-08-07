@@ -463,8 +463,13 @@ startBtn.addEventListener('click', startGame);
 
 // Keyboard controls
 document.addEventListener('keydown', (e) => {
+    // Don't hijack keys while the user is typing (e.g. in the chat box)
+    if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable)) {
+        return;
+    }
+
     if (!gameRunning) {
-        if (e.code === 'Space' || e.code === 'Enter') {
+        if ((e.code === 'Space' || e.code === 'Enter') && isGamePanelActive('snake')) {
             startGame();
         }
         return;
@@ -540,6 +545,93 @@ canvas.addEventListener('touchend', (e) => {
 initGame();
 draw();
 
+// Game Carousel
+const gameCards = Array.from(document.querySelectorAll('.game-card'));
+const carouselPrev = document.getElementById('carouselPrev');
+const carouselNext = document.getElementById('carouselNext');
+const gamePanels = Array.from(document.querySelectorAll('.game-panel'));
+
+const GAME_NAMES = gameCards.map(card => card.dataset.game);
+let currentGameIndex = 0;
+
+const DOOM_SRC = 'doom/doom.html';
+let doomLoaded = false;
+
+function isGamePanelActive(name) {
+    const panel = document.querySelector(`.game-panel[data-panel="${name}"]`);
+    return panel && panel.classList.contains('active');
+}
+
+function loadDoom() {
+    if (doomLoaded) return;
+    doomLoaded = true;
+    document.getElementById('doomFrame').src = DOOM_SRC;
+}
+
+function stopSnake() {
+    if (!gameRunning) return;
+    gameRunning = false;
+    clearInterval(gameLoop);
+    startBtn.disabled = false;
+    startBtn.innerHTML = '<i class="fas fa-play"></i> Start Game';
+}
+
+function updateCarousel() {
+    const n = GAME_NAMES.length;
+    gameCards.forEach((card, i) => {
+        card.classList.remove('prev', 'active', 'next');
+        if (i === currentGameIndex) {
+            card.classList.add('active');
+        } else if (i === (currentGameIndex - 1 + n) % n) {
+            card.classList.add('prev');
+        } else {
+            card.classList.add('next');
+        }
+    });
+
+    gamePanels.forEach(panel => {
+        panel.classList.toggle('active', panel.dataset.panel === GAME_NAMES[currentGameIndex]);
+    });
+
+    const currentGame = GAME_NAMES[currentGameIndex];
+    if (currentGame === 'doom') loadDoom();
+    if (currentGame !== 'snake') stopSnake();
+
+    setTimeout(focusActiveGame, 350);
+}
+
+function focusActiveGame() {
+    const currentGame = GAME_NAMES[currentGameIndex];
+    if (currentGame === 'doom') document.getElementById('doomFrame').focus();
+}
+
+function selectGame(index) {
+    currentGameIndex = (index + GAME_NAMES.length) % GAME_NAMES.length;
+    updateCarousel();
+}
+
+carouselPrev.addEventListener('click', () => selectGame(currentGameIndex - 1));
+carouselNext.addEventListener('click', () => selectGame(currentGameIndex + 1));
+
+gameCards.forEach((card, i) => {
+    card.addEventListener('click', () => selectGame(i));
+    card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            selectGame(i);
+        } else if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            selectGame(i + 1);
+        } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            selectGame(i - 1);
+        }
+    });
+});
+
+// Initialize carousel positions on load
+updateCarousel();
+
 // Chatbot Functionality
 const chatbotBtn = document.getElementById('chatbotBtn');
 const chatbotWindow = document.getElementById('chatbotWindow');
@@ -561,9 +653,63 @@ closeChat.addEventListener('click', () => {
     chatbotWindow.classList.remove('active');
 });
 
-function sendMessage() {
+let chatHistory = [];
+let chatWaiting = false;
+
+function addBotMessage(text, isTyping = false) {
+    const botMsg = document.createElement('div');
+    botMsg.className = 'chat-message bot';
+    if (isTyping) botMsg.classList.add('typing');
+    botMsg.textContent = text;
+    chatbotBody.appendChild(botMsg);
+    chatbotBody.scrollTop = chatbotBody.scrollHeight;
+    return botMsg;
+}
+
+function getFallbackResponse(lowerMsg) {
+    if (lowerMsg.includes('are you ai') || lowerMsg.includes('are u ai') ||
+        lowerMsg.includes('are you an ai') || lowerMsg.includes('artificial intelligence') ||
+        lowerMsg.includes('are you a robot') || lowerMsg.includes('are you real')) {
+        return "Yes, I'm an AI assistant! I'm powered by an LLM (Llama 3.3) running on Cloudflare Workers AI, and I know all about Michael — his skills, certifications, experience, and projects. Try asking 'What are your skills?'";
+    } else if (lowerMsg.includes('who are you') || lowerMsg.includes('what are you') || lowerMsg.includes('your name')) {
+        return "I'm Michael's AI portfolio assistant! I can answer questions about his background, skills, certifications, experience, education, projects, and games. Ask me anything!";
+    } else if (lowerMsg.includes('how are you')) {
+        return "I'm doing great, thanks for asking! 😄 How can I help you learn about Michael?";
+    } else if (lowerMsg.includes('thank')) {
+        return "You're welcome! Feel free to ask me anything else. 😊";
+    } else if (lowerMsg.includes('bye') || lowerMsg.includes('goodbye') || lowerMsg.includes('see you')) {
+        return "Goodbye! Thanks for stopping by. 👋";
+    } else if (lowerMsg.includes('help') || lowerMsg.includes('what can you do')) {
+        return "You can ask me about Michael's skills, certifications, work experience, education, location, projects, games, or how to contact him. What would you like to know?";
+    } else if (lowerMsg.includes('hello') || lowerMsg.includes('hi')) {
+        return "Hello! How can I help you today? 👋";
+    } else if (lowerMsg.includes('contact') || lowerMsg.includes('email')) {
+        return "You can reach Michael at navigatormichael@gmail.com";
+    } else if (lowerMsg.includes('job') || lowerMsg.includes('work') || lowerMsg.includes('hire')) {
+        return "Michael is open to new opportunities! Feel free to reach out via email or LinkedIn.";
+    } else if (lowerMsg.includes('skill') || lowerMsg.includes('technology') || lowerMsg.includes('tech')) {
+        return "Michael has expertise in AWS, Azure, GCP, Terraform, Docker, Kubernetes, and more. Check the About tab!";
+    } else if (lowerMsg.includes('certif') || lowerMsg.includes('credential') || lowerMsg.includes('badge')) {
+        return "Michael holds 10+ certifications including AWS Solutions Architect, GCP Professional Cloud Architect, and FinOps Engineer. Check the Badges tab!";
+    } else if (lowerMsg.includes('experience') || lowerMsg.includes('work history')) {
+        return "Michael has experience as a Platform Engineer at Revcard, Solutions Architect at Ruralnet, and Solutions Engineer at Lexmark. Check the Posts tab!";
+    } else if (lowerMsg.includes('education') || lowerMsg.includes('school') || lowerMsg.includes('university')) {
+        return "Michael is pursuing a Master's in Financial Engineering at WorldQuant University.";
+    } else if (lowerMsg.includes('location') || lowerMsg.includes('where')) {
+        return "Michael is based in the Philippines.";
+    } else if (lowerMsg.includes('cv') || lowerMsg.includes('resume')) {
+        return "You can download Michael's CV using the CV button at the top!";
+    } else if (lowerMsg.includes('github') || lowerMsg.includes('repo') || lowerMsg.includes('project')) {
+        return "Check out the Repos tab! Pinned projects include mysycry.github.io, claude-code-camp-2026-Q2, aws-bootcamp-cruddur-2023, and skills-secure-repository-supply-chain!";
+    } else if (lowerMsg.includes('game') || lowerMsg.includes('snake') || lowerMsg.includes('mario') || lowerMsg.includes('doom')) {
+        return "The Game tab has a PS5-style carousel with three games: Snake, DOOM (WebAssembly), and Super Mario Bros! 🐍👻👑";
+    }
+    return "I can tell you about Michael's skills, certifications, experience, education, projects, and games. Try asking something like 'What certifications does he have?'";
+}
+
+async function sendMessage() {
     const message = chatInput.value.trim();
-    if (!message) return;
+    if (!message || chatWaiting) return;
 
     const userMsg = document.createElement('div');
     userMsg.className = 'chat-message user';
@@ -573,41 +719,39 @@ function sendMessage() {
     chatInput.value = '';
     chatbotBody.scrollTop = chatbotBody.scrollHeight;
 
-    setTimeout(() => {
-        const botMsg = document.createElement('div');
-        botMsg.className = 'chat-message bot';
+    const typingMsg = addBotMessage('...', true);
+    chatWaiting = true;
+    chatInput.disabled = true;
+    sendChat.disabled = true;
 
-        const lowerMsg = message.toLowerCase();
-        let response = "Thanks for your message! I'll get back to you soon.";
+    try {
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message, history: chatHistory.slice(-8) }),
+        });
 
-        if (lowerMsg.includes('hello') || lowerMsg.includes('hi')) {
-            response = "Hello! How can I help you today? 👋";
-        } else if (lowerMsg.includes('contact') || lowerMsg.includes('email')) {
-            response = "You can reach Michael at navigatormichael@gmail.com";
-        } else if (lowerMsg.includes('job') || lowerMsg.includes('work') || lowerMsg.includes('hire')) {
-            response = "Michael is open to new opportunities! Feel free to reach out via email or LinkedIn.";
-        } else if (lowerMsg.includes('skill') || lowerMsg.includes('technology') || lowerMsg.includes('tech')) {
-            response = "Michael has expertise in AWS, Azure, GCP, Terraform, Docker, Kubernetes, and more. Check the About tab!";
-        } else if (lowerMsg.includes('certif') || lowerMsg.includes('credential') || lowerMsg.includes('badge')) {
-            response = "Michael holds 10+ certifications including AWS Solutions Architect, GCP Professional Cloud Architect, and FinOps Engineer. Check the Badges tab!";
-        } else if (lowerMsg.includes('experience') || lowerMsg.includes('work history')) {
-            response = "Michael has experience as a Platform Engineer at Revcard, Solutions Architect at Ruralnet, and Solutions Engineer at Lexmark. Check the Posts tab!";
-        } else if (lowerMsg.includes('education') || lowerMsg.includes('school') || lowerMsg.includes('university')) {
-            response = "Michael is pursuing a Master's in Financial Engineering at WorldQuant University.";
-        } else if (lowerMsg.includes('location') || lowerMsg.includes('where')) {
-            response = "Michael is based in the Philippines.";
-        } else if (lowerMsg.includes('cv') || lowerMsg.includes('resume')) {
-            response = "You can download Michael's CV using the CV button at the top!";
-        } else if (lowerMsg.includes('github') || lowerMsg.includes('repo') || lowerMsg.includes('project')) {
-            response = "Check out the Repos tab! Featured projects include Secure Repository Supply Chain, Three-Tier GitHub Actions, 30 Days DevOps Challenge, and more!";
-        } else if (lowerMsg.includes('game') || lowerMsg.includes('snake')) {
-            response = "There's a Snake game in the Game tab! It starts slow and gets faster as you eat more. You can pass through walls! 🐍";
+        const data = await response.json().catch(() => null);
+        typingMsg.remove();
+
+        if (response.ok && data && data.response) {
+            addBotMessage(data.response);
+            chatHistory.push({ role: 'user', content: message });
+            chatHistory.push({ role: 'assistant', content: data.response });
+        } else {
+            console.warn('AI chatbot: falling back to keyword replies. Status:', response.status, 'Body:', data?.error || '(non-JSON response)');
+            addBotMessage(getFallbackResponse(message.toLowerCase()));
         }
-
-        botMsg.textContent = response;
-        chatbotBody.appendChild(botMsg);
-        chatbotBody.scrollTop = chatbotBody.scrollHeight;
-    }, 500);
+    } catch (err) {
+        console.warn('AI chatbot: request failed, using keyword fallback.', err);
+        typingMsg.remove();
+        addBotMessage(getFallbackResponse(message.toLowerCase()));
+    } finally {
+        chatWaiting = false;
+        chatInput.disabled = false;
+        sendChat.disabled = false;
+        chatInput.focus();
+    }
 }
 
 sendChat.addEventListener('click', sendMessage);

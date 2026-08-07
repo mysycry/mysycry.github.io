@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- Primary Meta Tags -->
     <title>Michael Josias D. Tabada | Platform Engineer</title>
     <meta name="title" content="Michael Josias D. Tabada - Platform Engineer & Cloud Solutions Architect">
@@ -11,27 +11,27 @@
     <meta name="keywords" content="Platform Engineer, Cloud Architect, AWS, GCP, Azure, Terraform, DevOps, AI">
     <meta name="author" content="Michael Josias D. Tabada">
     <link rel="canonical" href="https://josiasmichael.github.io">
-    
+
     <!-- Open Graph -->
     <meta property="og:type" content="profile">
     <meta property="og:url" content="https://josiasmichael.github.io">
     <meta property="og:title" content="Michael Josias D. Tabada | Platform Engineer">
     <meta property="og:description" content="Platform Engineer & Cloud Solutions Architect">
-    <meta property="og:image" content="https://raw.githubusercontent.com/mysycry/josiasmichael.github.io/main/og-image.svg">
-    
+    <meta property="og:image" content="https://josiasmichael.github.io/images/portfolio-preview.png">
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Michael Josias D. Tabada | Platform Engineer">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/mysycry/josiasmichael.github.io/main/og-image.svg">
-    
+    <meta name="twitter:image" content="https://josiasmichael.github.io/images/portfolio-preview.png">
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/6024/6024820.png">
-    
+
     <!-- Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="styles.css?v=6">
-    
+
     <!-- Stylesheets -->
     <link rel="stylesheet" href="styles.css?v=6">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -40,10 +40,10 @@
 <body>
     <!-- Skip Link -->
     <a href="#main-content" class="skip-link">Skip to content</a>
-    
+
     <!-- Toast Notification -->
     <div class="toast" id="toast" role="alert" aria-live="polite"></div>
-    
+
     <!-- Theme Toggle -->
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
         <i class="fas fa-moon" aria-hidden="true"></i>
@@ -78,20 +78,20 @@
                 <p class="profile-bio">
                     Platform Engineer & Cloud Solutions Architect ☁️ | AWS • GCP • Azure | AI Enthusiast 🤖
                 </p>
-                
+
                 <div class="profile-meta">
                     <span class="meta-item">
                         <i class="fas fa-map-marker-alt"></i> Philippines
                     </span>
                     <span class="meta-item">
-                        <i class="fas fa-link"></i> 
-                        <a href="https://mysycry.github.io" target="_blank">mysycry.github.io</a>
+                        <i class="fas fa-link"></i>
+                        <a href="https://mysycry.github.io" target="_blank" rel="noopener noreferrer">mysycry.github.io</a>
                     </span>
                     <span class="meta-item">
-                        <i class="fas fa-calendar"></i> Joined 2022
+                        <i class="fas fa-calendar"></i> Joined 2021
                     </span>
                 </div>
-                
+
                 <div class="profile-stats">
                     <button class="stat-btn">
                         <span class="stat-number">10+</span>
@@ -106,7 +106,7 @@
                         <span class="stat-label">Years Exp.</span>
                     </button>
                 </div>
-                
+
                 <div class="profile-actions">
                     <a href="mailto:navigatormichael@gmail.com" class="btn btn-primary">
                         <i class="fas fa-envelope"></i> <span>Contact</span>
@@ -150,7 +150,7 @@
 
         <!-- Main Content -->
         <main class="profile-content" id="main-content">
-            
+
             <!-- Posts Tab (Experience as Posts) -->
             <section class="tab-panel active" id="posts" role="tabpanel">
                 <div class="posts-feed">
@@ -173,9 +173,12 @@
                             </p>
                             <div class="post-body">
                                 <ul>
-                                    <li>Architect AWS infrastructure (ECS, ALB, RDS, S3, Lambda, IAM) using Terraform</li>
-                                    <li>Build CI/CD pipelines in Bitbucket for tag-based deployments</li>
-                                    <li>Drive platform reliability through Datadog observability (APM/logs/metrics)</li>
+                                    <li>Designed and implemented CI/CD pipelines in Bitbucket, enabling automated tag-based deployments to EC2/ECS, reducing
+                                    manual release effort by ~80%.</li>
+                                    <li>Architect multi-env AWS infrastructure using Terraform (ECS, ALB, RDS, IAM) improving deployment consistency and
+                                    reducing configuration drift.</li>
+                                    <li>Drive platform reliability and governance through Datadog observability (APM/logs), branch protection + JIRA integration,
+                                    and cost-controlled AWS best practices.</li>
                                 </ul>
                             </div>
                             <div class="post-tags">
@@ -288,7 +291,46 @@
                         <h2><i class="fas fa-rocket"></i> Projects & Training</h2>
                     </div>
 
-                    <!-- Project Post 0 - AWS MCP AI Assistant (NEW) -->
+                    <!-- Project Post 0 - Autonomous Game Multi-Agent Squad (tbaMUD) -->
+                    <article class="post project-post pinned">
+                        <div class="post-content">
+                            <div class="project-badge">Multi-Agent AI</div>
+                            <h3 class="post-title">Autonomous Game Multi-Agent Squad (tbaMUD)</h3>
+                            <p class="post-company">
+                                <i class="fas fa-gamepad"></i> 2026
+                            </p>
+                            <div class="post-body">
+                                <ul>
+                                    <li>Built a complete agent framework in Ruby and ported it to Python across 12 incremental steps, then evolved it into a multi-agent "squad" — a manager orchestrating 7 specialist sub-agents (connection, reset, map, grind, observability, trace, grafana) registered as tools with zero framework changes</li>
+                                    <li>Wired OpenTelemetry tracing through every agent span into Jaeger and Grafana, and built a live bulletin-board dashboard streaming the character's level, gold, XP, HP/mana/MV, location, and kill feed in real time while the squad plays</li>
+                                </ul>
+                            </div>
+                            <div class="post-tags">
+                                <span class="tag">Ruby</span>
+                                <span class="tag">Python</span>
+                                <span class="tag">Multi-Agent</span>
+                                <span class="tag">OpenTelemetry</span>
+                                <span class="tag">Jaeger</span>
+                                <span class="tag">Grafana</span>
+                            </div>
+                        </div>
+                        <div class="post-actions">
+                            <button class="action-btn like-btn">
+                                <i class="far fa-heart"></i>
+                                <span>Like</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-comment"></i>
+                                <span>Comment</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-share-square"></i>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Project Post 1 - AWS MCP AI Assistant -->
                     <article class="post project-post pinned">
                         <div class="post-content">
                             <div class="project-badge">AWS Workshop</div>
@@ -332,7 +374,7 @@
                         </div>
                     </article>
 
-                    <!-- Project Post 1 -->
+                    <!-- Project Post 2 -->
                     <article class="post project-post">
                         <div class="post-content">
                             <div class="project-badge">AI Engineer</div>
@@ -366,7 +408,7 @@
                         </div>
                     </article>
 
-                    <!-- Project Post 2 -->
+                    <!-- Project Post 3 -->
                     <article class="post project-post">
                         <div class="post-content">
                             <div class="project-badge">Terraform Engineer</div>
@@ -399,7 +441,7 @@
                         </div>
                     </article>
 
-                    <!-- Project Post 3 -->
+                    <!-- Project Post 4 -->
                     <article class="post project-post">
                         <div class="post-content">
                             <div class="project-badge">Cloud Engineer</div>
@@ -436,7 +478,7 @@
             </section>
 
             <!-- About Tab -->
-            <section class="tab-panel" id="about" role="tabpanel">
+            <section class="tab-panel" id="about" role="tabpanel" hidden>
                 <div class="about-grid">
                     <!-- About Card -->
                     <div class="about-card">
@@ -464,6 +506,16 @@
                     <div class="about-card skills-card">
                         <h3><i class="fas fa-tools"></i> Technical Skills</h3>
                         <div class="skills-grid">
+                            <div class="skill-category">
+                                <h4><i class="fas fa-robot"></i> AI & Automation</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Multi-agent Orchestration</span>
+                                    <span class="skill-tag">AI Agents</span>
+                                    <span class="skill-tag">MCP</span>
+                                    <span class="skill-tag">Strands Agent</span>
+                                    <span class="skill-tag">AWS Bedrock</span>
+                                </div>
+                            </div>
                             <div class="skill-category">
                                 <h4><i class="fas fa-cloud"></i> Cloud Platforms</h4>
                                 <div class="skill-tags">
@@ -518,7 +570,7 @@
             </section>
 
             <!-- Badges Tab -->
-            <section class="tab-panel" id="badges" role="tabpanel">
+            <section class="tab-panel" id="badges" role="tabpanel" hidden>
                 <div class="badges-header">
                     <a href="https://www.credly.com/users/jmichael/badges" target="_blank" rel="noopener noreferrer" class="credly-link">
                         <i class="fas fa-external-link-alt"></i>
@@ -685,7 +737,7 @@
             </section>
 
             <!-- Repos Tab -->
-            <section class="tab-panel" id="repos" role="tabpanel">
+            <section class="tab-panel" id="repos" role="tabpanel" hidden>
                 <div class="repos-header">
                     <a href="https://github.com/mysycry" target="_blank" rel="noopener noreferrer" class="github-profile-link">
                         <i class="fab fa-github"></i>
@@ -696,85 +748,60 @@
                 <div class="repos-grid">
                     <div class="repo-card">
                         <div class="repo-header">
-                            <h4>SKILLS-SECURE-REPOSITORY-SUPPLY-CHAIN</h4>
-                            <a href="https://github.com/mysycry/SKILLS-SECURE-REPOSITORY-SUPPLY-CHAIN" target="_blank" rel="noopener noreferrer" class="repo-link-btn">
+                            <h4>mysycry.github.io</h4>
+                            <a href="https://github.com/mysycry/mysycry.github.io" target="_blank" rel="noopener noreferrer" class="repo-link-btn">
                                 <i class="fas fa-external-link-alt"></i>
                             </a>
                         </div>
-                        <p class="repo-desc">Exercise: Secure your Repository Supply Chain. Learn to implement security best practices.</p>
-                        <div class="repo-meta">
-                            <span class="repo-lang"><i class="fas fa-code"></i> C#</span>
-                            <span class="repo-license"><i class="fas fa-scale-balanced"></i> MIT</span>
-                        </div>
-                    </div>
-
-                    <div class="repo-card">
-                        <div class="repo-header">
-                            <h4>THREE-TIER-GITHUB-ACTIONS-PROJECT</h4>
-                            <a href="https://github.com/mysycry/THREE-TIER-GITHUB-ACTIONS-PROJECT" target="_blank" rel="noopener noreferrer" class="repo-link-btn">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                        <p class="repo-desc">Three-tier application deployment using GitHub Actions. CI/CD pipelines for automated testing.</p>
-                        <div class="repo-meta">
-                            <span class="repo-lang"><i class="fas fa-code"></i> JavaScript</span>
-                            <span class="repo-license"><i class="fas fa-scale-balanced"></i> MIT</span>
-                        </div>
-                    </div>
-
-                    <div class="repo-card">
-                        <div class="repo-header">
-                            <h4>30DAYS-DEVOPS-CHALLENGE</h4>
-                            <a href="https://github.com/mysycry/30DAYS-DEVOPS-CHALLENGE" target="_blank" rel="noopener noreferrer" class="repo-link-btn">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                        <p class="repo-desc">30 Days DevOps Challenge - Daily tasks covering DevOps fundamentals and best practices.</p>
-                        <div class="repo-meta">
-                            <span class="repo-lang"><i class="fas fa-code"></i> Shell</span>
-                            <span class="repo-license"><i class="fas fa-lock"></i> Public</span>
-                        </div>
-                    </div>
-
-                    <div class="repo-card">
-                        <div class="repo-header">
-                            <h4>AI_FIRST_ACTIVITIES</h4>
-                            <a href="https://github.com/mysycry/AI_FIRST_ACTIVITIES" target="_blank" rel="noopener noreferrer" class="repo-link-btn">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                        <p class="repo-desc">AI First Bootcamp activities. ML experiments, AI agents, and data science notebooks.</p>
-                        <div class="repo-meta">
-                            <span class="repo-lang"><i class="fas fa-code"></i> Jupyter</span>
-                            <span class="repo-license"><i class="fas fa-lock"></i> Public</span>
-                        </div>
-                    </div>
-
-                    <div class="repo-card">
-                        <div class="repo-header">
-                            <h4>GITOPS-MINICAMP-2024-TF</h4>
-                            <a href="https://github.com/mysycry/GITOPS-MINICAMP-2024-TF" target="_blank" rel="noopener noreferrer" class="repo-link-btn">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                        <p class="repo-desc">GitOps Minicamp project using Terraform. Infrastructure as Code with automated deployments.</p>
-                        <div class="repo-meta">
-                            <span class="repo-lang"><i class="fas fa-code"></i> HCL</span>
-                            <span class="repo-license"><i class="fas fa-lock"></i> Public</span>
-                        </div>
-                    </div>
-
-                    <div class="repo-card">
-                        <div class="repo-header">
-                            <h4>WILDRYDES-X</h4>
-                            <a href="https://github.com/mysycry/WILDRYDES-X" target="_blank" rel="noopener noreferrer" class="repo-link-btn">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                        <p class="repo-desc">Serverless web application for unicorn rides. AWS Lambda, API Gateway, and DynamoDB.</p>
+                        <p class="repo-desc">My GitHub Pages portfolio site.</p>
                         <div class="repo-meta">
                             <span class="repo-lang"><i class="fas fa-code"></i> HTML</span>
                             <span class="repo-license"><i class="fas fa-lock"></i> Public</span>
+                        </div>
+                    </div>
+
+                    <div class="repo-card">
+                        <div class="repo-header">
+                            <h4>claude-code-camp-2026-Q2</h4>
+                            <a href="https://github.com/mysycry/claude-code-camp-2026-Q2" target="_blank" rel="noopener noreferrer" class="repo-link-btn">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                        <p class="repo-desc">Claude Code Camp 2026 Q2 - AI-assisted coding projects and exercises.</p>
+                        <div class="repo-meta">
+                            <span class="repo-lang"><i class="fas fa-code"></i> Python</span>
+                            <span class="repo-license"><i class="fas fa-lock"></i> Public</span>
+                        </div>
+                    </div>
+
+                    <div class="repo-card">
+                        <div class="repo-header">
+                            <h4>aws-bootcamp-cruddur-2023</h4>
+                            <a href="https://github.com/mysycry/aws-bootcamp-cruddur-2023" target="_blank" rel="noopener noreferrer" class="repo-link-btn">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                        <p class="repo-desc">AWS Cloud Project Bootcamp.</p>
+                        <div class="repo-meta">
+                            <span class="repo-lang"><i class="fas fa-code"></i> JavaScript</span>
+                            <span class="repo-license"><i class="fas fa-lock"></i> Public</span>
+                            <span class="repo-forks"><i class="fas fa-code-branch"></i> 2</span>
+                        </div>
+                    </div>
+
+                    <div class="repo-card">
+                        <div class="repo-header">
+                            <h4>skills-secure-repository-supply-chain</h4>
+                            <a href="https://github.com/mysycry/skills-secure-repository-supply-chain" target="_blank" rel="noopener noreferrer" class="repo-link-btn">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                        <p class="repo-desc">Exercise: Secure your Repository Supply Chain.</p>
+                        <div class="repo-meta">
+                            <span class="repo-lang"><i class="fas fa-code"></i> C#</span>
+                            <span class="repo-license"><i class="fas fa-scale-balanced"></i> MIT</span>
+                            <span class="repo-stars"><i class="fas fa-star"></i> 1</span>
+                            <span class="repo-forks"><i class="fas fa-code-branch"></i> 1</span>
                         </div>
                     </div>
                 </div>
@@ -784,57 +811,126 @@
                     <div class="stats-grid">
                         <div class="stat-card">
                             <i class="fas fa-folder"></i>
-                            <span class="stat-number">35+</span>
+                            <span class="stat-number">36</span>
                             <span class="stat-label">Repos</span>
                         </div>
                         <div class="stat-card">
-                            <i class="fab fa-js"></i>
-                            <span class="stat-number">6+</span>
-                            <span class="stat-label">Languages</span>
+                            <i class="fas fa-star"></i>
+                            <span class="stat-number">112</span>
+                            <span class="stat-label">Stars</span>
                         </div>
                         <div class="stat-card">
-                            <i class="fas fa-code-branch"></i>
-                            <span class="stat-number">Public</span>
-                            <span class="stat-label">Visibility</span>
+                            <i class="fas fa-users"></i>
+                            <span class="stat-number">3</span>
+                            <span class="stat-label">Followers</span>
                         </div>
                         <div class="stat-card">
-                            <i class="fas fa-clock"></i>
-                            <span class="stat-number">Active</span>
-                            <span class="stat-label">Status</span>
+                            <i class="fas fa-user-plus"></i>
+                            <span class="stat-number">11</span>
+                            <span class="stat-label">Following</span>
                         </div>
                     </div>
                 </div>
             </section>
 
             <!-- Game Tab -->
-            <section class="tab-panel" id="game" role="tabpanel">
+            <section class="tab-panel" id="game" role="tabpanel" hidden>
                 <div class="game-section">
-                    <h2><i class="fas fa-gamepad"></i> Snake Game</h2>
-                    <p class="game-desc">Classic snake game! Eat food to grow. Pass through walls!</p>
+                    <h2><i class="fas fa-gamepad"></i> Game Room</h2>
+                    <p class="game-desc">Pick a game to play!</p>
 
-                    <div class="game-container">
-                        <div class="game-stats">
-                            <div class="stat">
-                                <span class="stat-label">Score</span>
-                                <span class="stat-value" id="score">0</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-label">High Score</span>
-                                <span class="stat-value" id="highScore">0</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-label">Speed</span>
-                                <span class="stat-value" id="speed">1x</span>
+                    <!-- Game Carousel -->
+                    <div class="game-carousel" id="gameCarousel">
+                        <button class="carousel-arrow prev" id="carouselPrev" aria-label="Previous game">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+
+                        <div class="game-carousel-track">
+                            <article class="game-card active" data-game="snake" role="button" tabindex="0" aria-label="Play Snake">
+                                <div class="game-card-art">
+                                    <img src="images/snake-icon.webp" alt="Snake" loading="lazy">
+                                </div>
+                                <h3>Snake</h3>
+                                <p>Classic arcade snake</p>
+                            </article>
+
+                            <article class="game-card" data-game="doom" role="button" tabindex="0" aria-label="Play DOOM">
+                                <div class="game-card-art">
+                                    <img src="images/doom-icon.jpg" alt="DOOM" loading="lazy">
+                                </div>
+                                <h3>DOOM</h3>
+                                <p>1993 FPS via WebAssembly</p>
+                            </article>
+
+                            <article class="game-card" data-game="mario" role="button" tabindex="0" aria-label="Play Super Mario Bros">
+                                <div class="game-card-art">
+                                    <img src="images/supermario-icon.webp" alt="Super Mario Bros" loading="lazy">
+                                </div>
+                                <h3>Super Mario Bros</h3>
+                                <p>Coming soon</p>
+                            </article>
+                        </div>
+
+                        <button class="carousel-arrow next" id="carouselNext" aria-label="Next game">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Game Stage -->
+                    <div class="game-stage">
+                        <!-- Snake -->
+                        <div class="game-panel active" data-panel="snake">
+                            <div class="game-container">
+                                <div class="game-stats">
+                                    <div class="stat">
+                                        <span class="stat-label">Score</span>
+                                        <span class="stat-value" id="score">0</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-label">High Score</span>
+                                        <span class="stat-value" id="highScore">0</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-label">Speed</span>
+                                        <span class="stat-value" id="speed">1x</span>
+                                    </div>
+                                </div>
+
+                                <canvas class="game-canvas" id="gameCanvas" width="400" height="400"></canvas>
+
+                                <div class="game-controls">
+                                    <button class="game-btn" id="startGame">
+                                        <i class="fas fa-play"></i> Start Game
+                                    </button>
+                                    <p class="game-hint">Use Arrow Keys or WASD • Pass through walls</p>
+                                </div>
                             </div>
                         </div>
 
-                        <canvas class="game-canvas" id="gameCanvas" width="400" height="400"></canvas>
+                        <!-- DOOM -->
+                        <div class="game-panel" data-panel="doom">
+                            <div class="game-container">
+                                <iframe
+                                    class="doom-frame"
+                                    id="doomFrame"
+                                    title="Playable classic DOOM"
+                                    allow="fullscreen; gamepad"
+                                    referrerpolicy="no-referrer-when-downgrade">
+                                </iframe>
+                                <p class="game-hint">Click the game once to capture keyboard • WASD to move • Q to fire • E to use • Shift to run</p>
+                            </div>
+                        </div>
 
-                        <div class="game-controls">
-                            <button class="game-btn" id="startGame">
-                                <i class="fas fa-play"></i> Start Game
-                            </button>
-                            <p class="game-hint">Use Arrow Keys or WASD • Pass through walls</p>
+                        <!-- Super Mario Bros -->
+                        <div class="game-panel" data-panel="mario">
+                            <div class="game-container game-coming-soon">
+                                <div class="coming-soon-icon">
+                                    <img src="images/mario-question-mark.webp" alt="Coming soon" width="120" height="120">
+                                </div>
+                                <h3>Super Mario Bros</h3>
+                                <p class="coming-soon-text">Coming Soon</p>
+                                <p class="game-hint">The Mushroom Kingdom is on the way!</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -878,7 +974,7 @@
         </div>
         <div class="chatbot-body" id="chatbotBody">
             <div class="chat-message bot">
-                <p>Hi! I'm Michael's virtual assistant. How can I help you today? 👋</p>
+                <p>Hi! I'm Michael's AI assistant, powered by LLM. Ask me anything about Michael! 👋</p>
             </div>
         </div>
         <div class="chatbot-input">
@@ -887,6 +983,6 @@
         </div>
     </div>
 
-    <script src="script.js?v=6"></script>
+    <script src="script.js?v=7"></script>
 </body>
 </html>

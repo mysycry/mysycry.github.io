@@ -63,6 +63,46 @@ The workflow will automatically deploy on every push to `main` branch.
 
 ---
 
+## 🤖 AI Chatbot (Cloudflare Workers AI)
+
+The chat assistant uses a **Pages Function** (`functions/api/chat.js`) to call
+Cloudflare Workers AI. The API key lives server-side and never ships to the
+browser.
+
+### Enable it (one time)
+
+1. Go to **Workers & Pages** → your Pages project → **Settings → Variables and
+   Secrets**.
+2. Add two variables:
+   ```
+   CF_AI_ACCOUNT_ID: your_cloudflare_account_id
+   CF_AI_API_TOKEN:  your_workers_ai_api_token
+   ```
+   Create the token at **My Profile → API Tokens** with **Workers AI → Edit**
+   permission (it is NOT the same as the Pages deploy token).
+3. (Optional) `CF_AI_MODEL` — override the model. Default:
+   `@cf/meta/llama-3.3-70b-instruct-fp8-fast` (free tier).
+4. Redeploy (or push) and the chatbot becomes LLM-powered automatically.
+
+### How it works
+
+```
+User types message
+   ↓
+Browser → POST /api/chat (same-origin, no API key here)
+   ↓
+Pages Function → Cloudflare Workers AI (key from env, never exposed)
+   ↓
+LLM reply → back to the chat bubble
+```
+
+### Free tier
+
+Workers AI free plan includes 10,000 Neurons/day (~hundreds of chat turns) — no
+credit card required.
+
+---
+
 ## 📊 Cloudflare Pages Features
 
 ### Included Free Tier
