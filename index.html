@@ -84,8 +84,12 @@
                         <i class="fas fa-map-marker-alt"></i> Philippines
                     </span>
                     <span class="meta-item">
-                        <i class="fas fa-link"></i>
+                        <i class="fab fa-github"></i>
                         <a href="https://mysycry.github.io" target="_blank" rel="noopener noreferrer">mysycry.github.io</a>
+                    </span>
+                    <span class="meta-item">
+                        <i class="fab fa-cloudflare"></i>
+                        <a href="https://josiasmichael.pages.dev" target="_blank" rel="noopener noreferrer">josiasmichael.pages.dev</a>
                     </span>
                     <span class="meta-item">
                         <i class="fas fa-calendar"></i> Joined 2021
@@ -108,7 +112,7 @@
                 </div>
 
                 <div class="profile-actions">
-                    <a href="mailto:navigatormichael@gmail.com" class="btn btn-primary">
+                    <a href="mailto:josiasmichael@gmail.com" class="btn btn-primary">
                         <i class="fas fa-envelope"></i> <span>Contact</span>
                     </a>
                     <a href="https://linkedin.com/in/josiasmichael" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
@@ -753,10 +757,18 @@
                                 <i class="fas fa-external-link-alt"></i>
                             </a>
                         </div>
-                        <p class="repo-desc">My GitHub Pages portfolio site.</p>
+                        <p class="repo-desc">My portfolio site — live on GitHub Pages &amp; Cloudflare Pages.</p>
                         <div class="repo-meta">
                             <span class="repo-lang"><i class="fas fa-code"></i> HTML</span>
                             <span class="repo-license"><i class="fas fa-lock"></i> Public</span>
+                        </div>
+                        <div class="repo-links">
+                            <a href="https://mysycry.github.io" target="_blank" rel="noopener noreferrer" class="repo-link-btn">
+                                <i class="fas fa-globe"></i> GitHub Pages
+                            </a>
+                            <a href="https://josiasmichael.pages.dev" target="_blank" rel="noopener noreferrer" class="repo-link-btn">
+                                <i class="fab fa-cloudflare"></i> Cloudflare Pages
+                            </a>
                         </div>
                     </div>
 
@@ -954,7 +966,7 @@
 
     <!-- Chatbot Button -->
     <button class="chatbot-btn" id="chatbotBtn" aria-label="Open chat">
-        <i class="fas fa-robot" aria-hidden="true"></i>
+        <span class="retro-q">?</span>
         <span class="chatbot-badge">1</span>
     </button>
 
@@ -962,15 +974,20 @@
     <div class="chatbot-window" id="chatbotWindow">
         <div class="chatbot-header">
             <div class="chatbot-title">
-                <i class="fas fa-robot"></i>
+                <span class="retro-coin" aria-hidden="true"></span>
                 <div>
-                    <h3>Chat Assistant</h3>
-                    <span class="online-indicator">Online</span>
+                    <h3>michael@portfolio:~</h3>
+                    <span class="online-indicator"><i class="fas fa-circle"></i> system online</span>
                 </div>
             </div>
             <button class="close-chat" id="closeChat" aria-label="Close chat">
                 <i class="fas fa-times"></i>
             </button>
+        </div>
+        <div class="terminal-log" aria-hidden="true">
+            <p>&gt; booting assistant.sys ...</p>
+            <p>&gt; loading michael_knowledge.db ... <span class="ok">[OK]</span></p>
+            <p>&gt; ai_engine: llama-3.3-70b <span class="ok">[ready]</span></p>
         </div>
         <div class="chatbot-body" id="chatbotBody">
             <div class="chat-message bot">
@@ -978,7 +995,8 @@
             </div>
         </div>
         <div class="chatbot-input">
-            <input type="text" id="chatInput" placeholder="Type a message...">
+            <span class="prompt-symbol">&gt;</span>
+            <input type="text" id="chatInput" placeholder="type your query...">
             <button id="sendChat"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
