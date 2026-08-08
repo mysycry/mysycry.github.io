@@ -25,7 +25,7 @@ const SYSTEM_PROMPT = [
   "",
   "About Michael Josias D. Tabada:",
   "- Cloud/Platform Engineer and Solutions Architect based in the Philippines.",
-  "- Email: navigatormichael@gmail.com. Open to new opportunities.",
+  "- Email: josiasmichael@gmail.com. Open to new opportunities.",
   "- Skills: AWS, Azure, GCP, Terraform, Docker, Kubernetes, IaC, GitHub Actions, CI/CD, FinOps.",
   "- Certifications: 10+ including AWS Solutions Architect, GCP Professional Cloud Architect, FinOps Engineer.",
   "- Experience: Platform Engineer at Revcard, Solutions Architect at Ruralnet, Solutions Engineer at Lexmark.",

@@ -19,7 +19,7 @@
 
 4. **Configure Build Settings**
    ```
-   Project name: portfolio
+   Project name: josiasmichael
    Production branch: legacy
    Build command: (leave empty)
    Build output directory: .
@@ -149,7 +149,7 @@ If you want to keep `mysycry.github.io`:
    ```
    Type: CNAME
    Name: @ (or mysycry)
-   Target: portfolio.josiasmichael.pages.dev
+   Target: josiasmichael.pages.dev
    Proxy: Enabled (orange cloud)
    ```
 
@@ -206,7 +206,7 @@ Deploy to Cloudflare Pages
     ↓
 Global CDN propagation (~5s)
     ↓
-Live at portfolio.josiasmichael.pages.dev
+Live at josiasmichael.pages.dev
 ```
 
 ---

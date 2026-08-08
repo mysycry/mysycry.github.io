@@ -23,21 +23,21 @@ const coverPhotoBg = document.getElementById('coverPhotoBg');
 
 if (coverPhotoBg) {
     let ticking = false;
-    
+
     window.addEventListener('scroll', () => {
         if (!ticking) {
             window.requestAnimationFrame(() => {
                 const scrolled = window.scrollY;
                 const parallaxSpeed = 0.5;
                 const offset = scrolled * parallaxSpeed;
-                
+
                 if (coverPhotoBg) {
                     coverPhotoBg.style.transform = `translateY(${offset}px)`;
                 }
-                
+
                 ticking = false;
             });
-            
+
             ticking = true;
         }
     }, { passive: true });
@@ -48,12 +48,12 @@ function showToast(message, type = 'success') {
     const toast = document.getElementById('toast');
     toast.textContent = message;
     toast.className = `toast show ${type}`;
-    
+
     const icon = document.createElement('i');
     icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-info-circle';
     icon.setAttribute('aria-hidden', 'true');
     toast.insertBefore(icon, toast.firstChild);
-    
+
     setTimeout(() => {
         toast.className = 'toast';
         toast.innerHTML = '';
@@ -118,9 +118,9 @@ tabBtns.forEach(btn => {
         const panel = document.getElementById(tabId);
         panel.classList.add('active');
         panel.removeAttribute('hidden');
-        
+
         // Scroll to top of content on tab change
-        document.querySelector('.profile-content').scrollIntoView({ 
+        document.querySelector('.profile-content').scrollIntoView({
             behavior: 'smooth',
             block: 'start'
         });
@@ -152,15 +152,15 @@ document.querySelectorAll('.like-btn').forEach(btn => {
     btn.addEventListener('click', function(e) {
         const icon = this.querySelector('i');
         const text = this.querySelector('span');
-        
+
         // Toggle liked state
         this.classList.toggle('liked');
-        
+
         if (this.classList.contains('liked')) {
             icon.classList.remove('far');
             icon.classList.add('fas');
             text.textContent = 'Liked';
-            
+
             // Create multiple heart particles
             createHeartParticles(this);
         } else {
@@ -174,36 +174,36 @@ document.querySelectorAll('.like-btn').forEach(btn => {
 function createHeartParticles(button) {
     const rect = button.getBoundingClientRect();
     const particleCount = 12; // More hearts for livestream effect
-    
+
     for (let i = 0; i < particleCount; i++) {
         setTimeout(() => {
             const heart = document.createElement('div');
             heart.className = 'heart-particle';
             heart.innerHTML = '<i class="fas fa-heart"></i>';
-            
+
             // Random horizontal spread across button width
             const randomX = rect.left + Math.random() * rect.width;
             heart.style.left = `${randomX}px`;
             heart.style.top = `${rect.top - 20}px`;
-            
+
             // Random size variation for depth effect
             const randomScale = 0.8 + Math.random() * 0.6; // 0.8 to 1.4
             heart.style.fontSize = `${1.5 * randomScale}rem`;
-            
+
             // Random horizontal drift
             const drift = (Math.random() - 0.5) * 60; // -30 to 30px
             heart.style.setProperty('--drift', `${drift}px`);
-            
+
             // Random animation duration for varied speed
             const duration = 1.2 + Math.random() * 0.6; // 1.2 to 1.8s
             heart.style.animationDuration = `${duration}s`;
-            
+
             // Random delay for staggered spawn
             const delay = Math.random() * 0.3;
             heart.style.animationDelay = `${delay}s`;
-            
+
             document.body.appendChild(heart);
-            
+
             // Remove heart after animation completes
             setTimeout(() => {
                 heart.remove();
@@ -385,7 +385,7 @@ function update() {
     // Wall wrapping
     if (head.x < 0) head.x = tileCount - 1;
     else if (head.x >= tileCount) head.x = 0;
-    
+
     if (head.y < 0) head.y = tileCount - 1;
     else if (head.y >= tileCount) head.y = 0;
 
@@ -647,6 +647,21 @@ chatbotBtn.addEventListener('click', () => {
         // Remove notification badge
         chatbotBtn.querySelector('.chatbot-badge')?.remove();
     }
+    // Jump the FAB on click (Web Animations API — immune to CSS
+    // reduced-motion overrides and transform conflicts)
+    const motionOk = window.matchMedia('(prefers-reduced-motion: reduce)').matches === false;
+    if (motionOk && chatbotBtn.animate) {
+        chatbotBtn.animate(
+            [
+                { transform: 'translateY(0)' },
+                { transform: 'translateY(-24px) scale(1.05)', offset: 0.3 },
+                { transform: 'translateY(0)' },
+                { transform: 'translateY(-10px)', offset: 0.75 },
+                { transform: 'translateY(0)' },
+            ],
+            { duration: 400, easing: 'ease' }
+        );
+    }
 });
 
 closeChat.addEventListener('click', () => {
@@ -684,7 +699,7 @@ function getFallbackResponse(lowerMsg) {
     } else if (lowerMsg.includes('hello') || lowerMsg.includes('hi')) {
         return "Hello! How can I help you today? 👋";
     } else if (lowerMsg.includes('contact') || lowerMsg.includes('email')) {
-        return "You can reach Michael at navigatormichael@gmail.com";
+        return "You can reach Michael at josiasmichael@gmail.com";
     } else if (lowerMsg.includes('job') || lowerMsg.includes('work') || lowerMsg.includes('hire')) {
         return "Michael is open to new opportunities! Feel free to reach out via email or LinkedIn.";
     } else if (lowerMsg.includes('skill') || lowerMsg.includes('technology') || lowerMsg.includes('tech')) {
@@ -815,7 +830,7 @@ function loadBadgeImages() {
             imgContainer.appendChild(img);
         }
     });
-    
+
     // Attach spin event listeners AFTER images are loaded
     attachBadgeSpinListeners();
 }
@@ -823,19 +838,19 @@ function loadBadgeImages() {
 // Attach spin event listeners to badge cards
 function attachBadgeSpinListeners() {
     const badgeCards = document.querySelectorAll('.credly-badges-grid .badge-card');
-    
+
     badgeCards.forEach(card => {
         // Touch support for mobile
         card.addEventListener('touchstart', () => {
             card.classList.add('spinning');
         });
-        
+
         card.addEventListener('touchend', () => {
             setTimeout(() => {
                 card.classList.remove('spinning');
             }, 600);
         });
-        
+
         // Click support for desktop
         card.addEventListener('click', () => {
             card.classList.add('spinning');
