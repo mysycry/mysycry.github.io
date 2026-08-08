@@ -97,7 +97,7 @@ export async function onRequest(context) {
     { role: "user", content: userText },
   ];
 
-  const url = `https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(accountId)}/ai/run/${encodeURIComponent(model)}`;
+  const url = `https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(accountId)}/ai/run/${model}`;
 
   let aiResponse;
   try {
