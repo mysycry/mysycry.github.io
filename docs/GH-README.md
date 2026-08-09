@@ -67,9 +67,9 @@ Workflows in this repo are triggered by **push**, **pull_request**,
 ```yaml
 on:
   push:
-    branches: [main, idkanymore]
+    branches: [main, dev]
   pull_request:
-    branches: [main, idkanymore]
+    branches: [main, dev]
   schedule:
     - cron: "0 0 * * 1"          # every Monday at 00:00 UTC
   workflow_dispatch:               # adds a "Run workflow" button in the UI
@@ -103,7 +103,7 @@ concurrency:
 ```
 
 If you push twice in a row, the **older run gets cancelled** and only the newest
-finishes. `${{ github.ref }}` makes the group unique per branch (e.g. `main` vs `idkanymore`).
+finishes. `${{ github.ref }}` makes the group unique per branch (e.g. `main` vs `dev`).
 
 ### `permissions` — least privilege
 
@@ -269,11 +269,11 @@ fi
 
 ### 4.1 `cloudflare-pages-deploy.yml` — the CD pipeline ⭐ the important one
 
-**Purpose:** Deploy the site to Cloudflare Pages on every push to `main`/`idkanymore`.
+**Purpose:** Deploy the site to Cloudflare Pages on every push to `main`/`dev`.
 
 | Line | What it does | Why |
 |---|---|---|
-| `on.push.branches: [main, idkanymore]` | Deploy trigger | Auto-deploy on merge = zero manual steps |
+| `on.push.branches: [main, dev]` | Deploy trigger | Auto-deploy on merge = zero manual steps |
 | `workflow_dispatch:` | Manual button | Deploy any branch by hand |
 | `concurrency` + `cancel-in-progress` | One deploy per branch at a time | Old pushes don't clobber new ones |
 | `permissions: contents: read, deployments: write` | Least privilege | Only what Cloudflare needs |

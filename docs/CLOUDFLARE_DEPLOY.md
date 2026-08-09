@@ -138,7 +138,7 @@ Scopes the Pages Functions router to `/api/chat` only.
 
 ### `.github/workflows/cloudflare-pages-deploy.yml`
 Automated deployment workflow:
-- Triggers on push to `main` / `idkanymore`
+- Triggers on push to `main` / `dev`
 - Deploys via Cloudflare Pages Action
 - Creates deployment summary
 
