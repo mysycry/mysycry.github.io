@@ -188,10 +188,10 @@ If you want to keep `mysycry.github.io`:
 | Workflow | Purpose | Status |
 |----------|---------|--------|
 | `cloudflare-pages-deploy.yml` | Deploy to Cloudflare | ✅ Ready |
+| `cloudflare-worker-deploy.yml` | Deploy chat Worker | ✅ Ready |
 | `html-css-validation.yml` | Code validation | ✅ Active |
-| `link-checker.yml` | Link validation | ✅ Active |
-| `broken-image-checker.yml` | Image validation | ✅ Active |
-| `social-media-card.yml` | OG image generation | ✅ Active |
+| `link-checker.yml` | Link + image + social metadata validation | ✅ Active |
+| `site-health-check.yml` | Uptime ping for live endpoints | ✅ Active |
 
 ### Deployment Flow
 

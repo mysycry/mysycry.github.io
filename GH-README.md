@@ -307,47 +307,27 @@ short hex `#fff`). This codebase deliberately uses `rgba(...)` and long hex. You
 **disable the rules you don't want**, keep the rest — CI should enforce *your*
 standards, not nag you to death.
 
-### 4.3 `broken-image-checker.yml` — hygiene
+### 4.3 `link-checker.yml` — hygiene (links + images + social metadata)
 
-**Purpose:** Every image referenced in HTML/Markdown must exist; the remote
-favicon must respond.
+**Purpose:** No dead links (internal or external) in `index.html`, `styles.css`,
+`README.md`, `CLOUDFLARE_DEPLOY.md` — **and** no broken image references.
 
-- Uses `grep -RhoP` with a regex to extract `src`/`href`/`content` values ending
-  in image extensions, strips query strings and leading `/`, skips absolute
-  URLs, then checks each path with `-f` (file exists).
-- Runs on `push`/`PR`, **and weekly** via cron (`0 0 * * 1`) — the weekly run
-  catches images deleted by hand later, not just in commits.
-- Curls the flaticon URL with `--fail` to make sure the external asset is alive.
-
-**Why this matters:** a broken `<img>` shows an ugly empty box on your profile
-page. This workflow makes that a **deploy-blocking** error.
-
-### 4.4 `link-checker.yml` — hygiene
-
-**Purpose:** No dead links (internal or external) in `index.html`, `README.md`,
-`CLOUDFLARE_DEPLOY.md`.
-
-- Installs **lychee** (a fast Rust link checker) from its GitHub release.
+- Uses **lychee** (a fast Rust link checker) via the official
+  `lycheeverse/lychee-action`. The `--root-dir .` flag resolves local
+  image/asset paths, so a missing `images/...` file fails the build.
 - Flags: `--accept 200,204,206,403,429` (403/429 = "exists but rate-limited",
   don't fail on those) and `--exclude 'mailto:'` (email links aren't URLs).
+- This **replaced** the old `broken-image-checker.yml`: lychee already validates
+  the local `src`/`href` image refs and the remote favicon URL, so the
+  hand-rolled `grep -f` checker was redundant.
 - Weekly cron + on changes.
+- Also verifies social preview metadata (`og:image`, `twitter:image`,
+  `twitter:card`) point to the checked-in `images/portfolio-preview.png` —
+  absorbing the old `social-media-card.yml`.
 
 **Why it matters:** stale links (e.g. an old `js-dos.com` DOOM URL that used to
-be embedded) quietly rot. A weekly check catches them automatically.
-
-### 4.5 `social-media-card.yml` — the metadata guard
-
-**Purpose:** The Open Graph / Twitter preview must always point to a real,
-checked-in image.
-
-- Fails if `images/portfolio-preview.png` is empty/missing or if
-  `og:image`, `twitter:image`, and `twitter:card` don't match the exact expected
-  strings in `index.html`.
-- Uses `grep -F` (fixed strings) — no regex surprises.
-
-**Why it matters:** if you update the preview image and forget to update the
-meta tags, links shared on Facebook/Twitter/LinkedIn show a broken or stale
-preview. This workflow keeps the **social share card** honest.
+be embedded) quietly rot, and a broken `<img>` shows an ugly empty box. A
+weekly check catches them automatically.
 
 ---
 

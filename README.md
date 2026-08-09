@@ -83,10 +83,9 @@ mysycry.github.io/
 │   └── workflows/
 │       ├── cloudflare-pages-deploy.yml  # Auto-deploy to Pages
 │       ├── cloudflare-worker-deploy.yml # Auto-deploy chat Worker
-│       ├── broken-image-checker.yml     # Broken image scan
-│       ├── link-checker.yml             # Link validation
+│       ├── link-checker.yml             # Link + image + social metadata checks
 │       ├── html-css-validation.yml      # Linting + validation
-│       └── social-media-card.yml        # OG image generation
+│       └── site-health-check.yml        # Uptime ping for live endpoints
 ├── doom/                   # Self-hosted DOOM (WASM)
 │   ├── doom.html
 │   ├── index.js
