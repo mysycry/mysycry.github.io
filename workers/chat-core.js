@@ -8,8 +8,9 @@
 // - CORS is restricted to the two known origins (GitHub Pages + Cloudflare
 //   Pages). Unknown origins get no ACAO header, so browsers can't call this
 //   from a random website.
-// - A best-effort per-IP rate limit guards against quota-burning abuse.
-//   It is in-memory per isolate, so it is a deterrent, not a hard guarantee.
+// - A per-IP rate limit (20 req/min) guards against quota-burning abuse. The
+//   counters live in Cloudflare's Cache API so they survive across worker
+//   isolates, with an in-memory fallback if the Cache API is unavailable.
 // - The Workers AI token stays server-side and is never exposed to the browser.
 //
 // Required environment variables:
@@ -26,28 +27,62 @@ const ALLOWED_ORIGINS = [
   "https://josiasmichael.pages.dev",
 ];
 
-// Best-effort rate limiting: max requests per IP per rolling window.
+// Rate limiting: max requests per IP per rolling window.
+//
+// Uses Cloudflare's Cache API for the counters so the count survives across
+// worker isolates (an in-memory Map dies the moment a request lands on a
+// different edge isolate, which is nearly every request). Cache entries use
+// short max-age TTLs and are shared across Cloudflare's edge. If the Cache
+// API is unavailable for any reason, we fall back to a best-effort in-memory
+// counter per isolate.
 const RATE_WINDOW_MS = 60 * 1000;
 const RATE_MAX = 20;
 const hitCounters = new Map();
+const CACHE_BASE = "https://rate-limit.portfolio.internal/";
 
-function isRateLimited(ip) {
+async function isRateLimited(ip) {
   const now = Date.now();
+  const key = `${CACHE_BASE}${ip}`;
+  let bucket;
 
-  // Prune stale buckets so the map doesn't grow without bound.
-  for (const [key, bucket] of hitCounters) {
-    if (now - bucket.start >= RATE_WINDOW_MS) {
-      hitCounters.delete(key);
+  try {
+    const cached = await caches.default.match(key);
+    if (cached) {
+      bucket = await cached.json();
+    }
+  } catch {
+    // cache unavailable — fall back to in-memory below
+  }
+
+  if (bucket && now - bucket.start < RATE_WINDOW_MS) {
+    bucket.count += 1;
+  } else {
+    bucket = { start: now, count: 1 };
+  }
+
+  const limited = bucket.count > RATE_MAX;
+
+  if (!limited) {
+    try {
+      const ttlS = Math.max(1, Math.ceil((bucket.start + RATE_WINDOW_MS - now) / 1000));
+      await caches.default.put(
+        key,
+        new Response(JSON.stringify(bucket), {
+          headers: { "Cache-Control": `s-maxage=${ttlS}` },
+        })
+      );
+    } catch {
+      // Cache is unavailable; fall back to in-memory for this request.
+      const mem = hitCounters.get(ip);
+      if (mem && now - mem.start < RATE_WINDOW_MS) {
+        mem.count += 1;
+        return mem.count > RATE_MAX;
+      }
+      hitCounters.set(ip, bucket);
     }
   }
 
-  const bucket = hitCounters.get(ip);
-  if (!bucket || now - bucket.start >= RATE_WINDOW_MS) {
-    hitCounters.set(ip, { start: now, count: 1 });
-    return false;
-  }
-  bucket.count += 1;
-  return bucket.count > RATE_MAX;
+  return limited;
 }
 
 const SYSTEM_PROMPT = [
@@ -94,7 +129,7 @@ export async function handleChatRequest(request, env) {
   }
 
   const ip = request.headers.get("CF-Connecting-IP") || "unknown";
-  if (isRateLimited(ip)) {
+  if (await isRateLimited(ip)) {
     return json({ error: "Too many requests, please try again in a minute" }, 429, origin);
   }
 
