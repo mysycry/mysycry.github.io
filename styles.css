@@ -786,39 +786,29 @@ body {
     100% { transform: scale(1); }
 }
 
-/* Heart Evaporation Animation - Livestream Style */
+/* Heart Burst Animation - Livestream Style */
 .heart-particle {
     position: fixed;
     pointer-events: none;
     font-size: 1.5rem;
     color: #ec4899;
-    animation: heart-float-up 1.5s ease-out forwards;
+    animation: heart-burst 1.2s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
     z-index: 1000;
     filter: drop-shadow(0 2px 4px rgba(236, 72, 153, 0.3));
 }
 
-@keyframes heart-float-up {
+@keyframes heart-burst {
     0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0.4) rotate(0deg);
+    }
+    15% {
         opacity: 1;
-        transform: translateY(0) scale(1) translateX(0);
-    }
-    20% {
-        opacity: 1;
-        transform: translateY(-30px) scale(1.1) translateX(calc(var(--drift, 0) * 0.25));
-    }
-    40% {
-        transform: translateY(-60px) scale(1) translateX(calc(var(--drift, 0) * 0.5));
-    }
-    60% {
-        transform: translateY(-90px) scale(0.9) translateX(calc(var(--drift, 0) * 0.75));
-    }
-    80% {
-        opacity: 0.8;
-        transform: translateY(-120px) scale(0.7) translateX(var(--drift, 0));
+        transform: translate(calc(var(--tx, 0px) * 0.2), calc(var(--ty, -40px) * 0.2)) scale(1.15) rotate(calc(var(--rot, 0deg) * 0.2));
     }
     100% {
         opacity: 0;
-        transform: translateY(-150px) scale(0.5) translateX(var(--drift, 0));
+        transform: translate(var(--tx, 0px), var(--ty, -40px)) scale(0.5) rotate(var(--rot, 0deg));
     }
 }
 

@@ -35,7 +35,7 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="styles.css?v=6">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous" referrerpolicy="no-referrer">
 </head>
 <body>
     <!-- Skip Link -->
@@ -118,7 +118,7 @@
                     <a href="https://linkedin.com/in/josiasmichael" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
                         <i class="fab fa-linkedin"></i> <span>LinkedIn</span>
                     </a>
-                    <a href="Tabada, Michael Josias D. CV.pdf" target="_blank" class="btn btn-secondary">
+                    <a href="docs/Tabada%2C%20Michael%20Josias%20D.%20CV.pdf" target="_blank" class="btn btn-secondary">
                         <i class="fas fa-download"></i> <span>CV</span>
                     </a>
                     <button class="btn btn-icon" aria-label="Share Profile" id="shareProfile">
@@ -129,24 +129,24 @@
         </header>
 
         <!-- Navigation Tabs -->
-        <nav class="profile-nav" role="tablist">
-            <button class="nav-tab active" data-tab="posts" role="tab" aria-selected="true">
+        <nav class="profile-nav" role="tablist" aria-label="Portfolio sections">
+            <button class="nav-tab active" data-tab="posts" id="tab-posts" role="tab" aria-selected="true" aria-controls="posts" tabindex="0">
                 <i class="fas fa-newspaper"></i>
                 <span>Posts</span>
             </button>
-            <button class="nav-tab" data-tab="about" role="tab" aria-selected="false">
+            <button class="nav-tab" data-tab="about" id="tab-about" role="tab" aria-selected="false" aria-controls="about" tabindex="-1">
                 <i class="fas fa-user"></i>
                 <span>About</span>
             </button>
-            <button class="nav-tab" data-tab="badges" role="tab" aria-selected="false">
+            <button class="nav-tab" data-tab="badges" id="tab-badges" role="tab" aria-selected="false" aria-controls="badges" tabindex="-1">
                 <i class="fas fa-award"></i>
                 <span>Badges</span>
             </button>
-            <button class="nav-tab" data-tab="repos" role="tab" aria-selected="false">
+            <button class="nav-tab" data-tab="repos" id="tab-repos" role="tab" aria-selected="false" aria-controls="repos" tabindex="-1">
                 <i class="fab fa-github"></i>
                 <span>Repos</span>
             </button>
-            <button class="nav-tab" data-tab="game" role="tab" aria-selected="false">
+            <button class="nav-tab" data-tab="game" id="tab-game" role="tab" aria-selected="false" aria-controls="game" tabindex="-1">
                 <i class="fas fa-gamepad"></i>
                 <span>Game</span>
             </button>
@@ -156,7 +156,7 @@
         <main class="profile-content" id="main-content">
 
             <!-- Posts Tab (Experience as Posts) -->
-            <section class="tab-panel active" id="posts" role="tabpanel">
+            <section class="tab-panel active" id="posts" role="tabpanel" aria-labelledby="tab-posts">
                 <div class="posts-feed">
                     <!-- Current Position Pinned Post -->
                     <article class="post pinned">
@@ -201,7 +201,7 @@
                                 <i class="far fa-comment"></i>
                                 <span>Comment</span>
                             </button>
-                            <button class="action-btn">
+                            <button class="action-btn share-btn">
                                 <i class="far fa-share-square"></i>
                                 <span>Share</span>
                             </button>
@@ -242,7 +242,7 @@
                                 <i class="far fa-comment"></i>
                                 <span>Comment</span>
                             </button>
-                            <button class="action-btn">
+                            <button class="action-btn share-btn">
                                 <i class="far fa-share-square"></i>
                                 <span>Share</span>
                             </button>
@@ -283,7 +283,7 @@
                                 <i class="far fa-comment"></i>
                                 <span>Comment</span>
                             </button>
-                            <button class="action-btn">
+                            <button class="action-btn share-btn">
                                 <i class="far fa-share-square"></i>
                                 <span>Share</span>
                             </button>
@@ -327,7 +327,7 @@
                                 <i class="far fa-comment"></i>
                                 <span>Comment</span>
                             </button>
-                            <button class="action-btn">
+                            <button class="action-btn share-btn">
                                 <i class="far fa-share-square"></i>
                                 <span>Share</span>
                             </button>
@@ -371,7 +371,7 @@
                                 <i class="far fa-comment"></i>
                                 <span>Comment</span>
                             </button>
-                            <button class="action-btn">
+                            <button class="action-btn share-btn">
                                 <i class="far fa-share-square"></i>
                                 <span>Share</span>
                             </button>
@@ -405,7 +405,7 @@
                                 <i class="far fa-comment"></i>
                                 <span>Comment</span>
                             </button>
-                            <button class="action-btn">
+                            <button class="action-btn share-btn">
                                 <i class="far fa-share-square"></i>
                                 <span>Share</span>
                             </button>
@@ -438,7 +438,7 @@
                                 <i class="far fa-comment"></i>
                                 <span>Comment</span>
                             </button>
-                            <button class="action-btn">
+                            <button class="action-btn share-btn">
                                 <i class="far fa-share-square"></i>
                                 <span>Share</span>
                             </button>
@@ -472,7 +472,7 @@
                                 <i class="far fa-comment"></i>
                                 <span>Comment</span>
                             </button>
-                            <button class="action-btn">
+                            <button class="action-btn share-btn">
                                 <i class="far fa-share-square"></i>
                                 <span>Share</span>
                             </button>
@@ -482,7 +482,7 @@
             </section>
 
             <!-- About Tab -->
-            <section class="tab-panel" id="about" role="tabpanel" hidden>
+            <section class="tab-panel" id="about" role="tabpanel" aria-labelledby="tab-about" hidden>
                 <div class="about-grid">
                     <!-- About Card -->
                     <div class="about-card">
@@ -574,7 +574,7 @@
             </section>
 
             <!-- Badges Tab -->
-            <section class="tab-panel" id="badges" role="tabpanel" hidden>
+            <section class="tab-panel" id="badges" role="tabpanel" aria-labelledby="tab-badges" hidden>
                 <div class="badges-header">
                     <a href="https://www.credly.com/users/jmichael/badges" target="_blank" rel="noopener noreferrer" class="credly-link">
                         <i class="fas fa-external-link-alt"></i>
@@ -741,7 +741,7 @@
             </section>
 
             <!-- Repos Tab -->
-            <section class="tab-panel" id="repos" role="tabpanel" hidden>
+            <section class="tab-panel" id="repos" role="tabpanel" aria-labelledby="tab-repos" hidden>
                 <div class="repos-header">
                     <a href="https://github.com/mysycry" target="_blank" rel="noopener noreferrer" class="github-profile-link">
                         <i class="fab fa-github"></i>
@@ -846,7 +846,7 @@
             </section>
 
             <!-- Game Tab -->
-            <section class="tab-panel" id="game" role="tabpanel" hidden>
+            <section class="tab-panel" id="game" role="tabpanel" aria-labelledby="tab-game" hidden>
                 <div class="game-section">
                     <h2><i class="fas fa-gamepad"></i> Game Room</h2>
                     <p class="game-desc">Pick a game to play!</p>

@@ -103,35 +103,97 @@ scrollTopBtn.addEventListener('click', () => {
 });
 
 // Tab Navigation
-const tabBtns = document.querySelectorAll('.nav-tab');
+const tabBtns = Array.from(document.querySelectorAll('.nav-tab'));
 const tabPanels = document.querySelectorAll('.tab-panel');
 
-tabBtns.forEach(btn => {
+function activateTab(tabBtn) {
+    const tabId = tabBtn.getAttribute('data-tab');
+
+    // Update all tabs
+    tabBtns.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+        b.setAttribute('tabindex', '-1');
+    });
+    tabPanels.forEach(p => {
+        p.classList.remove('active');
+        p.setAttribute('hidden', '');
+    });
+
+    // Activate selected tab
+    tabBtn.classList.add('active');
+    tabBtn.setAttribute('aria-selected', 'true');
+    tabBtn.setAttribute('tabindex', '0');
+    const panel = document.getElementById(tabId);
+    panel.classList.add('active');
+    panel.removeAttribute('hidden');
+
+    // Scroll to top of content on tab change
+    document.querySelector('.profile-content').scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+    });
+}
+
+tabBtns.forEach((btn, i) => {
     btn.addEventListener('click', () => {
-        const tabId = btn.getAttribute('data-tab');
+        activateTab(btn);
+        btn.focus();
+    });
 
-        // Update all tabs
-        tabBtns.forEach(b => {
-            b.classList.remove('active');
-            b.setAttribute('aria-selected', 'false');
-        });
-        tabPanels.forEach(p => {
-            p.classList.remove('active');
-            p.setAttribute('hidden', '');
-        });
+    btn.addEventListener('keydown', (e) => {
+        const lastIndex = tabBtns.length - 1;
+        let nextIndex = -1;
 
-        // Activate selected tab
-        btn.classList.add('active');
-        btn.setAttribute('aria-selected', 'true');
-        const panel = document.getElementById(tabId);
-        panel.classList.add('active');
-        panel.removeAttribute('hidden');
+        switch (e.key) {
+            case 'ArrowRight':
+                nextIndex = (i + 1) > lastIndex ? 0 : i + 1;
+                break;
+            case 'ArrowLeft':
+                nextIndex = (i - 1) < 0 ? lastIndex : i - 1;
+                break;
+            case 'Home':
+                nextIndex = 0;
+                break;
+            case 'End':
+                nextIndex = lastIndex;
+                break;
+            default:
+                return;
+        }
 
-        // Scroll to top of content on tab change
-        document.querySelector('.profile-content').scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
+        e.preventDefault();
+        const nextBtn = tabBtns[nextIndex];
+        activateTab(nextBtn);
+        nextBtn.focus();
+    });
+});
+
+// Share Post Functionality
+document.querySelectorAll('.share-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+        const post = btn.closest('.post');
+        const title = post?.querySelector('.post-title')?.textContent.trim() || 'Portfolio Post';
+        const shareData = {
+            title: `${title} - Michael Josias D. Tabada`,
+            text: `Check out this post: ${title}`,
+            url: window.location.href
+        };
+
+        if (navigator.share) {
+            try {
+                await navigator.share(shareData);
+            } catch (err) {
+                console.log('Share canceled');
+            }
+        } else {
+            try {
+                await navigator.clipboard.writeText(window.location.href);
+                showToast('Link copied to clipboard!', 'success');
+            } catch (err) {
+                showToast('Unable to share', 'error');
+            }
+        }
     });
 });
 
@@ -181,7 +243,8 @@ document.querySelectorAll('.like-btn').forEach(btn => {
 
 function createHeartParticles(button) {
     const rect = button.getBoundingClientRect();
-    const particleCount = 12; // More hearts for livestream effect
+    const particleCount = 16;
+    const colors = ['#ec4899', '#f43f5e', '#d946ef', '#fb7185', '#e11d48'];
 
     for (let i = 0; i < particleCount; i++) {
         setTimeout(() => {
@@ -192,31 +255,35 @@ function createHeartParticles(button) {
             // Random horizontal spread across button width
             const randomX = rect.left + Math.random() * rect.width;
             heart.style.left = `${randomX}px`;
-            heart.style.top = `${rect.top - 20}px`;
+            heart.style.top = `${rect.top}px`;
 
-            // Random size variation for depth effect
-            const randomScale = 0.8 + Math.random() * 0.6; // 0.8 to 1.4
-            heart.style.fontSize = `${1.5 * randomScale}rem`;
+            // Radial burst: random angle + distance, biased upward
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 50 + Math.random() * 70;
+            const tx = Math.cos(angle) * distance;
+            const ty = Math.sin(angle) * distance - 40;
+            heart.style.setProperty('--tx', `${tx}px`);
+            heart.style.setProperty('--ty', `${ty}px`);
 
-            // Random horizontal drift
-            const drift = (Math.random() - 0.5) * 60; // -30 to 30px
-            heart.style.setProperty('--drift', `${drift}px`);
+            // Random spin while flying
+            heart.style.setProperty('--rot', `${(Math.random() - 0.5) * 360}deg`);
 
-            // Random animation duration for varied speed
-            const duration = 1.2 + Math.random() * 0.6; // 1.2 to 1.8s
+            // Random size and color for depth effect
+            heart.style.fontSize = `${1.2 + Math.random() * 1.1}rem`;
+            heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+
+            // Random animation duration and stagger
+            const duration = 0.9 + Math.random() * 0.7;
             heart.style.animationDuration = `${duration}s`;
-
-            // Random delay for staggered spawn
-            const delay = Math.random() * 0.3;
-            heart.style.animationDelay = `${delay}s`;
+            heart.style.animationDelay = `${Math.random() * 0.25}s`;
 
             document.body.appendChild(heart);
 
             // Remove heart after animation completes
             setTimeout(() => {
                 heart.remove();
-            }, (duration + delay) * 1000);
-        }, i * 30); // Spawn every 30ms for continuous stream effect
+            }, (duration + 0.5) * 1000);
+        }, i * 25); // Spawn every 25ms for continuous burst
     }
 }
 

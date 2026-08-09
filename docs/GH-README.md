@@ -67,9 +67,9 @@ Workflows in this repo are triggered by **push**, **pull_request**,
 ```yaml
 on:
   push:
-    branches: [main, socmed]
+    branches: [main, idkanymore]
   pull_request:
-    branches: [main, socmed]
+    branches: [main, idkanymore]
   schedule:
     - cron: "0 0 * * 1"          # every Monday at 00:00 UTC
   workflow_dispatch:               # adds a "Run workflow" button in the UI
@@ -103,7 +103,7 @@ concurrency:
 ```
 
 If you push twice in a row, the **older run gets cancelled** and only the newest
-finishes. `${{ github.ref }}` makes the group unique per branch (e.g. `main` vs `socmed`).
+finishes. `${{ github.ref }}` makes the group unique per branch (e.g. `main` vs `idkanymore`).
 
 ### `permissions` — least privilege
 
@@ -144,21 +144,21 @@ A step is either **an Action** (`uses:`) or **a shell command** (`run:`).
 
 ```yaml
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 ```
 
-`actions/checkout@v4` downloads your repository onto the runner. **Nearly every
+`actions/checkout@v7` downloads your repository onto the runner. **Nearly every
 workflow starts with this** — without it there's no code to check.
 
 ```yaml
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: "22"
 ```
 
 `with:` passes **inputs** to an action (here: "install Node 22"). Actions are like
-functions; `with` is their parameters. `@v4` is a **version pin** — don't use a
+functions; `with` is their parameters. `@v7` is a **version pin** — don't use a
 floating version you don't trust.
 
 ```yaml
@@ -172,8 +172,8 @@ floating version you don't trust.
 
 ```yaml
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CF_AI_API_TOKEN }}
+          accountId: ${{ secrets.CF_AI_ACCOUNT_ID }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 ```
 
@@ -269,15 +269,15 @@ fi
 
 ### 4.1 `cloudflare-pages-deploy.yml` — the CD pipeline ⭐ the important one
 
-**Purpose:** Deploy the site to Cloudflare Pages on every push to `main`/`socmed`.
+**Purpose:** Deploy the site to Cloudflare Pages on every push to `main`/`idkanymore`.
 
 | Line | What it does | Why |
 |---|---|---|
-| `on.push.branches: [main, socmed]` | Deploy trigger | Auto-deploy on merge = zero manual steps |
+| `on.push.branches: [main, idkanymore]` | Deploy trigger | Auto-deploy on merge = zero manual steps |
 | `workflow_dispatch:` | Manual button | Deploy any branch by hand |
 | `concurrency` + `cancel-in-progress` | One deploy per branch at a time | Old pushes don't clobber new ones |
 | `permissions: contents: read, deployments: write` | Least privilege | Only what Cloudflare needs |
-| `actions/checkout@v4` | Grab the code | Prereq for everything |
+| `actions/checkout@v7` | Grab the code | Prereq for everything |
 | `cloudflare/pages-action@v1` | Third-party action | Uploads `directory: .` to the `josiasmichael` project |
 | `secrets.*` | Cloudflare credentials | Never in the repo |
 | `GITHUB_STEP_SUMMARY` | Report | Humans can read the result in the UI |
@@ -310,7 +310,7 @@ standards, not nag you to death.
 ### 4.3 `link-checker.yml` — hygiene (links + images + social metadata)
 
 **Purpose:** No dead links (internal or external) in `index.html`, `styles.css`,
-`README.md`, `CLOUDFLARE_DEPLOY.md` — **and** no broken image references.
+`README.md`, `docs/*.md` — **and** no broken image references.
 
 - Uses **lychee** (a fast Rust link checker) via the official
   `lycheeverse/lychee-action`. The `--root-dir .` flag resolves local
@@ -337,7 +337,7 @@ weekly check catches them automatically.
    manually upload my site; the pipeline does it."
 2. **Quality gates.** Validation runs *before* deploy. Broken code can't ship.
 3. **Security.** Secrets in `Settings → Secrets`, never hardcoded. Least-privilege
-   `permissions`. Version-pinned actions (`@v4`) so supply-chain is predictable.
+   `permissions`. Version-pinned actions (`@v7`) so supply-chain is predictable.
 4. **Efficiency.** `paths` filtering + `concurrency` + `timeout-minutes` save time
    and money. Runs only when relevant, cancelled when superseded, killed if stuck.
 5. **Developer experience.** `GITHUB_STEP_SUMMARY`, `::error::` annotations, and
@@ -351,7 +351,7 @@ weekly check catches them automatically.
 
 **Q: What's the difference between `uses:` and `run:`?**
 `uses:` runs a published *Action* (reusable code from the marketplace, versioned,
-e.g. `actions/checkout@v4`). `run:` executes shell commands directly in the step.
+e.g. `actions/checkout@v7`). `run:` executes shell commands directly in the step.
 Use an action when the functionality exists and is maintained; use `run:` for your
 own one-off commands.
 

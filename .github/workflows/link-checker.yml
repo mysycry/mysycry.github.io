@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - socmed
+      - idkanymore
     paths:
       - "**/*.html"
       - "**/*.css"
@@ -14,7 +14,7 @@ on:
   pull_request:
     branches:
       - main
-      - socmed
+      - idkanymore
   schedule:
     - cron: "0 0 * * 1"
   workflow_dispatch:
@@ -48,7 +48,7 @@ jobs:
             --accept 200,204,206,403,429
             --exclude 'mailto:'
             --root-dir .
-            index.html styles.css README.md CLOUDFLARE_DEPLOY.md
+            index.html styles.css README.md docs/*.md
           fail: true
 
       - name: Verify social preview metadata
