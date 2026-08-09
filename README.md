@@ -274,8 +274,8 @@ Pages project settings (see `docs/CLOUDFLARE_DEPLOY.md`).
 - **Restricted CORS** — the API only answers requests from
   `mysycry.github.io` and `josiasmichael.pages.dev`, so random websites can't
   burn your Workers AI quota from a visitor's browser.
-- **Rate limiting** — best-effort per-IP limiter (20 req/min) protects against
-  quota-burning abuse.
+- **Rate limiting** — per-IP limiter (20 req/min) protects against
+  quota-burning abuse; counters persist via Cloudflare's Cache API
 - **Prompt safety** — message length capped at 1000 chars; chat history is
   treated as untrusted input (role/content validated, truncated to 8 turns).
 - **No secrets in the browser** — the Workers AI token never ships to the client.
@@ -437,7 +437,7 @@ Open source. Feel free to fork and customize!
 - **Email:** josiasmichael@gmail.com
 - **LinkedIn:** [linkedin.com/in/josiasmichael](https://linkedin.com/in/josiasmichael)
 - **GitHub:** [github.com/mysycry](https://github.com/mysycry)
-- **Credly:** [credly.com/users/jmichael](https://www.credly.com/users/jmichael/badges)
+- **Credly:** [credly.com/users/jmichael](https://www.credly.com/users/jmichael/badges/credly)
 
 ---
 
