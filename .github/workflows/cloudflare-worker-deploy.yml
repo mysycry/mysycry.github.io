@@ -35,8 +35,9 @@ jobs:
 
       - name: Set Worker AI secret
         run: |
-          echo "${{ secrets.CF_AI_API_TOKEN }}" | npx --no-install wrangler secret put CF_AI_API_TOKEN --config workers/wrangler.toml
+          printenv CF_AI_API_TOKEN | npx --no-install wrangler secret put CF_AI_API_TOKEN --config workers/wrangler.toml
         env:
+          CF_AI_API_TOKEN: ${{ secrets.CF_AI_API_TOKEN }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_AI_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_AI_ACCOUNT_ID }}
 

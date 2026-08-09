@@ -53,9 +53,12 @@
    ```
    Settings → Secrets and variables → Actions → New repository secret
    
-   CLOUDFLARE_API_TOKEN: your_api_token_here
-   CLOUDFLARE_ACCOUNT_ID: your_account_id_here
+   CF_AI_ACCOUNT_ID: your_cloudflare_account_id
+   CF_AI_API_TOKEN:  your_api_token_here
    ```
+   The same token is used for Pages deploys **and** Workers AI, so it needs
+   **Edit** permission on **Cloudflare Pages**, **Workers AI**, and **Workers
+   Scripts**.
 
 #### Deployment
 
@@ -65,9 +68,10 @@ The workflow will automatically deploy on every push to `main` branch.
 
 ## 🤖 AI Chatbot (Cloudflare Workers AI)
 
-The chat assistant uses a **Pages Function** (`functions/api/chat.js`) to call
-Cloudflare Workers AI. The API key lives server-side and never ships to the
-browser.
+The chat assistant calls Cloudflare Workers AI. All logic lives in a shared core
+(`workers/chat-core.js`) used by both a **Pages Function** (`functions/api/chat.js`)
+and a standalone Worker (`workers/chat.js`). The API key lives server-side and
+never ships to the browser.
 
 ### Enable it (one time)
 
@@ -124,16 +128,17 @@ credit card required.
 
 ## 🔧 Configuration Files
 
-### `wrangler.toml`
-Cloudflare Pages configuration with:
-- Build settings
-- Cache headers
-- Security headers
-- Redirects
+### `_headers`
+Cloudflare Pages headers file with:
+- Security headers (CSP, X-Frame-Options, nosniff, etc.)
+- Cache-control policies per asset type
+
+### `_routes.json`
+Scopes the Pages Functions router to `/api/chat` only.
 
 ### `.github/workflows/cloudflare-pages-deploy.yml`
 Automated deployment workflow:
-- Triggers on push to `main`
+- Triggers on push to `main` / `idkanymore`
 - Deploys via Cloudflare Pages Action
 - Creates deployment summary
 
@@ -188,10 +193,10 @@ If you want to keep `mysycry.github.io`:
 | Workflow | Purpose | Status |
 |----------|---------|--------|
 | `cloudflare-pages-deploy.yml` | Deploy to Cloudflare | ✅ Ready |
+| `cloudflare-worker-deploy.yml` | Deploy chat Worker | ✅ Ready |
 | `html-css-validation.yml` | Code validation | ✅ Active |
-| `link-checker.yml` | Link validation | ✅ Active |
-| `broken-image-checker.yml` | Image validation | ✅ Active |
-| `social-media-card.yml` | OG image generation | ✅ Active |
+| `link-checker.yml` | Link + image + social metadata validation | ✅ Active |
+| `site-health-check.yml` | Uptime ping for live endpoints | ✅ Active |
 
 ### Deployment Flow
 
@@ -213,13 +218,13 @@ Live at josiasmichael.pages.dev
 
 ## 🛡️ Security Headers
 
-Automatically applied by `wrangler.toml`:
+Applied by the `_headers` file (Cloudflare Pages):
 
 ```
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
-X-XSS-Protection: 1; mode=block
 Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: camera=(), microphone=(), geolocation=()
 Cache-Control: public, max-age=3600
 ```
 
@@ -251,7 +256,7 @@ Cache-Control: public, max-age=3600
 
 ### Build Fails
 ```bash
-# Check wrangler.toml syntax
+# Check _headers / _routes.json syntax
 # Verify directory structure
 # Ensure all files committed
 git status

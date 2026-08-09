@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - socmed
+      - idkanymore
     paths:
       - "**/*.html"
       - "**/*.css"
@@ -14,7 +14,7 @@ on:
   pull_request:
     branches:
       - main
-      - socmed
+      - idkanymore
   schedule:
     - cron: "0 0 * * 1"
   workflow_dispatch:
@@ -48,8 +48,21 @@ jobs:
             --accept 200,204,206,403,429
             --exclude 'mailto:'
             --root-dir .
-            index.html README.md CLOUDFLARE_DEPLOY.md
+            index.html styles.css README.md docs/*.md
           fail: true
+
+      - name: Verify social preview metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          expected_url="https://mysycry.github.io/images/portfolio-preview.png"
+          expected_file="images/portfolio-preview.png"
+
+          test -s "$expected_file"
+          grep -F "<meta property=\"og:image\" content=\"$expected_url\">" index.html
+          grep -F "<meta name=\"twitter:image\" content=\"$expected_url\">" index.html
+          grep -F '<meta name="twitter:card" content="summary_large_image">' index.html
 
       - name: Create link-check summary
         if: always()
@@ -57,5 +70,6 @@ jobs:
           {
             echo "## Link Checker"
             echo ""
-            echo "Checked internal and external links in HTML and documentation."
+            echo "Checked internal and external links in HTML, CSS and documentation."
+            echo "Verified Open Graph and Twitter preview metadata."
           } >> "$GITHUB_STEP_SUMMARY"

@@ -73,20 +73,24 @@ mysycry.github.io/
 ├── styles.css              # Social media theme styling
 ├── script.js               # All JavaScript functionality
 ├── README.md               # Documentation
-├── GH-README.md            # GitHub Actions study guide
-├── CLOUDFLARE_DEPLOY.md    # Cloudflare deployment guide
-├── CHATBOT-README.md       # Chatbot guide (how it works + troubleshooting)
-├── wrangler.toml           # Cloudflare Pages config
-├── _routes.json            # Cloudflare routing config
-├── Tabada, Michael Josias D. CV.pdf   # Downloadable CV
+├── _headers                # Security + caching headers (Cloudflare Pages)
+├── _routes.json            # Cloudflare routing config (Functions only)
+├── 404.html                # Custom 404 page
+├── robots.txt              # Crawler rules + sitemap pointer
+├── sitemap.xml             # SEO sitemap
+├── docs/
+│   ├── GH-README.md        # GitHub Actions study guide
+│   ├── CLOUDFLARE_DEPLOY.md# Cloudflare deployment guide
+│   ├── CHATBOT-README.md   # Chatbot guide (how it works + troubleshooting)
+│   └── Tabada, Michael Josias D. CV.pdf   # Downloadable CV
 ├── .github/
+│   ├── dependabot.yml                 # Weekly dependency updates
 │   └── workflows/
 │       ├── cloudflare-pages-deploy.yml  # Auto-deploy to Pages
 │       ├── cloudflare-worker-deploy.yml # Auto-deploy chat Worker
-│       ├── broken-image-checker.yml     # Broken image scan
-│       ├── link-checker.yml             # Link validation
+│       ├── link-checker.yml             # Link + image + social metadata checks
 │       ├── html-css-validation.yml      # Linting + validation
-│       └── social-media-card.yml        # OG image generation
+│       └── site-health-check.yml        # Uptime ping for live endpoints
 ├── doom/                   # Self-hosted DOOM (WASM)
 │   ├── doom.html
 │   ├── index.js
@@ -94,16 +98,16 @@ mysycry.github.io/
 │   └── index.data
 ├── functions/
 │   └── api/
-│       └── chat.js         # LLM chatbot (Cloudflare Pages Function)
+│       └── chat.js         # LLM chatbot entry (Cloudflare Pages Function)
 ├── workers/
-│   └── chat.js             # LLM chatbot (standalone Worker, GitHub Pages)
+│   ├── chat-core.js        # Shared LLM chatbot logic (CORS + rate limit)
+│   ├── chat.js             # LLM chatbot entry (standalone Worker)
+│   └── wrangler.toml       # Worker config
 └── images/
-    ├── credly.svg
     ├── doom-icon.jpg
     ├── mario-question-mark.webp
     ├── portfolio-preview.png
     ├── prof-pic.jpg
-    ├── question-block.svg
     ├── snake-icon.webp
     └── supermario-icon.webp
 ```
@@ -148,9 +152,9 @@ Visit `http://localhost:8000`
 1. Add repository secrets:
    ```
    Settings → Secrets and variables → Actions
-   
-   CLOUDFLARE_API_TOKEN: your_api_token
-   CLOUDFLARE_ACCOUNT_ID: your_account_id
+    
+   CF_AI_ACCOUNT_ID: your_cloudflare_account_id
+   CF_AI_API_TOKEN: your_api_token_here
    ```
 
 2. Push to main - Auto-deploys via workflow
@@ -159,7 +163,7 @@ Visit `http://localhost:8000`
 - Add in Cloudflare Pages dashboard
 - DNS: CNAME to `portfolio.josiasmichael.workers.dev`
 
-📖 **Full guide:** See [`CLOUDFLARE_DEPLOY.md`](CLOUDFLARE_DEPLOY.md)
+📖 **Full guide:** See [`docs/CLOUDFLARE_DEPLOY.md`](docs/CLOUDFLARE_DEPLOY.md)
 
 ### 🤖 Chatbot
 
@@ -167,7 +171,7 @@ The LLM chatbot works on **both** live sites (GitHub Pages and Cloudflare
 Pages) via a Cloudflare Worker fallback. It uses Workers AI with the key held
 server-side.
 
-📖 **Full guide:** See [`CHATBOT-README.md`](CHATBOT-README.md)
+📖 **Full guide:** See [`docs/CHATBOT-README.md`](docs/CHATBOT-README.md)
 
 ### GitHub Pages
 
@@ -247,8 +251,14 @@ Edit `styles.css` CSS variables (lines 11-30):
 
 ## 🤖 AI Chatbot
 
-The chatbot is powered by **Cloudflare Workers AI** (a serverless LLM) through a
-Pages Function at `functions/api/chat.js` — the API key stays server-side.
+The chatbot is powered by **Cloudflare Workers AI** (a serverless LLM). A single
+shared module (`workers/chat-core.js`) holds all the logic and is used by **both**
+entry points, so they can never drift apart:
+- **`functions/api/chat.js`** — native Pages Function (Cloudflare Pages).
+- **`workers/chat.js`** — standalone Worker fallback so the chatbot also works on
+  the static GitHub Pages deployment.
+
+The API key stays server-side.
 
 - **Live (deployed):** answers any question with an LLM, aware of Michael's
   background, skills, certifications, and projects.
@@ -258,7 +268,17 @@ Pages Function at `functions/api/chat.js` — the API key stays server-side.
   plus "who are you" / "are you AI" style identity questions).
 
 To enable the AI, set `CF_AI_ACCOUNT_ID` and `CF_AI_API_TOKEN` in the Cloudflare
-Pages project settings (see `CLOUDFLARE_DEPLOY.md`).
+Pages project settings (see `docs/CLOUDFLARE_DEPLOY.md`).
+
+### 🔒 Chatbot security
+- **Restricted CORS** — the API only answers requests from
+  `mysycry.github.io` and `josiasmichael.pages.dev`, so random websites can't
+  burn your Workers AI quota from a visitor's browser.
+- **Rate limiting** — best-effort per-IP limiter (20 req/min) protects against
+  quota-burning abuse.
+- **Prompt safety** — message length capped at 1000 chars; chat history is
+  treated as untrusted input (role/content validated, truncated to 8 turns).
+- **No secrets in the browser** — the Workers AI token never ships to the client.
 
 ---
 
@@ -276,22 +296,68 @@ Pages project settings (see `CLOUDFLARE_DEPLOY.md`).
 
 | Workflow | Description | Schedule |
 |----------|-------------|----------|
-| 🚀 **Cloudflare Pages Deploy** | Auto-deploys the site to Pages | Push to main |
-| 🔍 **Broken Image Checker** | Scans for broken images | Push + Weekly |
-| 🔗 **Link Checker** | Validates all links | Push + Weekly |
-| 🧹 **HTML/CSS Validation** | Linting + W3C validation | Push/PR |
-| 🎴 **Social Media Card** | Auto-generates OG image | On content update |
+| 🚀 **Cloudflare Pages Deploy** | Auto-deploys the site to Pages | Push to main/idkanymore |
+| 🤖 **Chat Worker Deploy** | Deploys the standalone chatbot Worker | Push to main/idkanymore (workers/**) |
+| 🔗 **Link Checker** | Validates links, images & social metadata | Push/PR + Weekly |
+| 🧹 **HTML/CSS Validation** | Linting (HTMLHint/Stylelint) + W3C checks | Push/PR |
+| 🩺 **Site Health Check** | Pings all live endpoints for uptime | Every 3 days |
+| 🤖 **Dependabot** | Weekly GitHub Actions updates | Weekly |
+
+---
+
+## 🔐 Security & Best Practices
+
+### Headers & caching
+- **`_headers`** file applies security headers on Cloudflare Pages:
+  `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`,
+  `Referrer-Policy`, and `Permissions-Policy` (no camera/mic/geolocation).
+- Long-lived immutable caching for `styles.css` / `script.js` (cache-busted
+  with `?v=` query strings).
+- GitHub Pages serves its own `Strict-Transport-Security` automatically.
+
+### Supply chain
+- **SRI** (`integrity` attribute) on the Font Awesome CDN stylesheet — the
+  browser refuses it if the CDN serves tampered content.
+- **Dependabot** opens weekly PRs for GitHub Actions updates.
+- All workflows use **version-pinned actions** (`@v7`, etc.), not floating
+  tags, and least-privilege `permissions:`.
+
+### Deploy security
+- Cloudflare credentials live only in **GitHub Secrets**, never in the repo.
+- Secrets are passed to commands via **environment variables**, not echoed
+  into shell command lines.
+- The Cloudflare **API token needs 3 permissions**: Cloudflare Pages → Edit,
+  Workers AI → Edit, Workers Scripts → Edit. (Editing/rolling a token
+  regenerates its value — update the GitHub secret after any change.)
+
+### SEO & crawling
+- **`robots.txt`** allows crawling and points to the sitemap.
+- **`sitemap.xml`** lists the canonical URL.
+- **`404.html`** gives visitors a friendly fallback (GitHub Pages & Cloudflare).
 
 ---
 
 ## 📈 Changelog
+
+### Version 7.1 - Security & Consistency Audit
+- ✅ Shared chatbot core (`workers/chat-core.js`) — no more duplicated logic
+- ✅ CORS restricted to the two live origins + per-IP rate limiting
+- ✅ `_headers` file with security headers; removed dead root `wrangler.toml`
+- ✅ `_routes.json` scoped to `/api/chat` only
+- ✅ Unified workflow branch triggers (`main` + `idkanymore`)
+- ✅ Fixed doc drift: unified `CF_AI_API_TOKEN`/`CF_AI_ACCOUNT_ID` secrets
+- ✅ Added SRI to CDN stylesheet
+- ✅ Secrets passed via env vars in CI (no shell echo)
+- ✅ Added `404.html`, `robots.txt`, `sitemap.xml`
+- ✅ Tab keyboard navigation (arrow keys / Home / End) + `aria-controls`
+- ✅ Removed unused assets; URL-encoded the CV link
 
 ### Version 7.0 - LLM Chatbot & Site Overhaul
 - ✅ LLM-powered chatbot via Cloudflare Workers AI (Pages Function, serverless)
 - ✅ Repos tab mirrors the 4 pinned GitHub repos with real stats (36 repos / 112 stars)
 - ✅ Game Room: self-hosted DOOM (WASM) + Mario coming-soon "?" block
 - ✅ Responsive fixes: 2x2 stats grid on phones, game carousel, floating button overlap
-- ✅ GitHub Actions workflow fixes + study guide (`GH-README.md`)
+- ✅ GitHub Actions workflow fixes + study guide (`docs/GH-README.md`)
 - ✅ Chat input no longer swallows WASD keys while typing
 
 ### Version 6.2 - AWS MCP AI Assistant Project
@@ -306,7 +372,7 @@ Pages project settings (see `CLOUDFLARE_DEPLOY.md`).
 - ✅ Added `wrangler.toml` configuration
 - ✅ GitHub Actions workflow for auto-deploy
 - ✅ Security and cache headers
-- ✅ Deployment guide (`CLOUDFLARE_DEPLOY.md`)
+- ✅ Deployment guide (`docs/CLOUDFLARE_DEPLOY.md`)
 - ✅ `_routes.json` for routing
 - ✅ Updated README with deployment instructions
 
@@ -356,7 +422,7 @@ Pages project settings (see `CLOUDFLARE_DEPLOY.md`).
 2. Create Application → Pages → Connect to Git
 3. Select this repository → Click **Save and Deploy**
 
-**Live in seconds!** See [`CLOUDFLARE_DEPLOY.md`](CLOUDFLARE_DEPLOY.md) for full guide.
+**Live in seconds!** See [`docs/CLOUDFLARE_DEPLOY.md`](docs/CLOUDFLARE_DEPLOY.md) for full guide.
 
 ---
 
@@ -377,4 +443,4 @@ Open source. Feel free to fork and customize!
 
 **Made with ❤️ and ☕ by Michael Josias D. Tabada**
 
-*Last Updated: August 2026 | Version 7.0 | Deployed on Cloudflare Pages/Github Pages*
+*Last Updated: August 2026 | Version 7.1 | Deployed on Cloudflare Pages/Github Pages*

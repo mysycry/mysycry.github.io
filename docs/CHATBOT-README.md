@@ -60,7 +60,7 @@ fetch('/api/chat', { method: 'POST', ... });
 We moved the chat logic into a **standalone Cloudflare Worker** that lives at a
 fixed public URL, independent of either site:
 
-- **Source:** `workers/chat.js` (module Worker format)
+- **Source:** `workers/chat-core.js` (shared logic) + `workers/chat.js` (entry point) — the Pages Function (`functions/api/chat.js`) imports the same core, so both endpoints can never drift
 - **Endpoint:** `https://portfolio.josiasmichael.workers.dev/api/chat`
 - **Env vars:** `CF_AI_ACCOUNT_ID`, `CF_AI_API_TOKEN` (+ optional `CF_AI_MODEL`)
 
@@ -120,14 +120,16 @@ worker existed, so the secret upload failed.
 
 ```yaml
 - name: Deploy Worker
-  uses: cloudflare/wrangler-action@v3
+  uses: cloudflare/wrangler-action@v4
   with:
     ...
-    command: deploy chat.js --name portfolio --compatibility-date 2025-09-27 --var CF_AI_ACCOUNT_ID:...
+    command: deploy --config workers/wrangler.toml --var CF_AI_ACCOUNT_ID:...
 
 - name: Set Worker AI secret
   run: |
-    echo "${{ secrets.CF_AI_API_TOKEN }}" | npx wrangler secret put CF_AI_API_TOKEN --name portfolio
+    printenv CF_AI_API_TOKEN | npx --no-install wrangler secret put CF_AI_API_TOKEN --config workers/wrangler.toml
+  env:
+    CF_AI_API_TOKEN: ${{ secrets.CF_AI_API_TOKEN }}
 ```
 
 ### 4. ❌ Worker URL mismatch
@@ -185,9 +187,10 @@ Expected: HTTP 200 with a JSON `{ "response": "..." }` from all chat endpoints.
 
 | File | Purpose |
 |------|---------|
-| `functions/api/chat.js` | Pages Function (Cloudflare Pages native) |
-| `workers/chat.js` | Standalone Worker (GitHub Pages fallback) |
+| `workers/chat-core.js` | Shared chatbot logic (CORS, rate limit, prompt) |
+| `functions/api/chat.js` | Pages Function entry (Cloudflare Pages native) |
+| `workers/chat.js` | Standalone Worker entry (GitHub Pages fallback) |
 | `script.js` | Endpoint fallback logic (`CHAT_API_URLS`) |
 | `.github/workflows/cloudflare-pages-deploy.yml` | Pages deploy |
 | `.github/workflows/cloudflare-worker-deploy.yml` | Worker deploy |
-| `wrangler.toml` / `wrangler.jsonc` | Cloudflare config |
+| `workers/wrangler.toml` | Worker config |

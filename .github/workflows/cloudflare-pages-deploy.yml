@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - socmed
+      - idkanymore
   workflow_dispatch:
 
 concurrency:

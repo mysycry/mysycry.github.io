@@ -67,9 +67,9 @@ Workflows in this repo are triggered by **push**, **pull_request**,
 ```yaml
 on:
   push:
-    branches: [main, socmed]
+    branches: [main, idkanymore]
   pull_request:
-    branches: [main, socmed]
+    branches: [main, idkanymore]
   schedule:
     - cron: "0 0 * * 1"          # every Monday at 00:00 UTC
   workflow_dispatch:               # adds a "Run workflow" button in the UI
@@ -103,7 +103,7 @@ concurrency:
 ```
 
 If you push twice in a row, the **older run gets cancelled** and only the newest
-finishes. `${{ github.ref }}` makes the group unique per branch (e.g. `main` vs `socmed`).
+finishes. `${{ github.ref }}` makes the group unique per branch (e.g. `main` vs `idkanymore`).
 
 ### `permissions` — least privilege
 
@@ -144,21 +144,21 @@ A step is either **an Action** (`uses:`) or **a shell command** (`run:`).
 
 ```yaml
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 ```
 
-`actions/checkout@v4` downloads your repository onto the runner. **Nearly every
+`actions/checkout@v7` downloads your repository onto the runner. **Nearly every
 workflow starts with this** — without it there's no code to check.
 
 ```yaml
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: "22"
 ```
 
 `with:` passes **inputs** to an action (here: "install Node 22"). Actions are like
-functions; `with` is their parameters. `@v4` is a **version pin** — don't use a
+functions; `with` is their parameters. `@v7` is a **version pin** — don't use a
 floating version you don't trust.
 
 ```yaml
@@ -172,8 +172,8 @@ floating version you don't trust.
 
 ```yaml
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CF_AI_API_TOKEN }}
+          accountId: ${{ secrets.CF_AI_ACCOUNT_ID }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 ```
 
@@ -269,15 +269,15 @@ fi
 
 ### 4.1 `cloudflare-pages-deploy.yml` — the CD pipeline ⭐ the important one
 
-**Purpose:** Deploy the site to Cloudflare Pages on every push to `main`/`socmed`.
+**Purpose:** Deploy the site to Cloudflare Pages on every push to `main`/`idkanymore`.
 
 | Line | What it does | Why |
 |---|---|---|
-| `on.push.branches: [main, socmed]` | Deploy trigger | Auto-deploy on merge = zero manual steps |
+| `on.push.branches: [main, idkanymore]` | Deploy trigger | Auto-deploy on merge = zero manual steps |
 | `workflow_dispatch:` | Manual button | Deploy any branch by hand |
 | `concurrency` + `cancel-in-progress` | One deploy per branch at a time | Old pushes don't clobber new ones |
 | `permissions: contents: read, deployments: write` | Least privilege | Only what Cloudflare needs |
-| `actions/checkout@v4` | Grab the code | Prereq for everything |
+| `actions/checkout@v7` | Grab the code | Prereq for everything |
 | `cloudflare/pages-action@v1` | Third-party action | Uploads `directory: .` to the `josiasmichael` project |
 | `secrets.*` | Cloudflare credentials | Never in the repo |
 | `GITHUB_STEP_SUMMARY` | Report | Humans can read the result in the UI |
@@ -307,47 +307,27 @@ short hex `#fff`). This codebase deliberately uses `rgba(...)` and long hex. You
 **disable the rules you don't want**, keep the rest — CI should enforce *your*
 standards, not nag you to death.
 
-### 4.3 `broken-image-checker.yml` — hygiene
+### 4.3 `link-checker.yml` — hygiene (links + images + social metadata)
 
-**Purpose:** Every image referenced in HTML/Markdown must exist; the remote
-favicon must respond.
+**Purpose:** No dead links (internal or external) in `index.html`, `styles.css`,
+`README.md`, `docs/*.md` — **and** no broken image references.
 
-- Uses `grep -RhoP` with a regex to extract `src`/`href`/`content` values ending
-  in image extensions, strips query strings and leading `/`, skips absolute
-  URLs, then checks each path with `-f` (file exists).
-- Runs on `push`/`PR`, **and weekly** via cron (`0 0 * * 1`) — the weekly run
-  catches images deleted by hand later, not just in commits.
-- Curls the flaticon URL with `--fail` to make sure the external asset is alive.
-
-**Why this matters:** a broken `<img>` shows an ugly empty box on your profile
-page. This workflow makes that a **deploy-blocking** error.
-
-### 4.4 `link-checker.yml` — hygiene
-
-**Purpose:** No dead links (internal or external) in `index.html`, `README.md`,
-`CLOUDFLARE_DEPLOY.md`.
-
-- Installs **lychee** (a fast Rust link checker) from its GitHub release.
+- Uses **lychee** (a fast Rust link checker) via the official
+  `lycheeverse/lychee-action`. The `--root-dir .` flag resolves local
+  image/asset paths, so a missing `images/...` file fails the build.
 - Flags: `--accept 200,204,206,403,429` (403/429 = "exists but rate-limited",
   don't fail on those) and `--exclude 'mailto:'` (email links aren't URLs).
+- This **replaced** the old `broken-image-checker.yml`: lychee already validates
+  the local `src`/`href` image refs and the remote favicon URL, so the
+  hand-rolled `grep -f` checker was redundant.
 - Weekly cron + on changes.
+- Also verifies social preview metadata (`og:image`, `twitter:image`,
+  `twitter:card`) point to the checked-in `images/portfolio-preview.png` —
+  absorbing the old `social-media-card.yml`.
 
 **Why it matters:** stale links (e.g. an old `js-dos.com` DOOM URL that used to
-be embedded) quietly rot. A weekly check catches them automatically.
-
-### 4.5 `social-media-card.yml` — the metadata guard
-
-**Purpose:** The Open Graph / Twitter preview must always point to a real,
-checked-in image.
-
-- Fails if `images/portfolio-preview.png` is empty/missing or if
-  `og:image`, `twitter:image`, and `twitter:card` don't match the exact expected
-  strings in `index.html`.
-- Uses `grep -F` (fixed strings) — no regex surprises.
-
-**Why it matters:** if you update the preview image and forget to update the
-meta tags, links shared on Facebook/Twitter/LinkedIn show a broken or stale
-preview. This workflow keeps the **social share card** honest.
+be embedded) quietly rot, and a broken `<img>` shows an ugly empty box. A
+weekly check catches them automatically.
 
 ---
 
@@ -357,7 +337,7 @@ preview. This workflow keeps the **social share card** honest.
    manually upload my site; the pipeline does it."
 2. **Quality gates.** Validation runs *before* deploy. Broken code can't ship.
 3. **Security.** Secrets in `Settings → Secrets`, never hardcoded. Least-privilege
-   `permissions`. Version-pinned actions (`@v4`) so supply-chain is predictable.
+   `permissions`. Version-pinned actions (`@v7`) so supply-chain is predictable.
 4. **Efficiency.** `paths` filtering + `concurrency` + `timeout-minutes` save time
    and money. Runs only when relevant, cancelled when superseded, killed if stuck.
 5. **Developer experience.** `GITHUB_STEP_SUMMARY`, `::error::` annotations, and
@@ -371,7 +351,7 @@ preview. This workflow keeps the **social share card** honest.
 
 **Q: What's the difference between `uses:` and `run:`?**
 `uses:` runs a published *Action* (reusable code from the marketplace, versioned,
-e.g. `actions/checkout@v4`). `run:` executes shell commands directly in the step.
+e.g. `actions/checkout@v7`). `run:` executes shell commands directly in the step.
 Use an action when the functionality exists and is maintained; use `run:` for your
 own one-off commands.
 

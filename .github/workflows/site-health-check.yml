@@ -1,0 +1,45 @@
+name: Site Health Check
+
+on:
+  schedule:
+    - cron: "0 0 */3 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  health-check:
+    name: Ping live endpoints
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check GitHub Pages
+        run: |
+          curl --fail --location --silent --show-error --max-time 30 \
+            -o /dev/null -w "github pages: HTTP %{http_code}\n" \
+            "https://mysycry.github.io/"
+
+      - name: Check Cloudflare Pages
+        run: |
+          curl --fail --location --silent --show-error --max-time 30 \
+            -o /dev/null -w "cloudflare pages: HTTP %{http_code}\n" \
+            "https://josiasmichael.pages.dev/"
+
+      - name: Check chat Worker
+        run: |
+          curl --fail --location --silent --show-error --max-time 30 \
+            -o /dev/null -w "chat worker: HTTP %{http_code}\n" \
+            -X POST "https://portfolio.josiasmichael.workers.dev/api/chat" \
+            -H "Content-Type: application/json" \
+            -d '{"message":"hi","history":[]}'
+
+      - name: Create health summary
+        if: always()
+        run: |
+          {
+            echo "## Site Health Check"
+            echo ""
+            echo "Verified GitHub Pages, Cloudflare Pages, and the chat Worker are responding."
+          } >> "$GITHUB_STEP_SUMMARY"
