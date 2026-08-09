@@ -296,8 +296,8 @@ Pages project settings (see `docs/CLOUDFLARE_DEPLOY.md`).
 
 | Workflow | Description | Schedule |
 |----------|-------------|----------|
-| 🚀 **Cloudflare Pages Deploy** | Auto-deploys the site to Pages | Push to main/idkanymore |
-| 🤖 **Chat Worker Deploy** | Deploys the standalone chatbot Worker | Push to main/idkanymore (workers/**) |
+| 🚀 **Cloudflare Pages Deploy** | Auto-deploys the site to Pages | Push to main/dev |
+| 🤖 **Chat Worker Deploy** | Deploys the standalone chatbot Worker | Push to main/dev (workers/**) |
 | 🔗 **Link Checker** | Validates links, images & social metadata | Push/PR + Weekly |
 | 🧹 **HTML/CSS Validation** | Linting (HTMLHint/Stylelint) + W3C checks | Push/PR |
 | 🩺 **Site Health Check** | Pings all live endpoints for uptime | Every 3 days |
@@ -344,7 +344,7 @@ Pages project settings (see `docs/CLOUDFLARE_DEPLOY.md`).
 - ✅ CORS restricted to the two live origins + per-IP rate limiting
 - ✅ `_headers` file with security headers; removed dead root `wrangler.toml`
 - ✅ `_routes.json` scoped to `/api/chat` only
-- ✅ Unified workflow branch triggers (`main` + `idkanymore`)
+- ✅ Unified workflow branch triggers (`main` + `dev`)
 - ✅ Fixed doc drift: unified `CF_AI_API_TOKEN`/`CF_AI_ACCOUNT_ID` secrets
 - ✅ Added SRI to CDN stylesheet
 - ✅ Secrets passed via env vars in CI (no shell echo)
