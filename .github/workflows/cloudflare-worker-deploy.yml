@@ -1,0 +1,45 @@
+name: Deploy Chat Worker
+
+on:
+  push:
+    branches:
+      - main
+      - idkanymore
+    paths:
+      - "workers/**"
+      - ".github/workflows/cloudflare-worker-deploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy chat worker
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_AI_API_TOKEN }}
+          accountId: ${{ secrets.CF_AI_ACCOUNT_ID }}
+          workingDirectory: workers
+          command: deploy chat.js --name portfolio --compatibility-date 2025-09-27
+          secrets: |
+            CF_AI_API_TOKEN
+          vars: |
+            CF_AI_ACCOUNT_ID
+
+      - name: Create deployment summary
+        if: always()
+        run: |
+          {
+            echo "## Deploy Chat Worker"
+            echo ""
+            echo "portfolio chat worker deployed."
+          } >> "$GITHUB_STEP_SUMMARY"
