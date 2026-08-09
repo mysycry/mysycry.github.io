@@ -437,7 +437,7 @@ Open source. Feel free to fork and customize!
 - **Email:** josiasmichael@gmail.com
 - **LinkedIn:** [linkedin.com/in/josiasmichael](https://linkedin.com/in/josiasmichael)
 - **GitHub:** [github.com/mysycry](https://github.com/mysycry)
-- **Credly:** [credly.com/users/jmichael](https://www.credly.com/users/jmichael/badges)
+- **Credly:** [credly.com/users/jmichael](https://www.credly.com/users/jmichael/badges/credly)
 
 ---
 
