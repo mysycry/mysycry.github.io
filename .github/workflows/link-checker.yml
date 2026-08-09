@@ -36,21 +36,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install lychee
-        run: |
-          curl --fail --location --silent --show-error \
-            https://github.com/lycheeverse/lychee/releases/latest/download/lychee-x86_64-unknown-linux-gnu.tar.gz \
-            | sudo tar xzf - -C /usr/local/bin lychee
-
       - name: Check links
-        run: |
-          lychee --verbose --no-progress \
-            --max-retries 3 \
-            --retry-wait-time 5 \
-            --timeout 30 \
-            --accept 200,204,206,403,429 \
-            --exclude 'mailto:' \
+        id: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --verbose --no-progress
+            --max-retries 3
+            --retry-wait-time 5
+            --timeout 30
+            --accept 200,204,206,403,429
+            --exclude 'mailto:'
             index.html README.md CLOUDFLARE_DEPLOY.md
+          fail: true
 
       - name: Create link-check summary
         if: always()
