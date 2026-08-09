@@ -34,14 +34,14 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Verify social preview metadata
         shell: bash
         run: |
           set -euo pipefail
 
-          expected_url="https://josiasmichael.github.io/images/portfolio-preview.png"
+          expected_url="https://mysycry.github.io/images/portfolio-preview.png"
           expected_file="images/portfolio-preview.png"
 
           test -s "$expected_file"
