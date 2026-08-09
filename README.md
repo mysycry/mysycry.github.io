@@ -75,12 +75,14 @@ mysycry.github.io/
 ├── README.md               # Documentation
 ├── GH-README.md            # GitHub Actions study guide
 ├── CLOUDFLARE_DEPLOY.md    # Cloudflare deployment guide
+├── CHATBOT-README.md       # Chatbot guide (how it works + troubleshooting)
 ├── wrangler.toml           # Cloudflare Pages config
 ├── _routes.json            # Cloudflare routing config
 ├── Tabada, Michael Josias D. CV.pdf   # Downloadable CV
 ├── .github/
 │   └── workflows/
 │       ├── cloudflare-pages-deploy.yml  # Auto-deploy to Pages
+│       ├── cloudflare-worker-deploy.yml # Auto-deploy chat Worker
 │       ├── broken-image-checker.yml     # Broken image scan
 │       ├── link-checker.yml             # Link validation
 │       ├── html-css-validation.yml      # Linting + validation
@@ -92,7 +94,9 @@ mysycry.github.io/
 │   └── index.data
 ├── functions/
 │   └── api/
-│       └── chat.js         # LLM chatbot (Cloudflare Workers AI)
+│       └── chat.js         # LLM chatbot (Cloudflare Pages Function)
+├── workers/
+│   └── chat.js             # LLM chatbot (standalone Worker, GitHub Pages)
 └── images/
     ├── credly.svg
     ├── doom-icon.jpg
@@ -156,6 +160,14 @@ Visit `http://localhost:8000`
 - DNS: CNAME to `portfolio.josiasmichael.workers.dev`
 
 📖 **Full guide:** See [`CLOUDFLARE_DEPLOY.md`](CLOUDFLARE_DEPLOY.md)
+
+### 🤖 Chatbot
+
+The LLM chatbot works on **both** live sites (GitHub Pages and Cloudflare
+Pages) via a Cloudflare Worker fallback. It uses Workers AI with the key held
+server-side.
+
+📖 **Full guide:** See [`CHATBOT-README.md`](CHATBOT-README.md)
 
 ### GitHub Pages
 

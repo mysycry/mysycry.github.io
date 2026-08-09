@@ -21,10 +21,13 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+
+      - name: Update npm
+        run: npm install -g npm@latest
 
       - name: Deploy Worker
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CF_AI_API_TOKEN }}
           accountId: ${{ secrets.CF_AI_ACCOUNT_ID }}
