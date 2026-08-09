@@ -2,6 +2,14 @@
 // SOCIAL MEDIA PROFILE - JavaScript
 // ===================================
 
+// Chat API endpoint. Same-origin /api/chat works on Cloudflare Pages.
+// This Worker URL is the fallback so the LLM chatbot also works on the
+// static GitHub Pages deployment (where /api/chat does not exist).
+const CHAT_API_URLS = [
+    '/api/chat',
+    'https://portfolio.josiasmichael.workers.dev/api/chat',
+];
+
 // Theme Toggle with Auto-Detect
 const themeToggle = document.getElementById('themeToggle');
 const html = document.documentElement;
@@ -740,21 +748,38 @@ async function sendMessage() {
     sendChat.disabled = true;
 
     try {
-        const response = await fetch('/api/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message, history: chatHistory.slice(-8) }),
-        });
+        let response = null;
+        let data = null;
 
-        const data = await response.json().catch(() => null);
+        for (const url of CHAT_API_URLS) {
+            try {
+                const attempt = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message, history: chatHistory.slice(-8) }),
+                });
+
+                if (attempt.ok || attempt.status < 500) {
+                    const attemptData = await attempt.json().catch(() => null);
+                    if (attempt.ok && attemptData && attemptData.response) {
+                        response = attempt;
+                        data = attemptData;
+                        break;
+                    }
+                }
+            } catch {
+                // network failure — try next endpoint
+            }
+        }
+
         typingMsg.remove();
 
-        if (response.ok && data && data.response) {
+        if (response && response.ok && data && data.response) {
             addBotMessage(data.response);
             chatHistory.push({ role: 'user', content: message });
             chatHistory.push({ role: 'assistant', content: data.response });
         } else {
-            console.warn('AI chatbot: falling back to keyword replies. Status:', response.status, 'Body:', data?.error || '(non-JSON response)');
+            console.warn('AI chatbot: falling back to keyword replies. No chat endpoint responded with an LLM reply.');
             addBotMessage(getFallbackResponse(message.toLowerCase()));
         }
     } catch (err) {

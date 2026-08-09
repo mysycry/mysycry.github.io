@@ -47,6 +47,7 @@ jobs:
             --timeout 30
             --accept 200,204,206,403,429
             --exclude 'mailto:'
+            --root-dir .
             index.html README.md CLOUDFLARE_DEPLOY.md
           fail: true
 
