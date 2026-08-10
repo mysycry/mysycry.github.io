@@ -222,11 +222,14 @@ Applied by the `_headers` file (Cloudflare Pages):
 
 ```
 X-Content-Type-Options: nosniff
-X-Frame-Options: DENY
+X-Frame-Options: SAMEORIGIN
 Referrer-Policy: strict-origin-when-cross-origin
 Permissions-Policy: camera=(), microphone=(), geolocation=()
 Cache-Control: public, max-age=3600
 ```
+
+`X-Frame-Options: SAMEORIGIN` (not `DENY`) so the same-origin DOOM iframe
+(`/doom/doom.html`) keeps loading while still blocking cross-site framing.
 
 ---
 
