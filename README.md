@@ -309,7 +309,7 @@ Pages project settings (see `docs/CLOUDFLARE_DEPLOY.md`).
 
 ### Headers & caching
 - **`_headers`** file applies security headers on Cloudflare Pages:
-  `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`,
+  `X-Frame-Options: SAMEORIGIN`, `X-Content-Type-Options: nosniff`,
   `Referrer-Policy`, and `Permissions-Policy` (no camera/mic/geolocation).
 - Long-lived immutable caching for `styles.css` / `script.js` (cache-busted
   with `?v=` query strings).
