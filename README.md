@@ -273,11 +273,14 @@ Pages project settings (see `docs/CLOUDFLARE_DEPLOY.md`).
 ### 🔒 Chatbot security
 - **Restricted CORS** — the API only answers requests from
   `mysycry.github.io` and `josiasmichael.pages.dev`, so random websites can't
-  burn your Workers AI quota from a visitor's browser.
+  burn your Workers AI quota from a visitor's browser. `Vary: Origin` is always
+  set so a shared cache can't cross-serve the CORS variants.
 - **Rate limiting** — per-IP limiter (20 req/min) protects against
   quota-burning abuse; counters persist via Cloudflare's Cache API
 - **Prompt safety** — message length capped at 1000 chars; chat history is
   treated as untrusted input (role/content validated, truncated to 8 turns).
+  Raw request bodies are also capped (~64 KB) and rejected with `413` before
+  any LLM call.
 - **No secrets in the browser** — the Workers AI token never ships to the client.
 
 ---
@@ -309,8 +312,11 @@ Pages project settings (see `docs/CLOUDFLARE_DEPLOY.md`).
 
 ### Headers & caching
 - **`_headers`** file applies security headers on Cloudflare Pages:
-  `X-Frame-Options: SAMEORIGIN`, `X-Content-Type-Options: nosniff`,
-  `Referrer-Policy`, and `Permissions-Policy` (no camera/mic/geolocation).
+  `X-Frame-Options: SAMEORIGIN`, a Content-Security-Policy (with
+  `frame-ancestors 'self'` so cross-site framing is blocked but the same-origin
+  DOOM iframe keeps working), `X-Content-Type-Options: nosniff`,
+  `Referrer-Policy`, `Strict-Transport-Security`, and `Permissions-Policy`
+  (no camera/mic/geolocation).
 - Long-lived immutable caching for `styles.css` / `script.js` (cache-busted
   with `?v=` query strings).
 - GitHub Pages serves its own `Strict-Transport-Security` automatically.
@@ -338,6 +344,19 @@ Pages project settings (see `docs/CLOUDFLARE_DEPLOY.md`).
 ---
 
 ## 📈 Changelog
+
+### Version 7.2 - Security Hardening
+- ✅ Content-Security-Policy on Cloudflare Pages (`frame-ancestors 'self'`,
+  `object-src 'none'`, plus a relaxed override for `/doom/*` so the Emscripten
+  build keeps working)
+- ✅ `Strict-Transport-Security` header added
+- ✅ Chat API: always send `Vary: Origin` (prevents CDN cross-serving the
+  CORS variant), `Cache-Control: no-store`, and a ~64 KB request-body cap
+  that returns `413` before any LLM call
+- ✅ Added missing `concurrency` guard to the chat Worker deploy workflow
+- ✅ Fixed doc drift: `CLOUDFLARE_DEPLOY.md` referenced a `legacy` production
+  branch and claimed the AI token differed from the Pages deploy token (it's
+  the same token with 3 permission groups)
 
 ### Version 7.1 - Security & Consistency Audit
 - ✅ Shared chatbot core (`workers/chat-core.js`) — no more duplicated logic
@@ -443,4 +462,4 @@ Open source. Feel free to fork and customize!
 
 **Made with ❤️ and ☕ by Michael Josias D. Tabada**
 
-*Last Updated: August 2026 | Version 7.1 | Deployed on Cloudflare Pages/Github Pages*
+*Last Updated: August 2026 | Version 7.2 | Deployed on Cloudflare Pages/Github Pages*

@@ -423,5 +423,5 @@ standard pattern worth knowing. You read the current combination via
 3. Click **"Run workflow"** (top-right of a `workflow_dispatch` workflow) to fire
    it manually on any branch.
 4. Red ✖ = something failed; open the failed step for the error message.
-5. Push a broken image path to a branch and watch the Broken Image Checker go red —
-   the fastest way to *feel* what CI protects you from.
+5. Push a broken image path to a branch and watch the Link Checker go red — the
+   fastest way to *feel* what CI protects you from.

@@ -20,7 +20,7 @@
 4. **Configure Build Settings**
    ```
    Project name: josiasmichael
-   Production branch: legacy
+   Production branch: main
    Build command: (leave empty)
    Build output directory: .
    ```
@@ -62,7 +62,8 @@
 
 #### Deployment
 
-The workflow will automatically deploy on every push to `main` branch.
+The workflow will automatically deploy on every push to `main` or `dev`
+branches (`dev` deploys to a preview environment).
 
 ---
 
@@ -83,7 +84,9 @@ never ships to the browser.
    CF_AI_API_TOKEN:  your_workers_ai_api_token
    ```
    Create the token at **My Profile → API Tokens** with **Workers AI → Edit**
-   permission (it is NOT the same as the Pages deploy token).
+   permission. This is the same single token used for Pages deploys and the
+   standalone chat Worker (it just needs all three permission groups: Pages
+   Edit, Workers AI Edit, Workers Scripts Edit).
 3. (Optional) `CF_AI_MODEL` — override the model. Default:
    `@cf/meta/llama-3.3-70b-instruct-fp8-fast` (free tier).
 4. Redeploy (or push) and the chatbot becomes LLM-powered automatically.
@@ -225,11 +228,16 @@ X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
 Referrer-Policy: strict-origin-when-cross-origin
 Permissions-Policy: camera=(), microphone=(), geolocation=()
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+Content-Security-Policy: default-src 'self'; script-src 'self'; ...; frame-ancestors 'self'
 Cache-Control: public, max-age=3600
 ```
 
-`X-Frame-Options: SAMEORIGIN` (not `DENY`) so the same-origin DOOM iframe
-(`/doom/doom.html`) keeps loading while still blocking cross-site framing.
+`X-Frame-Options: SAMEORIGIN` (not `DENY`) plus the `frame-ancestors 'self'`
+CSP directive so the same-origin DOOM iframe (`/doom/doom.html`) keeps loading
+while still blocking cross-site framing. `/doom/*` gets its own relaxed CSP
+(`script-src`/`style-src` allow inline) because the Emscripten build injects
+inline code.
 
 ---
 

@@ -7,10 +7,13 @@
 // Security:
 // - CORS is restricted to the two known origins (GitHub Pages + Cloudflare
 //   Pages). Unknown origins get no ACAO header, so browsers can't call this
-//   from a random website.
+//   from a random website. Vary: Origin is always set so a shared cache can
+//   never serve a CORS-less variant to an allowed origin (or vice-versa).
 // - A per-IP rate limit (20 req/min) guards against quota-burning abuse. The
 //   counters live in Cloudflare's Cache API so they survive across worker
 //   isolates, with an in-memory fallback if the Cache API is unavailable.
+// - Request bodies are capped (~64 KB) and rejected with 413 before the heavy
+//   JSON parse / LLM call, so a giant body can't bloat memory or kill quota.
 // - The Workers AI token stays server-side and is never exposed to the browser.
 //
 // Required environment variables:
@@ -21,6 +24,11 @@
 export const DEFAULT_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
 export const MAX_HISTORY = 8;
 export const MAX_MESSAGE_LENGTH = 1000;
+
+// Hard cap on the raw request body. 1000-char messages * 9 turns plus JSON
+// overhead and history metadata is well under this; it exists to reject
+// ginormous bodies before we ever call JSON.parse or the LLM.
+const MAX_BODY_BYTES = 64 * 1024;
 
 const ALLOWED_ORIGINS = [
   "https://mysycry.github.io",
@@ -105,13 +113,20 @@ const SYSTEM_PROMPT = [
 function json(data, status = 200, origin) {
   const headers = {
     "Content-Type": "application/json; charset=utf-8",
+    "X-Content-Type-Options": "nosniff",
+    "Cache-Control": "no-store",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
   };
 
+  // Always vary on Origin (when present): responses differ by whether the
+  // ACAO header is attached, and a shared cache must not blur those variants.
+  if (origin) {
+    headers["Vary"] = "Origin";
+  }
+
   if (origin && ALLOWED_ORIGINS.includes(origin)) {
     headers["Access-Control-Allow-Origin"] = origin;
-    headers["Vary"] = "Origin";
   }
 
   return new Response(JSON.stringify(data), { status, headers });
@@ -133,9 +148,18 @@ export async function handleChatRequest(request, env) {
     return json({ error: "Too many requests, please try again in a minute" }, 429, origin);
   }
 
+  const contentLength = Number(request.headers.get("Content-Length"));
+  if (Number.isFinite(contentLength) && contentLength > MAX_BODY_BYTES) {
+    return json({ error: "Request too large" }, 413, origin);
+  }
+
   let body;
   try {
-    body = await request.json();
+    const raw = await request.text();
+    if (raw.length > MAX_BODY_BYTES) {
+      return json({ error: "Request too large" }, 413, origin);
+    }
+    body = JSON.parse(raw);
   } catch {
     return json({ error: "Invalid JSON body" }, 400, origin);
   }
